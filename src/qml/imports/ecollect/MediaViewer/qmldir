@@ -1,0 +1,5 @@
+module MediaViewer
+
+MediaViewer 1.0 MediaViewer.qml
+Reaction 1.0 Reaction.qml
+ReactionsProps 1.0 ReactionsProps.qml

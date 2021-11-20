@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>main.qml</file>
+        <file>imports/ecollect/Constants.qml</file>
+        <file>imports/ecollect/Dialogs/IntroDialog.qml</file>
+        <file>imports/ecollect/Dialogs/qmldir</file>
+        <file>imports/ecollect/MediaViewer/MediaViewer.qml</file>
+        <file>imports/ecollect/MediaViewer/Reaction.qml</file>
+        <file>imports/ecollect/MediaViewer/qmldir</file>
+        <file>imports/ecollect/PageLayout.qml</file>
+        <file>imports/ecollect/qmldir</file>
+        <file>imports/ecollect/MediaViewer/ReactionsProps.qml</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,3 @@
+module Dialogs
+
+IntroDialog 1.0 IntroDialog.qml

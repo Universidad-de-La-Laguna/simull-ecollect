@@ -1,0 +1,4 @@
+module ecollect
+
+singleton Constants 1.0 Constants.qml
+PageLayout 1.0 PageLayout.qml
