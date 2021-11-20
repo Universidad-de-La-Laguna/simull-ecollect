@@ -1,0 +1,5 @@
+module Utils
+
+BlueSquare 1.0 BlueSquare.qml
+GreenSquare 1.0 GreenSquare.qml
+RedSquare 1.0 RedSquare.qml
