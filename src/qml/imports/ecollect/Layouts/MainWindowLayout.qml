@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
 
+import ecollect
+
 Item {
     default property alias mainContent: mainContent.children
     property alias headerContent: headerContent.children
@@ -50,12 +52,6 @@ Item {
             Layout.fillHeight: true
             Layout.preferredWidth: 70
             Layout.preferredHeight: 70
-
-            Rectangle {
-                anchors.fill: parent
-                color: "#ffffff"
-            }
-
         }
 
         Item {

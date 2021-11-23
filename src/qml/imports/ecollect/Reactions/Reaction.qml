@@ -1,8 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 
-import ecollect.MediaViewer
-
 Item {
     id: root
 

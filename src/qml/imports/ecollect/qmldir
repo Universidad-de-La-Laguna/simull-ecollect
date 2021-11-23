@@ -1,4 +1,5 @@
 module ecollect
 
 singleton Constants 1.0 Constants.qml
+ApplicationWindow 1.0 ApplicationWindow.qml
 PageLayout 1.0 PageLayout.qml

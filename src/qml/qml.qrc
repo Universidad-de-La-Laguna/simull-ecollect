@@ -1,14 +1,20 @@
 <RCC>
     <qresource prefix="/qml">
         <file>main.qml</file>
-        <file>imports/ecollect/Constants.qml</file>
-        <file>imports/ecollect/Dialogs/IntroDialog.qml</file>
-        <file>imports/ecollect/Dialogs/qmldir</file>
-        <file>imports/ecollect/MediaViewer/MediaViewer.qml</file>
-        <file>imports/ecollect/MediaViewer/Reaction.qml</file>
-        <file>imports/ecollect/MediaViewer/qmldir</file>
-        <file>imports/ecollect/PageLayout.qml</file>
+        <file>imports/ecollect/ApplicationWindow.qml</file>
+        <file>imports/ecollect/Layouts/qmldir</file>
         <file>imports/ecollect/qmldir</file>
-        <file>imports/ecollect/MediaViewer/ReactionsProps.qml</file>
+        <file>imports/ecollect/Constants.qml</file>
+        <file>imports/ecollect/Dialogs/WelcomeDialog.qml</file>
+        <file>imports/ecollect/Dialogs/qmldir</file>
+        <file>imports/ecollect/Layouts/MainWindowLayout.qml</file>
+        <file>imports/ecollect/Reactions/Reaction.qml</file>
+        <file>imports/ecollect/Reactions/qmldir</file>
+        <file>imports/ecollect/Reactions/Reactions.qml</file>
+        <file>imports/ecollect/Reactions/ReactionsProps.qml</file>
+        <file>imports/ecollect/Utils/RedSquare.qml</file>
+        <file>imports/ecollect/Utils/qmldir</file>
+        <file>imports/ecollect/Utils/GreenSquare.qml</file>
+        <file>imports/ecollect/Utils/BlueSquare.qml</file>
     </qresource>
 </RCC>

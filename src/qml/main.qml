@@ -2,40 +2,74 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtMultimedia
+import QtQml.StateMachine as DSM
 
 import ecollect
 import ecollect.Dialogs
-import ecollect.MediaViewer
+import ecollect.Layouts
+import ecollect.Reactions
+import ecollect.Utils
 
-Window {
-    width: Constants.width
-    height: Constants.height
-    title: Constants.applicatioName
-    visible: true
+ApplicationWindow {
 
-    Pane {
-        anchors.fill: parent
-    }
+    MainWindowLayout {
+        VideoOutput {
+            id: videoOutput
+            anchors.fill: parent
+        }
 
-    PageLayout {
-        MediaViewer {
-            id: mediaViewer
-
-            reactions.model: Constants.reactions
-            reactions.enabled: false
+        rightSidebar: Reactions {
+            model: Constants.reactions
+            enabled: false
         }
     }
 
-    IntroDialog {
-        id: introDialog
+    WelcomeDialog {
+        id: welcomeDialog
         anchors.centerIn: parent
-
-        onAccepted: camera.videoOutput = MediaPlayer.videoOutput
+        visible: welcomeState.active
     }
 
     Camera {
         id: camera
     }
 
-    Component.onCompleted: introDialog.visible = true
+    DSM.StateMachine {
+        id: appStateMachine
+        initialState: welcomeState
+
+        running: true
+
+        DSM.State {
+            id: welcomeState
+
+            DSM.SignalTransition {
+                targetState: tutorialState
+                signal: welcomeDialog.accepted
+            }
+
+            DSM.SignalTransition {
+                targetState: finishState
+                signal: welcomeDialog.rejected
+            }
+        }
+
+        DSM.State {
+            id: tutorialState
+        }
+
+        DSM.State {
+            id: runningExperimentState
+        }
+
+        DSM.State {
+            id: uploadingResultsState
+        }
+
+        DSM.FinalState {
+            id: finishState
+        }
+
+        onFinished: Qt.quit()
+    }
 }

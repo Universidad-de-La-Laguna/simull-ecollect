@@ -1,0 +1,3 @@
+module Layouts
+
+MainWindowLayout 1.0 MainWindowLayout.qml
