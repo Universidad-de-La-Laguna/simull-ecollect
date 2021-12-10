@@ -16,5 +16,6 @@
         <file>imports/ecollect/Utils/qmldir</file>
         <file>imports/ecollect/Utils/GreenSquare.qml</file>
         <file>imports/ecollect/Utils/BlueSquare.qml</file>
+        <file>imports/ecollect/EcollectController.qml</file>
     </qresource>
 </RCC>

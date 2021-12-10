@@ -15,6 +15,8 @@ find_package(Qt6 COMPONENTS Core Multimedia Quick REQUIRED)
 
 set(PROJECT_SOURCES
     src/main.cpp
+    src/uuid.h
+    src/uuid.cpp
     src/qml/qml.qrc
     res/resources.qrc
 )

@@ -12,6 +12,11 @@ import ecollect.Utils
 
 ApplicationWindow {
 
+    EcollectController {
+        id: controller
+        videoOutput: videoOutput
+    }
+
     MainWindowLayout {
         VideoOutput {
             id: videoOutput
@@ -30,10 +35,6 @@ ApplicationWindow {
         visible: welcomeState.active
     }
 
-    Camera {
-        id: camera
-    }
-
     DSM.StateMachine {
         id: appStateMachine
         initialState: welcomeState
@@ -44,7 +45,7 @@ ApplicationWindow {
             id: welcomeState
 
             DSM.SignalTransition {
-                targetState: tutorialState
+                targetState: runningExperimentState
                 signal: welcomeDialog.accepted
             }
 
@@ -56,10 +57,20 @@ ApplicationWindow {
 
         DSM.State {
             id: tutorialState
+
+            onEntered: controller.startCameraPreview();
+            onExited: controller.stopCameraPreview();
         }
 
         DSM.State {
             id: runningExperimentState
+
+            onEntered: controller.startExperiment()
+
+            DSM.SignalTransition {
+                targetState: uploadingResultsState
+                signal: controller.onStopped
+            }
         }
 
         DSM.State {
