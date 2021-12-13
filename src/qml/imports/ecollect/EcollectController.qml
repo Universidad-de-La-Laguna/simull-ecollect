@@ -95,7 +95,7 @@ Item {
             return
         }
 
-        mediaPlayer.onPlaybackStateChanged.connect(handlePlaybackStateChanged)
+        mediaPlayer.onPlaybackStateChanged.connect(handleMediaPlayerStateChanged)
         playInBetweenVideo()
     }
 
@@ -105,8 +105,7 @@ Item {
         mediaPlayer.play()
     }
 
-    function handlePlaybackStateChanged() {
-        console.log(`handlePlaybackStateChanged(): ${internal.playingState}`)
+    function handleMediaPlayerStateChanged() {
         if (mediaPlayer.playbackState !== MediaPlayer.StoppedState) return
 
         if (internal.playingState === EcollectController.PlayingInBetweenState) {
@@ -120,9 +119,15 @@ Item {
                 playInBetweenVideo()
             }
             else {
-                internal.playingState = EcollectController.StoppedState
-                mediaPlayer.onPlaybackStateChanged.disconnect(handlePlaybackStateChanged)
+                mediaPlayer.onPlaybackStateChanged.disconnect(handleMediaPlayerStateChanged)
+                handleExperimentStopping()
             }
         }
+    }
+
+    function handleExperimentStopping() {
+        camera.stop()
+        recorder.stop()
+        internal.playingState = EcollectController.StoppedState
     }
 }
