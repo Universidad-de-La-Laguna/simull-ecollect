@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
+        <file>mp4/321_action.mp4</file>
     </qresource>
 </RCC>

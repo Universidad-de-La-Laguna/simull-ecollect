@@ -15,6 +15,10 @@ ApplicationWindow {
     EcollectController {
         id: controller
         videoOutput: videoOutput
+        recordingMediaFormat.fileFormat: MediaFormat.MPEG4
+        recordingMediaFormat.videoCodec: MediaFormat.VideoCodec.H264
+        recordingQuality: MediaRecorder.NormalQuality
+        videoPlaylist: Constants.videoPlaylist
     }
 
     MainWindowLayout {
@@ -25,7 +29,7 @@ ApplicationWindow {
 
         rightSidebar: Reactions {
             model: Constants.reactions
-            enabled: false
+            enabled: controller.playingState === EcollectController.PlayingState
         }
     }
 
@@ -58,8 +62,8 @@ ApplicationWindow {
         DSM.State {
             id: tutorialState
 
-            onEntered: controller.startCameraPreview();
-            onExited: controller.stopCameraPreview();
+            onEntered: controller.startCameraPreview()
+            onExited: controller.stopCameraPreview()
         }
 
         DSM.State {
@@ -69,7 +73,8 @@ ApplicationWindow {
 
             DSM.SignalTransition {
                 targetState: uploadingResultsState
-                signal: controller.onStopped
+                signal: controller.onPlayingStateChanged
+                guard: controller.playingState === EcollectController.PlayingState.Stopped
             }
         }
 

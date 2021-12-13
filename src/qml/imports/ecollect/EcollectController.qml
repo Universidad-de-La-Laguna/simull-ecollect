@@ -5,51 +5,124 @@ import Qt.labs.platform
 import ecollect.Native
 
 Item {
-    signal onStopped;
+    id: root
 
-    property VideoOutput videoOutput;
+    enum PlayingState {
+        StoppedState,
+        PlayingInBetweenState,
+        PlayingState
+    }
+
+    readonly property alias playingState: internal.playingState
+    readonly property alias currentVideoIndex: internal.currentVideoIndex
+
+    readonly property string currentSessionDataLocation: `${sessionDataRootLocation}/${Uuid.create()}`
+    readonly property string recordingFilePath: `${currentSessionDataLocation}/${recordingFilename}`
+    readonly property string sessionDataFilePath: `${currentSessionDataLocation}/${sessionDataFilename}`
+
+    property var videoPlaylist: []
+    property VideoOutput videoOutput
+    property alias recordingMediaFormat: recorder.mediaFormat
+    property alias recordingQuality: recorder.quality
+
+    property string sessionDataRootLocation: StandardPaths.writableLocation(StandardPaths.AppDataLocation)
+    property string recordingFilename: Constants.recordingFilename
+    property string sessionDataFilename: Constants.sessionDataFilename
+    property url inBetweenVideoUrl: Constants.inBetweenVideoUrl
 
     CaptureSession {
         id: captureSession
 
         camera: Camera {
             id: camera
+            onErrorOccurred: (error, errorString) => console.log(`[Camera]: (${error}) ${errorString}`)
+        }
+
+        recorder: MediaRecorder {
+            id: recorder
+            outputLocation: Qt.resolvedUrl(root.recordingFilePath)
+
+            onErrorOccurred: (error, errorString) => console.log(`[MediaRecorder]: (${error}) ${errorString}`)
         }
     }
 
-    MediaRecorder {
-        id: recorder
+    MediaPlayer {
+        id: mediaPlayer
+        audioOutput: AudioOutput {}
+
+        onErrorOccurred: (error, errorString) => console.log(`[MediaPlayer]: (${error}) ${errorString}`)
     }
 
     QtObject {
         id: internal
-        property string sessionId: Uuid.create();
-        property url cameraRecordingUrl: makeCameraRecordingUrl();
-        property url dataFileUrl: makeDataFileUrl();
-
-        function makeCameraRecordingUrl() {
-            return Qt.resolvedUrl(StandardPaths.writableLocation(StandardPaths.AppDataLocation)) + `/${sessionId}/capture.mp4"`;
-        }
-
-        function makeDataFileUrl(uuid) {
-            return Qt.resolvedUrl(StandardPaths.writableLocation(StandardPaths.AppDataLocation)) + `/${sessionId}/dataset.csv"`;
-        }
+        property int playingState: EcollectController.StoppedState
+        property int currentVideoIndex: 0
+        property bool hasStopCameraWhenStopCameraPreview: false
     }
 
     function startCameraPreview() {
-        captureSession.videoOutput = videoOutput;
-        camera.start()
+        mediaPlayer.videoOutput = null
+        captureSession.videoOutput = videoOutput
+        if (! camera.active) {
+            camera.start()
+            internal.hasStopCameraWhenStopCameraPreview = true
+        }
     }
 
     function stopCameraPreview() {
-        captureSession.videoOutput = null;
-        camera.stop()
+        captureSession.videoOutput = null
+        mediaPlayer.videoOutput = videoOutput
+        if (internal.hasStopCameraWhenStopCameraPreview) {
+            camera.stop()
+            internal.hasStopCameraWhenStopCameraPreview = false
+        }
     }
 
     function startExperiment() {
-        console.log("cameraRecordingUrl: " + internal.cameraRecordingUrl);
-        console.log("dataFileUrl: " + internal.dataFileUrl);
+        camera.start()
+        recorder.record()
 
-        captureSession.recorder = recorder;
+        mediaPlayer.stop()
+        mediaPlayer.videoOutput = videoOutput
+        playNextPlaylistVideo(0)
+    }
+
+    function playNextPlaylistVideo(startIndex = -1) {
+        if (startIndex >= 0) internal.currentVideoIndex = startIndex
+        if (internal.currentVideoIndex >= videoPlaylist.length) {
+            internal.currentVideoIndex = videoPlaylist.length
+            internal.playingState = EcollectController.PlayingState.StoppedState
+            return
+        }
+
+        mediaPlayer.onPlaybackStateChanged.connect(handlePlaybackStateChanged)
+        playInBetweenVideo()
+    }
+
+    function playInBetweenVideo() {
+        mediaPlayer.source = inBetweenVideoUrl
+        internal.playingState = EcollectController.PlayingInBetweenState
+        mediaPlayer.play()
+    }
+
+    function handlePlaybackStateChanged() {
+        console.log(`handlePlaybackStateChanged(): ${internal.playingState}`)
+        if (mediaPlayer.playbackState !== MediaPlayer.StoppedState) return
+
+        if (internal.playingState === EcollectController.PlayingInBetweenState) {
+            mediaPlayer.source = videoPlaylist[internal.currentVideoIndex]
+            mediaPlayer.play()
+            internal.playingState = EcollectController.PlayingState
+        }
+        else if (internal.playingState === EcollectController.PlayingState) {
+            ++internal.currentVideoIndex
+            if (internal.currentVideoIndex < videoPlaylist.length) {
+                playInBetweenVideo()
+            }
+            else {
+                internal.playingState = EcollectController.StoppedState
+                mediaPlayer.onPlaybackStateChanged.disconnect(handlePlaybackStateChanged)
+            }
+        }
     }
 }
