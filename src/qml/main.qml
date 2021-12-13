@@ -15,9 +15,9 @@ ApplicationWindow {
     EcollectController {
         id: controller
         videoOutput: videoOutput
-        recordingMediaFormat.fileFormat: MediaFormat.MPEG4
-        recordingMediaFormat.videoCodec: MediaFormat.VideoCodec.H264
-        recordingQuality: MediaRecorder.NormalQuality
+        recordingMediaFormat.fileFormat: Constants.recordingMediaFormat
+        recordingMediaFormat.videoCodec: Constants.recordingVideoCodec
+        recordingQuality: Constants.recordingQuality
         videoPlaylist: Constants.videoPlaylist
     }
 
@@ -74,7 +74,7 @@ ApplicationWindow {
             DSM.SignalTransition {
                 targetState: uploadingResultsState
                 signal: controller.onPlayingStateChanged
-                guard: controller.playingState === EcollectController.PlayingState.Stopped
+                guard: controller.playingState === EcollectController.StoppedState
             }
         }
 

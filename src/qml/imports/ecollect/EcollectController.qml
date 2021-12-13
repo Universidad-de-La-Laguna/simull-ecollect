@@ -16,16 +16,16 @@ Item {
     readonly property alias playingState: internal.playingState
     readonly property alias currentVideoIndex: internal.currentVideoIndex
 
-    readonly property string currentSessionDataLocation: `${sessionDataRootLocation}/${Uuid.create()}`
-    readonly property string recordingFilePath: `${currentSessionDataLocation}/${recordingFilename}`
-    readonly property string sessionDataFilePath: `${currentSessionDataLocation}/${sessionDataFilename}`
+    readonly property url currentSessionDataLocation: `${sessionDataRootLocation}/${Utils.createUuid()}`
+    readonly property url recordingFileUrl: `${currentSessionDataLocation}/${recordingFilename}`
+    readonly property url sessionDataFileUrl: `${currentSessionDataLocation}/${sessionDataFilename}`
 
     property var videoPlaylist: []
     property VideoOutput videoOutput
     property alias recordingMediaFormat: recorder.mediaFormat
     property alias recordingQuality: recorder.quality
 
-    property string sessionDataRootLocation: StandardPaths.writableLocation(StandardPaths.AppDataLocation)
+    property url sessionDataRootLocation: StandardPaths.writableLocation(StandardPaths.AppDataLocation)
     property string recordingFilename: Constants.recordingFilename
     property string sessionDataFilename: Constants.sessionDataFilename
     property url inBetweenVideoUrl: Constants.inBetweenVideoUrl
@@ -40,7 +40,7 @@ Item {
 
         recorder: MediaRecorder {
             id: recorder
-            outputLocation: Qt.resolvedUrl(root.recordingFilePath)
+            outputLocation: root.recordingFileUrl
 
             onErrorOccurred: (error, errorString) => console.log(`[MediaRecorder]: (${error}) ${errorString}`)
         }
@@ -79,6 +79,9 @@ Item {
     }
 
     function startExperiment() {
+        console.log(`Creating session data location: ${currentSessionDataLocation}`)
+        if (!Utils.makeFilesystemPath(currentSessionDataLocation))
+            console.log("makeFilesystemPath() failed")
         camera.start()
         recorder.record()
 
