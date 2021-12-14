@@ -1,5 +1,4 @@
-#ifndef UUID_H
-#define UUID_H
+#pragma once
 
 #include <QObject>
 
@@ -15,5 +14,3 @@ public:
 signals:
 
 };
-
-#endif // UUID_H

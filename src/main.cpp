@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "uploader.h"
 #include "utils.h"
 
 int main(int argc, char *argv[])
@@ -12,7 +13,9 @@ int main(int argc, char *argv[])
     app.setOrganizationName("Universidad de La Laguna");
 
     QPointer<Utils> utils = new Utils;
+    QPointer<Uploader> uploader = new Uploader;
     qmlRegisterSingletonInstance("ecollect.Native", 1, 0, "Utils", utils.get());
+    qmlRegisterSingletonInstance("ecollect.Native", 1, 0, "Uploader", uploader.get());
 
     engine.addImportPath("qrc:/qml/imports");
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));

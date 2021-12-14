@@ -10,7 +10,8 @@ Item {
     enum PlayingState {
         StoppedState,
         PlayingInBetweenState,
-        PlayingState
+        PlayingState,
+        UploadingState
     }
 
     readonly property alias playingState: internal.playingState
@@ -53,13 +54,6 @@ Item {
         onErrorOccurred: (error, errorString) => console.log(`[MediaPlayer]: (${error}) ${errorString}`)
     }
 
-    QtObject {
-        id: internal
-        property int playingState: EcollectController.StoppedState
-        property int currentVideoIndex: 0
-        property bool hasStopCameraWhenStopCameraPreview: false
-    }
-
     function startCameraPreview() {
         mediaPlayer.videoOutput = null
         captureSession.videoOutput = videoOutput
@@ -78,7 +72,7 @@ Item {
         }
     }
 
-    function startExperiment() {
+    function startSession() {
         console.log(`Creating session data location: ${currentSessionDataLocation}`)
         if (!Utils.makeFilesystemPath(currentSessionDataLocation))
             console.log("makeFilesystemPath() failed")
@@ -87,50 +81,64 @@ Item {
 
         mediaPlayer.stop()
         mediaPlayer.videoOutput = videoOutput
-        playNextPlaylistVideo(0)
+        internal.playNextPlaylistVideo(0)
     }
 
-    function playNextPlaylistVideo(startIndex = -1) {
-        if (startIndex >= 0) internal.currentVideoIndex = startIndex
-        if (internal.currentVideoIndex >= videoPlaylist.length) {
-            internal.currentVideoIndex = videoPlaylist.length
-            internal.playingState = EcollectController.PlayingState.StoppedState
-            return
+    QtObject {
+        id: internal
+        property int playingState: EcollectController.StoppedState
+        property int currentVideoIndex: 0
+        property bool hasStopCameraWhenStopCameraPreview: false
+
+        function playNextPlaylistVideo(startIndex = -1) {
+            if (startIndex >= 0) internal.currentVideoIndex = startIndex
+            if (currentVideoIndex >= videoPlaylist.length) {
+                currentVideoIndex = videoPlaylist.length
+                playingState = EcollectController.StoppedState
+                return
+            }
+
+            mediaPlayer.onPlaybackStateChanged.connect(handleMediaPlayerStateChanged)
+            playInBetweenVideo()
         }
 
-        mediaPlayer.onPlaybackStateChanged.connect(handleMediaPlayerStateChanged)
-        playInBetweenVideo()
-    }
-
-    function playInBetweenVideo() {
-        mediaPlayer.source = inBetweenVideoUrl
-        internal.playingState = EcollectController.PlayingInBetweenState
-        mediaPlayer.play()
-    }
-
-    function handleMediaPlayerStateChanged() {
-        if (mediaPlayer.playbackState !== MediaPlayer.StoppedState) return
-
-        if (internal.playingState === EcollectController.PlayingInBetweenState) {
-            mediaPlayer.source = videoPlaylist[internal.currentVideoIndex]
+        function playInBetweenVideo() {
+            mediaPlayer.source = inBetweenVideoUrl
+            playingState = EcollectController.PlayingInBetweenState
             mediaPlayer.play()
-            internal.playingState = EcollectController.PlayingState
         }
-        else if (internal.playingState === EcollectController.PlayingState) {
-            ++internal.currentVideoIndex
-            if (internal.currentVideoIndex < videoPlaylist.length) {
-                playInBetweenVideo()
-            }
-            else {
-                mediaPlayer.onPlaybackStateChanged.disconnect(handleMediaPlayerStateChanged)
-                handleExperimentStopping()
-            }
-        }
-    }
 
-    function handleExperimentStopping() {
-        camera.stop()
-        recorder.stop()
-        internal.playingState = EcollectController.StoppedState
+        function handleMediaPlayerStateChanged() {
+            if (mediaPlayer.playbackState !== MediaPlayer.StoppedState) return
+
+            if (playingState === EcollectController.PlayingInBetweenState) {
+                mediaPlayer.source = videoPlaylist[currentVideoIndex]
+                mediaPlayer.play()
+                playingState = EcollectController.PlayingState
+            }
+            else if (playingState === EcollectController.PlayingState) {
+                ++currentVideoIndex
+                if (currentVideoIndex < videoPlaylist.length) {
+                    playInBetweenVideo()
+                }
+                else {
+                    mediaPlayer.onPlaybackStateChanged.disconnect(handleMediaPlayerStateChanged)
+                    camera.stop()
+                    recorder.stop()
+                    handleSessionUploading()
+                }
+            }
+        }
+
+        function handleSessionUploading() {
+            playingState = EcollectController.UploadingState
+            Uploader.finished.connect(handleUploaderFinished)
+            Uploader.upload();
+        }
+
+        function handleUploaderFinished() {
+            Uploader.finished.disconnect(handleUploaderFinished)
+            playingState = EcollectController.StoppedState
+        }
     }
 }

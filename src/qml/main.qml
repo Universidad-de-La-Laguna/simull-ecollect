@@ -49,7 +49,7 @@ ApplicationWindow {
             id: welcomeState
 
             DSM.SignalTransition {
-                targetState: runningExperimentState
+                targetState: runningSessionState
                 signal: welcomeDialog.accepted
             }
 
@@ -67,19 +67,25 @@ ApplicationWindow {
         }
 
         DSM.State {
-            id: runningExperimentState
+            id: runningSessionState
 
-            onEntered: controller.startExperiment()
+            onEntered: controller.startSession()
 
             DSM.SignalTransition {
                 targetState: uploadingResultsState
                 signal: controller.onPlayingStateChanged
-                guard: controller.playingState === EcollectController.StoppedState
+                guard: controller.playingState === EcollectController.UploadingState
             }
         }
 
         DSM.State {
             id: uploadingResultsState
+
+            DSM.SignalTransition {
+                targetState: finishState
+                signal: controller.onPlayingStateChanged
+                guard: controller.playingState === EcollectController.StoppedState
+            }
         }
 
         DSM.FinalState {

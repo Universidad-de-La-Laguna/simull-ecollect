@@ -1,5 +1,6 @@
 pragma Singleton
 import QtQuick
+import QtMultimedia
 
 QtObject {
     readonly property int width: 1920
