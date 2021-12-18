@@ -1,0 +1,10 @@
+{
+  "name": "ecollect",
+  "version-string": "0.1",
+  "dependencies": [
+    {
+        "name": "aws-sdk-cpp",
+        "features": ["s3"]
+    }
+  ]
+}

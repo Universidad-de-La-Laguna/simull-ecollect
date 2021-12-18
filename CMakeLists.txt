@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #set(CMAKE_VERBOSE_BUILD ON)
 
 find_package(Qt6 COMPONENTS Core Multimedia Quick REQUIRED)
+find_package(AWSSDK CONFIG COMPONENTS s3 REQUIRED)
 
 set(PROJECT_SOURCES
     src/main.cpp
@@ -38,8 +39,12 @@ qt_add_executable(ecollect
 
 target_compile_definitions(ecollect
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+target_include_directories(ecollect
+    PRIVATE ${AWSSDK_INCLUDE_DIRS})
 target_link_libraries(ecollect
     PRIVATE Qt::Core Qt::Multimedia Qt::Quick)
+target_link_libraries(ecollect
+    PRIVATE ${AWSSDK_LIBRARIES})
 
 set_target_properties(ecollect PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER ecollect.simull.ull.edu.es
