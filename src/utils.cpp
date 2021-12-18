@@ -12,7 +12,7 @@ Utils::Utils(QObject *parent)
 
 QString Utils::createUuid() const
 {
-    return QUuid::createUuid().toString();
+    return QUuid::createUuid().toString(QUuid::Id128);
 }
 
 bool Utils::makeFilesystemPath(const QUrl& localUrl) const
