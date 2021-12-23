@@ -21,6 +21,8 @@ set(PROJECT_SOURCES
     src/utils.cpp
     src/utils.h
     src/qml/qml.qrc
+    src/thirdparty/simplecrypt.h
+    src/thirdparty/simplecrypt.cpp
     src/uploader/awsconfig.h
     src/uploader/uploader.cpp
     src/uploader/uploader.h
