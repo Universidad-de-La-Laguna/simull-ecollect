@@ -8,21 +8,27 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)  # /std:c++latest - unlocks non stable MSVC C++20 features (like ranges) for new 16.11 versions
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #set(CMAKE_VERBOSE_BUILD ON)
 
 find_package(Qt6 COMPONENTS Core Multimedia Quick REQUIRED)
-find_package(AWSSDK CONFIG COMPONENTS s3 REQUIRED)
+find_package(AWSSDK CONFIG COMPONENTS transfer REQUIRED)
 
 set(PROJECT_SOURCES
     src/main.cpp
-    src/uploader.cpp
-    src/uploader.h
     src/utils.cpp
     src/utils.h
     src/qml/qml.qrc
+    src/uploader/awsconfig.h
+    src/uploader/uploader.cpp
+    src/uploader/uploader.h
+    src/uploader/uploadererror.h
+    src/uploader/uploadererror.cpp
+    src/uploader/uploaderimplabstract.h
+    src/uploader/uploaderawss3impl.cpp
+    src/uploader/uploaderawss3impl.h
     res/resources.qrc
 )
 

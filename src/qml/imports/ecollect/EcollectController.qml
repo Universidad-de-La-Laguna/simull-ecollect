@@ -132,8 +132,11 @@ Item {
 
         function handleSessionUploading() {
             playingState = EcollectController.UploadingState
-            Uploader.finished.connect(handleUploaderFinished)
-            Uploader.upload();
+            Uploader.onFinished.connect(handleUploaderFinished)
+            Uploader.onErrorChanged.connect(function() {
+                console.log(Uploader.errorString)
+            })
+            Uploader.uploadDirectory(root.currentSessionDataLocation)
         }
 
         function handleUploaderFinished() {

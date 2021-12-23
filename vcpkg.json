@@ -4,7 +4,7 @@
   "dependencies": [
     {
         "name": "aws-sdk-cpp",
-        "features": ["s3"]
+        "features": ["transfer"]
     }
   ]
 }
