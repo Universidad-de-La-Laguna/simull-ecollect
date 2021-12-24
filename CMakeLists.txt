@@ -13,6 +13,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #set(CMAKE_VERBOSE_BUILD ON)
 
+set(AWS_ACCESS_KEY_ID "<access-key-id>" CACHE STRING "AWS access key id")
+set(AWS_SECRET_ACCESS_KEY "<encrypted-secret-access-key>" CACHE STRING "Encrypted AWS secret key")
+set(AWS_CRYPTO_KEY "0" CACHE STRING "Key to decrypt the AWS secret key")
+set(AWS_S3_BUCKET_NAME "<bucket-name>" CACHE STRING "AWS S3 bucket name")
+
 find_package(Qt6 COMPONENTS Core Multimedia Quick REQUIRED)
 find_package(AWSSDK CONFIG COMPONENTS transfer REQUIRED)
 
@@ -21,8 +26,6 @@ set(PROJECT_SOURCES
     src/utils.cpp
     src/utils.h
     src/qml/qml.qrc
-    src/thirdparty/simplecrypt.h
-    src/thirdparty/simplecrypt.cpp
     src/uploader/awsconfig.h
     src/uploader/uploader.cpp
     src/uploader/uploader.h
@@ -31,6 +34,8 @@ set(PROJECT_SOURCES
     src/uploader/uploaderimplabstract.h
     src/uploader/uploaderawss3impl.cpp
     src/uploader/uploaderawss3impl.h
+    src/thirdparty/simplecrypt/simplecrypt.h
+    src/thirdparty/simplecrypt/simplecrypt.cpp
     res/resources.qrc
 )
 
@@ -46,9 +51,14 @@ qt_add_executable(ecollect
 )
 
 target_compile_definitions(ecollect
-    PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+    PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
+            AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+            AWS_CRYPTO_KEY=${AWS_CRYPTO_KEY}
+            AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
+)
 target_include_directories(ecollect
-    PRIVATE ${AWSSDK_INCLUDE_DIRS})
+    PRIVATE src/thirdparty ${AWSSDK_INCLUDE_DIRS})
 target_link_libraries(ecollect
     PRIVATE Qt::Core Qt::Multimedia Qt::Quick)
 target_link_libraries(ecollect
@@ -62,3 +72,5 @@ set_target_properties(ecollect PROPERTIES
 
 qt_import_qml_plugins(ecollect)
 qt_finalize_executable(ecollect)
+
+add_subdirectory(tools/awskeygen)

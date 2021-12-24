@@ -7,6 +7,8 @@
 #include <aws/core/auth/AWSCredentials.h>
 #include <aws/s3/S3Client.h>
 
+#include <simplecrypt/simplecrypt.h>
+
 #include "awsconfig.h"
 #include "uploadererror.h"
 #include "uploaderawss3impl.h"
@@ -25,7 +27,11 @@ UploaderAwsS3Impl::UploaderAwsS3Impl(Uploader *parent)
 #endif
     Aws::InitAPI(awsOptions_);
 
-    Aws::Auth::AWSCredentials awsCredentials(AwsConfig::ACCESS_KEY_ID, AwsConfig::SECRET_ACCESS_KEY);
+    SimpleCrypt crypto(AWS_CRYPTO_KEY);
+    Aws::Auth::AWSCredentials awsCredentials(
+                AwsConfig::ACCESS_KEY_ID,
+                crypto.decryptToString(QLatin1String(AwsConfig::SECRET_ACCESS_KEY)).toStdString());
+
     Aws::Client::ClientConfiguration s3ClientConfiguration;
     s3ClientConfiguration.region = AwsConfig::REGION;
     auto s3Client = Aws::MakeShared<Aws::S3::S3Client>(CLASS_TAG, awsCredentials, s3ClientConfiguration);
