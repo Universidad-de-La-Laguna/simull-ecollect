@@ -3,6 +3,8 @@
 #include <aws/core/Aws.h>
 #include <aws/core/Region.h>
 
+#include <base64.h>
+
 #define STRINGIFY0(v) #v
 #define STRINGIFY(v) STRINGIFY0(v)
 
@@ -11,7 +13,7 @@
 #endif
 
 #if !defined(AWS_SECRET_ACCESS_KEY)
-#define AWS_SECRET_ACCESS_KEY <encrypted-secret-access-key>
+#define AWS_SECRET_ACCESS_KEY /base64+encrypted+secret+access+key/
 #endif
 
 #if !defined(AWS_CRYPTO_KEY)
@@ -23,8 +25,8 @@
 #endif
 
 namespace AwsConfig {
-    const char* ACCESS_KEY_ID = STRINGIFY(ACCESS_KEY_ID);
-    const char* SECRET_ACCESS_KEY = STRINGIFY(AWS_SECRET_ACCESS_KEY);
-    const char* BUCKET_NAME = STRINGIFY(AWS_S3_BUCKET_NAME);
-    const char* REGION = Aws::Region::EU_WEST_1;
+    inline const char ACCESS_KEY_ID[] = STRINGIFY(ACCESS_KEY_ID);
+    inline const auto SECRET_ACCESS_KEY = base64::decode(STRINGIFY(AWS_SECRET_ACCESS_KEY));
+    inline const char BUCKET_NAME[] = STRINGIFY(AWS_S3_BUCKET_NAME);
+    inline const char* REGION = Aws::Region::EU_WEST_1;
 };

@@ -30,7 +30,7 @@ UploaderAwsS3Impl::UploaderAwsS3Impl(Uploader *parent)
     SimpleCrypt crypto(AWS_CRYPTO_KEY);
     Aws::Auth::AWSCredentials awsCredentials(
                 AwsConfig::ACCESS_KEY_ID,
-                crypto.decryptToString(QLatin1String(AwsConfig::SECRET_ACCESS_KEY)).toStdString());
+                crypto.decryptToString(QByteArray(AwsConfig::SECRET_ACCESS_KEY.data())).toStdString());
 
     Aws::Client::ClientConfiguration s3ClientConfiguration;
     s3ClientConfiguration.region = AwsConfig::REGION;
