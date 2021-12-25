@@ -43,7 +43,7 @@ SimpleCrypt::SimpleCrypt():
 }
 
 SimpleCrypt::SimpleCrypt(quint64 key):
-    m_key(key),
+    m_key(key ^ 0xcf69b4066f29f50d),
     m_compressionMode(CompressionAuto),
     m_protectionMode(ProtectionChecksum),
     m_lastError(ErrorNoError)
