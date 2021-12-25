@@ -25,8 +25,8 @@
 #endif
 
 namespace AwsConfig {
-    inline const char ACCESS_KEY_ID[] = STRINGIFY(ACCESS_KEY_ID);
+    inline const char ACCESS_KEY_ID[] = STRINGIFY(AWS_ACCESS_KEY_ID);
     inline const auto SECRET_ACCESS_KEY = base64::decode(STRINGIFY(AWS_SECRET_ACCESS_KEY));
     inline const char BUCKET_NAME[] = STRINGIFY(AWS_S3_BUCKET_NAME);
-    inline const char* REGION = Aws::Region::EU_WEST_1;
+    inline const char* REGION = Aws::Region::EU_WEST_3;
 };

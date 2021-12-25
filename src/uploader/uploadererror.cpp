@@ -11,8 +11,10 @@ QString getUploaderErrorString(Uploader::Error errorCode)
         break;
     case Uploader::Error::FileAccessError:
         errorString = QObject::tr("Error trying to access to the file");
+        break;
     case Uploader::Error::TransferError:
         errorString = QObject::tr("Error during file transfer");
+        break;
     default:
         errorString = QObject::tr("Unkown error");
     }

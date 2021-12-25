@@ -69,7 +69,7 @@ void UploaderAwsS3Impl::uploadDirectory(const QString& directory)
     if (status_.compare_exchange_strong(stoppedStatus, Uploader::Status::StartingStatus))
     {
         transfersList_.clear();
-        setError(Uploader::Error::NoError);
+        unsetError();
         QMetaObject::invokeMethod(uploader_, "statusChanged", Qt::QueuedConnection);
     }
 
