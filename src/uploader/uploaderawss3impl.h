@@ -31,8 +31,10 @@ private:
     struct
     {
         mutable std::mutex mutex;
-        std::atomic<Uploader::Error> code = Uploader::Error::NoError;
+        Uploader::Error code = Uploader::Error::NoError;
         QString string;
+
+        bool hasErrors() const { std::lock_guard lock(mutex); return code != Uploader::Error::NoError; }
     } error_;
 
     Aws::SDKOptions awsOptions_;
@@ -53,6 +55,7 @@ private:
     void setState(Uploader::Status status);
     void setError(Uploader::Error errorCode,
                   const std::optional<Aws::Client::AWSError<Aws::S3::S3Errors>> awsS3Error = std::nullopt);
+    void unsetError();
 
     void handleTransferInitiated(const Aws::Transfer::TransferManager* manager,
                                      const std::shared_ptr<const Aws::Transfer::TransferHandle> handle);

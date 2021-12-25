@@ -84,13 +84,17 @@ void UploaderAwsS3Impl::uploadDirectory(const QString& directory)
 
 void UploaderAwsS3Impl::setState(Uploader::Status status)
 {
-    status_ = status;
-    QMetaObject::invokeMethod(uploader_, "statusChanged", Qt::QueuedConnection);
+    if (status_.exchange(status) != status)
+    {
+        QMetaObject::invokeMethod(uploader_, "statusChanged", Qt::QueuedConnection);
+    }
 }
 
 void UploaderAwsS3Impl::setError(Uploader::Error errorCode,
                                  const std::optional<Aws::Client::AWSError<Aws::S3::S3Errors>> awsS3Error)
 {
+    if (error_.hasErrors()) return;
+
     auto errorString = getUploaderErrorString(errorCode);
     if (awsS3Error.has_value())
     {
@@ -103,6 +107,18 @@ void UploaderAwsS3Impl::setError(Uploader::Error errorCode,
         std::lock_guard lock(error_.mutex);
         error_.code = errorCode;
         error_.string = errorString;
+    }
+    QMetaObject::invokeMethod(uploader_, "errorChanged", Qt::QueuedConnection);
+}
+
+void UploaderAwsS3Impl::unsetError()
+{
+    if (!error_.hasErrors()) return;
+
+    {
+        std::lock_guard lock(error_.mutex);
+        error_.code = Uploader::Error::NoError;
+        error_.string.clear();
     }
     QMetaObject::invokeMethod(uploader_, "errorChanged", Qt::QueuedConnection);
 }
@@ -150,7 +166,7 @@ void UploaderAwsS3Impl::handleTransferStatusUpdated(const Aws::Transfer::Transfe
             {
                 QMetaObject::invokeMethod(uploader_, "canceled", Qt::QueuedConnection);
             }
-            else if (error_.code != Uploader::Error::NoError)
+            else if (!error_.hasErrors())
             {
                 QMetaObject::invokeMethod(uploader_, "finished", Qt::QueuedConnection);
             }
