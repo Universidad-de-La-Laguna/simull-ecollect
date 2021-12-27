@@ -20,3 +20,10 @@ bool Utils::makeFilesystemPath(const QUrl& localUrl) const
     if (! localUrl.isLocalFile()) return false;
     return QDir().mkpath(localUrl.toLocalFile());
 }
+
+bool Utils::removeFilesystemPath(const QUrl &localUrl) const
+{
+    if (! localUrl.isLocalFile()) return false;
+    return QDir(localUrl.toLocalFile()).removeRecursively();
+
+}

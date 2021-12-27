@@ -247,7 +247,7 @@ Item {
             id: cleanupFilesState
 
             onEntered: function() {
-                //Utils.removeFilesystemPath(currentSessionDataLocation)
+                Utils.removeFilesystemPath(currentSessionDataLocation)
                 internal.onCleanupFinished()
             }
 
