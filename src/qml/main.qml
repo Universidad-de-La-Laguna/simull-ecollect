@@ -14,6 +14,7 @@ ApplicationWindow {
 
     EcollectController {
         id: controller
+
         videoOutput: videoOutput
         recordingMediaFormat.fileFormat: Constants.recordingMediaFormat
         recordingMediaFormat.videoCodec: Constants.recordingVideoCodec
@@ -29,20 +30,20 @@ ApplicationWindow {
 
         rightSidebar: Reactions {
             model: Constants.reactions
-            enabled: controller.playingState === EcollectController.PlayingState
+            enabled: controller.playingState === EcollectController.PlayingVideoState
         }
     }
 
     WelcomeDialog {
-        id: welcomeDialog
+        id: welcomeDialog        
         anchors.centerIn: parent
         visible: welcomeState.active
     }
 
     DSM.StateMachine {
         id: appStateMachine
-        initialState: welcomeState
 
+        initialState: welcomeState
         running: true
 
         DSM.State {

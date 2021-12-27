@@ -6,10 +6,11 @@ import ecollect.Reactions
 
 Item {
     id: root
-    anchors.fill: parent
 
     property ReactionsProps reactions: ReactionsProps {}
     property alias model: reactionsRepeater.model
+
+    anchors.fill: parent
 
     Column {
         id: reactionsContainer

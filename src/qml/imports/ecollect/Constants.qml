@@ -15,7 +15,7 @@ QtObject {
 
     readonly property string recordingFilename: "recording.mp4"
     readonly property string sessionDataFilename: "dataset.csv"
-    readonly property url inBetweenVideoUrl: "qrc:///mp4/321_action.mp4"
+    readonly property url transitionVideoUrl: "qrc:///mp4/321_action.mp4"
 
     readonly property var videoPlaylist: [
         "qrc:///mp4/321_action.mp4",

@@ -4,10 +4,11 @@ import QtQuick.Controls
 Item {
     id: root
 
-    signal onClicked
     property alias icon: button.icon.source
     property alias name: button.text
     property alias enabled: button.enabled
+
+    signal onClicked
 
     implicitHeight: button.implicitHeight
     implicitWidth: button.implicitWidth
