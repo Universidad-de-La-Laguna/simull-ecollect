@@ -11,9 +11,9 @@ Uploader::Uploader(QObject *parent)
 #endif
 }
 
-Uploader::Status Uploader::status() const
+Uploader::State Uploader::state() const
 {
-    return uploaderImpl_->status();
+    return uploaderImpl_->state();
 }
 
 Uploader::Error Uploader::error() const

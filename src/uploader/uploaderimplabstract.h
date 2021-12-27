@@ -9,7 +9,7 @@ public:
     explicit UploaderImplAbstract(Uploader *parent) {}
     virtual ~UploaderImplAbstract() {};
 
-    virtual Uploader::Status status() const = 0;
+    virtual Uploader::State state() const = 0;
     virtual Uploader::Error error() const = 0;
     virtual QString errorString() const = 0;
 

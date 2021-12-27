@@ -9,18 +9,18 @@ class Uploader : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(Status status READ status NOTIFY statusChanged)
+    Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(Error error READ error NOTIFY errorChanged)
     Q_PROPERTY(QString errorString READ errorString NOTIFY errorChanged)
 
 public:
-    enum class Status {
-        StoppedStatus,
-        StartingStatus,
-        TransferringStatus,
-        CancelingStatus
+    enum class State {
+        StoppedState,
+        StartingState,
+        TransferringState,
+        CancelingState
     };
-    Q_ENUM(Status);
+    Q_ENUM(State);
 
     enum class Error {
         NoError,
@@ -31,7 +31,7 @@ public:
 
     explicit Uploader(QObject *parent = nullptr);
 
-    Status status() const;
+    State state() const;
     Error error() const;
     QString errorString() const;
 
@@ -40,7 +40,7 @@ signals:
     void errorChanged();
     void errorOcurred(Uploader::Error errorCode, const QString& errorString);
     void finished();
-    void statusChanged();
+    void stateChanged();
 
 public slots:
     void cancel();

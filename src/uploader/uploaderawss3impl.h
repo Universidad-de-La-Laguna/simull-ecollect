@@ -16,7 +16,7 @@ public:
     UploaderAwsS3Impl(Uploader *parent);
     ~UploaderAwsS3Impl() override;
 
-    Uploader::Status status() const final { return status_; }
+    Uploader::State state() const final { return state_; }
     Uploader::Error error() const final { std::lock_guard lock(error_.mutex); return error_.code; }
     QString errorString() const final { std::lock_guard lock(error_.mutex); return error_.string; }
 
@@ -26,7 +26,7 @@ public slots:
 
 private:
     Uploader* uploader_ = nullptr;
-    std::atomic<Uploader::Status> status_ = Uploader::Status::StoppedStatus;
+    std::atomic<Uploader::State> state_ = Uploader::State::StoppedState;
 
     struct
     {
@@ -52,7 +52,7 @@ private:
         void clear();
     } transfersList_;
 
-    void setState(Uploader::Status status);
+    void setState(Uploader::State state);
     void setError(Uploader::Error errorCode,
                   const std::optional<Aws::Client::AWSError<Aws::S3::S3Errors>> awsS3Error = std::nullopt);
     void unsetError();

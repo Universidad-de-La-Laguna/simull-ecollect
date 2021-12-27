@@ -56,8 +56,8 @@ UploaderAwsS3Impl::~UploaderAwsS3Impl()
 
 void UploaderAwsS3Impl::cancel()
 {
-    Uploader::Status stoppedStatus = Uploader::Status::StoppedStatus;
-    if (status_.compare_exchange_strong(stoppedStatus, Uploader::Status::CancelingStatus))
+    Uploader::State stoppedState = Uploader::State::StoppedState;
+    if (state_.compare_exchange_strong(stoppedState, Uploader::State::CancelingState))
     {
         transfersList_.cancelPendingTransfers();
     }
@@ -65,12 +65,12 @@ void UploaderAwsS3Impl::cancel()
 
 void UploaderAwsS3Impl::uploadDirectory(const QString& directory)
 {
-    Uploader::Status stoppedStatus = Uploader::Status::StoppedStatus;
-    if (status_.compare_exchange_strong(stoppedStatus, Uploader::Status::StartingStatus))
+    Uploader::State stoppedState = Uploader::State::StoppedState;
+    if (state_.compare_exchange_strong(stoppedState, Uploader::State::StartingState))
     {
         transfersList_.clear();
         unsetError();
-        QMetaObject::invokeMethod(uploader_, "statusChanged", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(uploader_, "stateChanged", Qt::QueuedConnection);
     }
 
     auto path = QDir(directory).absolutePath();
@@ -82,11 +82,11 @@ void UploaderAwsS3Impl::uploadDirectory(const QString& directory)
                                          metadata);
 }
 
-void UploaderAwsS3Impl::setState(Uploader::Status status)
+void UploaderAwsS3Impl::setState(Uploader::State state)
 {
-    if (status_.exchange(status) != status)
+    if (state_.exchange(state) != state)
     {
-        QMetaObject::invokeMethod(uploader_, "statusChanged", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(uploader_, "stateChanged", Qt::QueuedConnection);
     }
 }
 
@@ -136,10 +136,10 @@ void UploaderAwsS3Impl::handleTransferStatusUpdated(const Aws::Transfer::Transfe
     switch (handle->GetStatus()) {
     case Aws::Transfer::TransferStatus::IN_PROGRESS:
     {
-        Uploader::Status startingStatus = Uploader::Status::StartingStatus;
-        if (status_.compare_exchange_strong(startingStatus, Uploader::Status::TransferringStatus))
+        Uploader::State startingState = Uploader::State::StartingState;
+        if (state_.compare_exchange_strong(startingState, Uploader::State::TransferringState))
         {
-            QMetaObject::invokeMethod(uploader_, "statusChanged", Qt::QueuedConnection);
+            QMetaObject::invokeMethod(uploader_, "stateChanged", Qt::QueuedConnection);
         }
         break;
     }
@@ -162,7 +162,7 @@ void UploaderAwsS3Impl::handleTransferStatusUpdated(const Aws::Transfer::Transfe
     case Aws::Transfer::TransferStatus::COMPLETED:
         if (transfersList_.isEveryTransferFinished())
         {
-            if (status_.exchange(Uploader::Status::StoppedStatus) == Uploader::Status::CancelingStatus)
+            if (state_.exchange(Uploader::State::StoppedState) == Uploader::State::CancelingState)
             {
                 QMetaObject::invokeMethod(uploader_, "canceled", Qt::QueuedConnection);
             }
@@ -177,19 +177,19 @@ void UploaderAwsS3Impl::handleTransferStatusUpdated(const Aws::Transfer::Transfe
 auto UploaderAwsS3Impl::TransfersList::queryPending() const
 {
     return handles | std::views::filter([](auto handle) {
-        auto status = handle->GetStatus();
-        return status == Aws::Transfer::TransferStatus::NOT_STARTED
-                || status == Aws::Transfer::TransferStatus::IN_PROGRESS;
+        auto state = handle->GetStatus();
+        return state == Aws::Transfer::TransferStatus::NOT_STARTED
+                || state == Aws::Transfer::TransferStatus::IN_PROGRESS;
     });
 }
 
 bool UploaderAwsS3Impl::TransfersList::isEveryTransferFinished() const
 {
     auto multipartFailedOrCanceled = handles | std::views::filter([](auto handle){
-        auto status = handle->GetStatus();
+        auto state = handle->GetStatus();
         return handle->IsMultipart()
-                && (status == Aws::Transfer::TransferStatus::CANCELED
-                    || status == Aws::Transfer::TransferStatus::FAILED);
+                && (state == Aws::Transfer::TransferStatus::CANCELED
+                    || state == Aws::Transfer::TransferStatus::FAILED);
     });
 
     std::lock_guard lock(mutex);
