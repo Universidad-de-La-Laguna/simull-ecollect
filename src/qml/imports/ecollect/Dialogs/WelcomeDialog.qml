@@ -4,6 +4,7 @@ import QtQuick.Controls
 Dialog {
     title: qsTr("Bienvenido/a")
     standardButtons: Dialog.Ok | Dialog.Cancel
+    closePolicy: Popup.NoAutoClose
 
     Label {
         text: qsTr("El propósito de esta aplicación es recoger vídeos de expresiones faciales\n" +
