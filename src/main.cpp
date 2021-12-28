@@ -1,11 +1,14 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "messagehandler.h"
 #include "uploader/uploader.h"
 #include "utils.h"
 
 int main(int argc, char *argv[])
 {
+    MessageHandler::install();
+
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
