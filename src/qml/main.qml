@@ -34,11 +34,24 @@ ApplicationWindow {
         }
     }
 
+    ErrorDialogController {
+        id: errorDialog
+
+        anchors.centerIn: parent
+        appController: controller
+    }
+
     WelcomeDialog {
-        id: welcomeDialog        
+        id: welcomeDialog
         anchors.centerIn: parent
         visible: welcomeState.active
     }
+
+//    UploadingDialog {
+//        id: uploadingDialog
+//        anchors.centerIn: parent
+//        visible: uploadingResultsState.active
+//    }
 
     DSM.StateMachine {
         id: appStateMachine
@@ -77,6 +90,11 @@ ApplicationWindow {
                 signal: controller.onPlayingStateChanged
                 guard: controller.playingState === EcollectController.UploadingState
             }
+
+            DSM.SignalTransition {
+                targetState: errorState
+                signal: controller.onErrorOcurred
+            }
         }
 
         DSM.State {
@@ -87,6 +105,22 @@ ApplicationWindow {
                 signal: controller.onPlayingStateChanged
                 guard: controller.playingState === EcollectController.StoppedState
             }
+
+            DSM.SignalTransition {
+                targetState: errorState
+                signal: controller.onErrorOcurred
+            }
+        }
+
+        DSM.State {
+            id: errorState
+
+            onEntered: errorDialog.show()
+
+            DSM.SignalTransition {
+                targetState: finishState
+                signal: errorDialog.closed
+             }
         }
 
         DSM.FinalState {

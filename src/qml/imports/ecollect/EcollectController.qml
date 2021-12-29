@@ -26,7 +26,7 @@ Item {
     readonly property url recordingFileUrl: `${currentSessionDataLocation}/${recordingFilename}`
     readonly property url sessionDataFileUrl: `${currentSessionDataLocation}/${sessionDataFilename}`
 
-    signal onErrorOcurred
+    signal errorOcurred
 
     enum PlayingState {
         StoppedState,
@@ -274,6 +274,7 @@ Item {
         signal onCleanupFinished;
 
         function handleError(error, errorString, sourceErrorCode) {
+            var tag = "Controller";
             switch(error) {
             case EcollectController.CameraError:
                 tag = "Camera"
@@ -286,9 +287,6 @@ Item {
             case EcollectController.PlayerError:
                 tag = "MediaPlayer"
                 break
-
-            default:
-                tag = "Controller"
             }
 
             var message = `[${tag}]: `
@@ -297,7 +295,7 @@ Item {
             console.warn(message);
 
             internal.error = error;
-            root.onErrorOcurred();
+            root.errorOcurred();
         }
     }
 }

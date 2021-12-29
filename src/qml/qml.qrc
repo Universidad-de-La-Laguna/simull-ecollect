@@ -17,5 +17,7 @@
         <file>imports/ecollect/Utils/GreenSquare.qml</file>
         <file>imports/ecollect/Utils/BlueSquare.qml</file>
         <file>imports/ecollect/EcollectController.qml</file>
+        <file>imports/ecollect/Dialogs/ErrorDialog.qml</file>
+        <file>imports/ecollect/Dialogs/ErrorDialogController.qml</file>
     </qresource>
 </RCC>

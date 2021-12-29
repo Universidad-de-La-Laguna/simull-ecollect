@@ -1,3 +1,5 @@
 module Dialogs
 
+ErrorDialog 1.0 ErrorDialog.qml
+ErrorDialogController 1.0 ErrorDialogController.qml
 WelcomeDialog 1.0 WelcomeDialog.qml

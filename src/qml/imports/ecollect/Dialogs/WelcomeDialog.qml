@@ -3,19 +3,16 @@ import QtQuick.Controls
 
 Dialog {
     title: qsTr("Bienvenido/a")
-    standardButtons: Dialog.Ok | Dialog.Cancel
-    closePolicy: Popup.NoAutoClose
-
-    Component.onCompleted: function() {
-        standardButton(Dialog.Ok).text = qsTr("Continuar")
-        standardButton(Dialog.Cancel).text = qsTr("Salir")
-    }
+    standardButtons: Dialog.Yes | Dialog.No
+    closePolicy: Popup.CloseOnEscape
+    modal: true
 
     Label {
-        text: qsTr("El propósito de esta aplicación es recoger vídeos de expresiones faciales\n" +
-                   "de una persona mientras observa videos e imágenes promocionales y señala\n" +
-                   "las emociones y sensaciones que el contenido despiertan en ella.\n\n" +
-                   "Esta información será valiosa para crear moderlos predictivos sobre las\n" +
-                   "emocionales humanas.")
+        text: qsTr("El propósito de esta aplicación es recoger vídeos de expresiones faciales de una\n" +
+                   "persona mientras observa videos e imágenes promocionales y señala las emociones\n" +
+                   "y sensaciones que el contenido despiertan en ella.\n\n" +
+                   "Esta información será valiosa para crear modelos predictivos sobre las emociones\n" +
+                   "humanas. Muchas gracias por su colaboración.\n\n" +
+                   "El tiempo estimado para completar una sesión es de 15 minutos. ¿Desea continuar?")
     }
 }
