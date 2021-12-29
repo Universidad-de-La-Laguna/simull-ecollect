@@ -1,5 +1,8 @@
 module Dialogs
 
+CancelingUploadDialog 1.0 CancelingUploadDialog.qml
+GoodbyeDialog 1.0 GoodbyeDialog.qml
 ErrorDialog 1.0 ErrorDialog.qml
 ErrorDialogController 1.0 ErrorDialogController.qml
+UploadingDialog 1.0 UploadingDialog.qml
 WelcomeDialog 1.0 WelcomeDialog.qml

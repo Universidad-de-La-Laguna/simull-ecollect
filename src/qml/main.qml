@@ -43,15 +43,23 @@ ApplicationWindow {
 
     WelcomeDialog {
         id: welcomeDialog
-        anchors.centerIn: parent
         visible: welcomeState.active
     }
 
-//    UploadingDialog {
-//        id: uploadingDialog
-//        anchors.centerIn: parent
-//        visible: uploadingResultsState.active
-//    }
+    UploadingDialog {
+        id: uploadingDialog
+        visible: uploadingResultsState.active
+    }
+
+    CancelingUploadDialog {
+        id: cancelingUploadDialog
+        visible: cancelingUploadState.active
+    }
+
+    GoodbyeDialog {
+        id: goodbyeDialog
+        visible: goodbyeState.active
+    }
 
     DSM.StateMachine {
         id: appStateMachine
@@ -101,7 +109,7 @@ ApplicationWindow {
             id: uploadingResultsState
 
             DSM.SignalTransition {
-                targetState: finishState
+                targetState: goodbyeState
                 signal: controller.onPlayingStateChanged
                 guard: controller.playingState === EcollectController.StoppedState
             }
@@ -120,7 +128,33 @@ ApplicationWindow {
             DSM.SignalTransition {
                 targetState: finishState
                 signal: errorDialog.closed
-             }
+                guard: controller.playingState === EcollectController.StoppedState
+            }
+
+            DSM.SignalTransition {
+                targetState: cancelingUploadState
+                signal: errorDialog.closed
+                guard: controller.playingState === EcollectController.CancelingUploadState
+            }
+        }
+
+        DSM.State {
+            id: cancelingUploadState
+
+            DSM.SignalTransition {
+                targetState: finishState
+                signal: controller.onPlayingStateChanged
+                guard: controller.playingState === EcollectController.StoppedState
+            }
+        }
+
+        DSM.State {
+            id: goodbyeState
+
+            DSM.SignalTransition {
+                targetState: finishState
+                signal: goodbyeDialog.closed
+            }
         }
 
         DSM.FinalState {

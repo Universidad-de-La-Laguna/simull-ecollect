@@ -60,9 +60,9 @@ Item {
         errorCode: EcollectController.UploadError
         title: qsTr("Problema de red")
         informativeTextFormat: Text.StyledText
-        informativeText: qsTr("Ha ocurrido un problema al subir a nuestros servidores los archivos de la sesión.<br>" +
-                              "Por favor, localice los archivos en <a href=\"%1\">esta carpeta</a> y contacte con nosotros para ver<br>" +
-                              "cómo nos los puede hacer llegar.<br><br>Discule las molestias."
+        informativeText: qsTr("Ha ocurrido un problema al intentar enviar los archivos de la sesión. Por favor,<br>" +
+                              "localice los archivos en <a href=\"%1\">esta carpeta</a> y contacte con nosotros para ver cómo nos<br>" +
+                              "los puede enviar.<br><br>Discule las molestias."
                               ).arg(root.appController.currentSessionDataLocation)
 
         onLinkActivated: (link) => Qt.openUrlExternally(link)

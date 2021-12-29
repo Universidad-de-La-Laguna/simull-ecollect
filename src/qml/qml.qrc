@@ -19,5 +19,8 @@
         <file>imports/ecollect/EcollectController.qml</file>
         <file>imports/ecollect/Dialogs/ErrorDialog.qml</file>
         <file>imports/ecollect/Dialogs/ErrorDialogController.qml</file>
+        <file>imports/ecollect/Dialogs/UploadingDialog.qml</file>
+        <file>imports/ecollect/Dialogs/CancelingUploadDialog.qml</file>
+        <file>imports/ecollect/Dialogs/GoodbyeDialog.qml</file>
     </qresource>
 </RCC>
