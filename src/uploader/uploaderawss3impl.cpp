@@ -45,6 +45,9 @@ UploaderAwsS3Impl::UploaderAwsS3Impl(Uploader *parent)
     transferManagerConfig.transferStatusUpdatedCallback = [this](auto manager, auto handle) {
         handleTransferStatusUpdated(manager, handle);
     };
+    transferManagerConfig.errorCallback = [this](auto manager, auto handle, auto error) {
+        handleTransferError(manager, handle, error);
+    };
     awsTransferManager_ = Aws::Transfer::TransferManager::Create(transferManagerConfig);
 }
 
@@ -56,22 +59,33 @@ UploaderAwsS3Impl::~UploaderAwsS3Impl()
 
 void UploaderAwsS3Impl::cancel()
 {
-    Uploader::State stoppedState = Uploader::State::StoppedState;
-    if (state_.compare_exchange_strong(stoppedState, Uploader::State::CancelingState))
+    // Enter in canceling state. Return if we are stopped or already canceling
+    Uploader::State previousState;
+    do
     {
-        transfersList_.cancelPendingTransfers();
-    }
+        previousState = state_.load();
+        if (previousState == Uploader::State::CancelingState
+                || previousState == Uploader::State::StoppedState)
+        {
+            return;
+        }
+    } while(!state_.compare_exchange_weak(previousState, Uploader::State::CancelingState));
+    QMetaObject::invokeMethod(uploader_, "stateChanged", Qt::QueuedConnection);
+
+    cancelPendingTransfers();
 }
 
 void UploaderAwsS3Impl::uploadDirectory(const QString& directory)
 {
-    Uploader::State stoppedState = Uploader::State::StoppedState;
-    if (state_.compare_exchange_strong(stoppedState, Uploader::State::StartingState))
+    auto stoppedState = Uploader::State::StoppedState;
+    if (!state_.compare_exchange_strong(stoppedState, Uploader::State::StartingState))
     {
-        transfersList_.clear();
-        unsetError();
-        QMetaObject::invokeMethod(uploader_, "stateChanged", Qt::QueuedConnection);
+        return;
     }
+
+    transfersList_.clear();
+    unsetError();
+    QMetaObject::invokeMethod(uploader_, "stateChanged", Qt::QueuedConnection);
 
     auto path = QDir(directory).absolutePath();
     auto objectNamePrefix = QFileInfo(path).fileName();
@@ -82,19 +96,9 @@ void UploaderAwsS3Impl::uploadDirectory(const QString& directory)
                                          metadata);
 }
 
-void UploaderAwsS3Impl::setState(Uploader::State state)
-{
-    if (state_.exchange(state) != state)
-    {
-        QMetaObject::invokeMethod(uploader_, "stateChanged", Qt::QueuedConnection);
-    }
-}
-
 void UploaderAwsS3Impl::setError(Uploader::Error errorCode,
                                  const std::optional<Aws::Client::AWSError<Aws::S3::S3Errors>> awsS3Error)
 {
-    if (error_.hasErrors()) return;
-
     auto errorString = getUploaderErrorString(errorCode);
     if (awsS3Error.has_value())
     {
@@ -109,6 +113,8 @@ void UploaderAwsS3Impl::setError(Uploader::Error errorCode,
         error_.string = errorString;
     }
     QMetaObject::invokeMethod(uploader_, "errorChanged", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(uploader_, "errorOcurred", Qt::QueuedConnection, Q_ARG(Uploader::Error, errorCode),
+                              Q_ARG(QString, errorString));
 }
 
 void UploaderAwsS3Impl::unsetError()
@@ -123,6 +129,32 @@ void UploaderAwsS3Impl::unsetError()
     QMetaObject::invokeMethod(uploader_, "errorChanged", Qt::QueuedConnection);
 }
 
+void UploaderAwsS3Impl::handleTransferError(const Aws::Transfer::TransferManager* manager,
+                                            const std::shared_ptr<const Aws::Transfer::TransferHandle> handle,
+                                            const Aws::Client::AWSError<Aws::S3::S3Errors> &error)
+{
+    switch(error.GetErrorType())
+    {
+        case static_cast<Aws::S3::S3Errors>(Aws::Client::CoreErrors::USER_CANCELLED):
+            break;
+
+        case Aws::S3::S3Errors::NO_SUCH_UPLOAD:
+            setError(Uploader::Error::FileAccessError, error);
+            break;
+
+        case Aws::S3::S3Errors::REQUEST_TIMEOUT:
+        case Aws::S3::S3Errors::NETWORK_CONNECTION:
+            if (handle->IsMultipart())
+            {
+                // Try to abort upload
+                awsTransferManager_->AbortMultipartUpload(std::const_pointer_cast<Aws::Transfer::TransferHandle>(handle));
+            }
+
+        default:
+            setError(Uploader::Error::TransferError, error);
+    }
+}
+
 void UploaderAwsS3Impl::handleTransferInitiated(const Aws::Transfer::TransferManager *manager,
                                                 const std::shared_ptr<const Aws::Transfer::TransferHandle> handle)
 {
@@ -133,44 +165,23 @@ void UploaderAwsS3Impl::handleTransferInitiated(const Aws::Transfer::TransferMan
 void UploaderAwsS3Impl::handleTransferStatusUpdated(const Aws::Transfer::TransferManager *manager,
                                                     const std::shared_ptr<const Aws::Transfer::TransferHandle> handle)
 {
-    switch (handle->GetStatus()) {
-    case Aws::Transfer::TransferStatus::IN_PROGRESS:
+    auto transferStatus = handle->GetStatus();
+    if (transferStatus == Aws::Transfer::TransferStatus::IN_PROGRESS)
     {
         Uploader::State startingState = Uploader::State::StartingState;
         if (state_.compare_exchange_strong(startingState, Uploader::State::TransferringState))
         {
             QMetaObject::invokeMethod(uploader_, "stateChanged", Qt::QueuedConnection);
         }
-        break;
+
+        return;
     }
 
-    case Aws::Transfer::TransferStatus::FAILED:
+    if (transfersList_.isEveryTransferFinished())
     {
-        auto awsError = handle->GetLastError();
-        setError(awsError.GetErrorType() == Aws::S3::S3Errors::NO_SUCH_UPLOAD
-                 ? Uploader::Error::FileAccessError : Uploader::Error::TransferError, awsError);
-    }
-
-    case Aws::Transfer::TransferStatus::CANCELED:
-        if (handle->IsMultipart())
-        {
-            const_cast<Aws::Transfer::TransferManager*>(manager)->AbortMultipartUpload(
-                        std::const_pointer_cast<Aws::Transfer::TransferHandle>(handle));
-        }
-
-    case Aws::Transfer::TransferStatus::ABORTED:
-    case Aws::Transfer::TransferStatus::COMPLETED:
-        if (transfersList_.isEveryTransferFinished())
-        {
-            if (state_.exchange(Uploader::State::StoppedState) == Uploader::State::CancelingState)
-            {
-                QMetaObject::invokeMethod(uploader_, "canceled", Qt::QueuedConnection);
-            }
-            else if (!error_.hasErrors())
-            {
-                QMetaObject::invokeMethod(uploader_, "finished", Qt::QueuedConnection);
-            }
-        }
+        state_ = Uploader::State::StoppedState;
+        QMetaObject::invokeMethod(uploader_, "stateChanged", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(uploader_, "finished", Qt::QueuedConnection);
     }
 }
 
@@ -179,34 +190,37 @@ auto UploaderAwsS3Impl::TransfersList::queryPending() const
     return handles | std::views::filter([](auto handle) {
         auto state = handle->GetStatus();
         return state == Aws::Transfer::TransferStatus::NOT_STARTED
-                || state == Aws::Transfer::TransferStatus::IN_PROGRESS;
+                || state == Aws::Transfer::TransferStatus::IN_PROGRESS
+                || handle->HasPendingParts();
     });
 }
 
 bool UploaderAwsS3Impl::TransfersList::isEveryTransferFinished() const
 {
-    auto multipartFailedOrCanceled = handles | std::views::filter([](auto handle){
-        auto state = handle->GetStatus();
-        return handle->IsMultipart()
-                && (state == Aws::Transfer::TransferStatus::CANCELED
-                    || state == Aws::Transfer::TransferStatus::FAILED);
-    });
-
     std::lock_guard lock(mutex);
-    return std::ranges::empty(queryPending()) && std::ranges::empty(multipartFailedOrCanceled);
-}
-
-void UploaderAwsS3Impl::TransfersList::cancelPendingTransfers() const
-{
-    std::lock_guard lock(mutex);
-    for (auto& handle: queryPending())
-    {
-        handle->Cancel();
-    }
+    return std::ranges::empty(queryPending());
 }
 
 void UploaderAwsS3Impl::TransfersList::clear()
 {
     std::unique_lock lock(mutex);
     handles.clear();
+}
+
+void UploaderAwsS3Impl::cancelPendingTransfers() const
+{
+    std::lock_guard lock(transfersList_.mutex);
+    for (auto& handle: transfersList_.queryPending())
+    {
+        cancelTransfer(handle);
+    }
+}
+
+void UploaderAwsS3Impl::cancelTransfer(const std::shared_ptr<Aws::Transfer::TransferHandle> handle) const
+{
+    handle->Cancel();
+    if (handle->IsMultipart())
+    {
+        awsTransferManager_->AbortMultipartUpload(handle);
+    }
 }

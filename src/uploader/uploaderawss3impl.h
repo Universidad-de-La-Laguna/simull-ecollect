@@ -48,17 +48,21 @@ private:
 
         auto queryPending() const;
         bool isEveryTransferFinished() const;
-        void cancelPendingTransfers() const;
         void clear();
     } transfersList_;
 
-    void setState(Uploader::State state);
     void setError(Uploader::Error errorCode,
                   const std::optional<Aws::Client::AWSError<Aws::S3::S3Errors>> awsS3Error = std::nullopt);
     void unsetError();
 
+    void handleTransferError(const Aws::Transfer::TransferManager* manager,
+                             const std::shared_ptr<const Aws::Transfer::TransferHandle> handle,
+                             const Aws::Client::AWSError<Aws::S3::S3Errors>& error);
     void handleTransferInitiated(const Aws::Transfer::TransferManager* manager,
                                      const std::shared_ptr<const Aws::Transfer::TransferHandle> handle);
     void handleTransferStatusUpdated(const Aws::Transfer::TransferManager* manager,
                                      const std::shared_ptr<const Aws::Transfer::TransferHandle> handle);
+
+    void cancelPendingTransfers() const;
+    void cancelTransfer(const std::shared_ptr<Aws::Transfer::TransferHandle> handle) const;
 };

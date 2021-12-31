@@ -36,7 +36,6 @@ public:
     QString errorString() const;
 
 signals:
-    void canceled();
     void errorChanged();
     void errorOcurred(Uploader::Error errorCode, const QString& errorString);
     void finished();

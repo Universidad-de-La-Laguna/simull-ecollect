@@ -94,14 +94,14 @@ ApplicationWindow {
             onEntered: controller.startSession()
 
             DSM.SignalTransition {
-                targetState: uploadingResultsState
-                signal: controller.onPlayingStateChanged
-                guard: controller.playingState === EcollectController.UploadingState
+                targetState: errorState
+                signal: controller.errorOcurred
             }
 
             DSM.SignalTransition {
-                targetState: errorState
-                signal: controller.onErrorOcurred
+                targetState: uploadingResultsState
+                signal: controller.onPlayingStateChanged
+                guard: controller.playingState === EcollectController.UploadingState
             }
         }
 
@@ -109,14 +109,14 @@ ApplicationWindow {
             id: uploadingResultsState
 
             DSM.SignalTransition {
-                targetState: goodbyeState
-                signal: controller.onPlayingStateChanged
-                guard: controller.playingState === EcollectController.StoppedState
+                targetState: errorState
+                signal: controller.errorOcurred
             }
 
             DSM.SignalTransition {
-                targetState: errorState
-                signal: controller.onErrorOcurred
+                targetState: goodbyeState
+                signal: controller.onPlayingStateChanged
+                guard: controller.playingState === EcollectController.StoppedState
             }
         }
 

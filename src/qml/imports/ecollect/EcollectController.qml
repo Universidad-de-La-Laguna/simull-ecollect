@@ -47,23 +47,23 @@ Item {
     }
 
     function startCameraPreview() {
-        internal.onStartCameraPreview()
+        internal.startCameraPreviewRequested()
     }
 
     function stopCameraPreview() {
-        internal.onStopCameraPreview()
+        internal.stopCameraPreviewRequested()
     }
 
     function startSession() {
-        internal.onStartSession()
+        internal.startSessionRequested()
     }
 
     function continueSession() {
-        internal.onContinueSession()
+        internal.continueSessionRequested()
     }
 
     function stopSession() {
-        internal.onStopSession()
+        internal.stopSessionRequested()
     }
 
     CaptureSession {
@@ -107,12 +107,12 @@ Item {
 
             DSM.SignalTransition {
                 targetState: cameraPreviewState
-                signal: internal.onStartCameraPreview
+                signal: internal.startCameraPreviewRequested
             }
 
             DSM.SignalTransition {
                 targetState: runningSessionState
-                signal: internal.onStartSession
+                signal: internal.startSessionRequested
             }
         }
 
@@ -131,12 +131,12 @@ Item {
 
             DSM.SignalTransition {
                 targetState: stoppedState
-                signal: internal.onStopCameraPreview
+                signal: internal.stopCameraPreviewRequested
             }
 
             DSM.SignalTransition {
                 targetState: stoppedState
-                signal: root.onErrorOcurred
+                signal: root.errorOcurred
             }
         }
 
@@ -161,12 +161,12 @@ Item {
 
             DSM.SignalTransition {
                 targetState: cleanupFilesState
-                signal: internal.onStopSession
+                signal: internal.stopSessionRequested
             }
 
             DSM.SignalTransition {
                 targetState: cleanupFilesState
-                signal: root.onErrorOcurred
+                signal: root.errorOcurred
             }
 
             DSM.State {
@@ -223,7 +223,7 @@ Item {
 
             DSM.SignalTransition {
                 targetState: cleanupFilesState
-                signal: Uploader.onFinished
+                signal: Uploader.finished
             }
 
             DSM.SignalTransition {
@@ -239,7 +239,7 @@ Item {
 
             DSM.SignalTransition {
                 targetState: stoppedState
-                signal: Uploader.canceled
+                signal: Uploader.finished
             }
         }
 
@@ -248,13 +248,20 @@ Item {
 
             onEntered: function() {
                 Utils.removeFilesystemPath(currentSessionDataLocation)
-                internal.onCleanupFinished()
+                internal.cleanupFinished()
             }
 
             DSM.SignalTransition {
                 targetState: stoppedState
-                signal: internal.onCleanupFinished
+                signal: internal.cleanupFinished
             }
+        }
+    }
+
+    Connections {
+        target: Uploader
+        function onErrorOcurred(errorCode, errorString) {
+            internal.handleError(EcollectController.UploadError, errorString, errorCode)
         }
     }
 
@@ -266,12 +273,12 @@ Item {
         property int currentVideoIndex: 0
         property int currentVideoReplay: 0
 
-        signal onStartCameraPreview;
-        signal onStopCameraPreview;
-        signal onStartSession;
-        signal onContinueSession;
-        signal onStopSession;
-        signal onCleanupFinished;
+        signal startCameraPreviewRequested;
+        signal stopCameraPreviewRequested;
+        signal startSessionRequested;
+        signal continueSessionRequested;
+        signal stopSessionRequested;
+        signal cleanupFinished;
 
         function handleError(error, errorString, sourceErrorCode) {
             var tag = "Controller";
@@ -286,6 +293,10 @@ Item {
 
             case EcollectController.PlayerError:
                 tag = "MediaPlayer"
+                break
+
+            case EcollectController.UploadError:
+                tag = "Upload"
                 break
             }
 
