@@ -12,6 +12,14 @@ import ecollect.Utils
 
 ApplicationWindow {
 
+    onClosing: function(close) {
+        if (! (runningSessionState.active || cancelingUploadState.active))
+            return
+
+        close.accepted = false
+        controller.cancelSession()
+    }
+
     EcollectController {
         id: controller
 
@@ -90,8 +98,7 @@ ApplicationWindow {
 
         DSM.State {
             id: runningSessionState
-
-            onEntered: controller.startSession()
+            initialState: doingSurveyState
 
             DSM.SignalTransition {
                 targetState: errorState
@@ -99,24 +106,37 @@ ApplicationWindow {
             }
 
             DSM.SignalTransition {
-                targetState: uploadingResultsState
+                targetState: cancelingUploadState
                 signal: controller.onPlayingStateChanged
-                guard: controller.playingState === EcollectController.UploadingState
-            }
-        }
-
-        DSM.State {
-            id: uploadingResultsState
-
-            DSM.SignalTransition {
-                targetState: errorState
-                signal: controller.errorOcurred
+                guard: controller.playingState === EcollectController.CancelingState
             }
 
             DSM.SignalTransition {
-                targetState: goodbyeState
+                targetState: finishState
                 signal: controller.onPlayingStateChanged
                 guard: controller.playingState === EcollectController.StoppedState
+            }
+
+            DSM.State {
+                id: doingSurveyState
+
+                onEntered: controller.startSession()
+
+                DSM.SignalTransition {
+                    targetState: uploadingResultsState
+                    signal: controller.onPlayingStateChanged
+                    guard: controller.playingState === EcollectController.UploadingState
+                }
+            }
+
+            DSM.State {
+                id: uploadingResultsState
+
+                DSM.SignalTransition {
+                    targetState: goodbyeState
+                    signal: controller.onPlayingStateChanged
+                    guard: controller.playingState === EcollectController.StoppedState
+                }
             }
         }
 
@@ -134,7 +154,7 @@ ApplicationWindow {
             DSM.SignalTransition {
                 targetState: cancelingUploadState
                 signal: errorDialog.closed
-                guard: controller.playingState === EcollectController.CancelingUploadState
+                guard: controller.playingState === EcollectController.CancelingState
             }
         }
 

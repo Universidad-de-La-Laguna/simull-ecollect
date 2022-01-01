@@ -61,8 +61,8 @@ Item {
         title: qsTr("Problema de red")
         informativeTextFormat: Text.StyledText
         informativeText: qsTr("Ha ocurrido un problema al intentar enviar los archivos de la sesión. Por favor,<br>" +
-                              "localice los archivos en <a href=\"%1\">esta carpeta</a> y contacte con nosotros para ver cómo los<br>" +
-                              "podría enviar.<br><br>Discule las molestias."
+                              "localice los archivos en <a href=\"%1\">esta carpeta</a> y contacte con nosotros para acordar cómo<br>" +
+                              "nos los podría enviar.<br><br>Discule las molestias."
                               ).arg(root.appController.currentSessionDataLocation)
 
         onLinkActivated: (link) => Qt.openUrlExternally(link)

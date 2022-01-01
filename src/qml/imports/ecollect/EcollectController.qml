@@ -35,7 +35,7 @@ Item {
         PlayingTransitionState,
         PlayingVideoState,
         UploadingState,
-        CancelingUploadState
+        CancelingState
     }
 
     enum Error {
@@ -62,8 +62,8 @@ Item {
         internal.continueSessionRequested()
     }
 
-    function stopSession() {
-        internal.stopSessionRequested()
+    function cancelSession() {
+        internal.cancelSessionRequested()
     }
 
     CaptureSession {
@@ -92,6 +92,13 @@ Item {
         audioOutput: AudioOutput {}
         onErrorOccurred: (errorCode, errorString) =>
                          internal.handleError(EcollectController.PlayerError, errorString, errorCode)
+    }
+
+    Connections {
+        target: Uploader
+        function onErrorOcurred(errorCode, errorString) {
+            internal.handleError(EcollectController.UploadError, errorString, errorCode)
+        }
     }
 
     DSM.StateMachine {
@@ -148,6 +155,7 @@ Item {
                 Utils.makeFilesystemPath(currentSessionDataLocation)
                 internal.currentVideoIndex = 0
                 internal.currentVideoReplay = 0
+                internal.isProcessingCancelRequest = false
                 mediaPlayer.videoOutput = videoOutput
                 camera.start()
                 recorder.record()
@@ -161,7 +169,7 @@ Item {
 
             DSM.SignalTransition {
                 targetState: cleanupFilesState
-                signal: internal.stopSessionRequested
+                signal: internal.cancelSessionRequested
             }
 
             DSM.SignalTransition {
@@ -228,6 +236,12 @@ Item {
 
             DSM.SignalTransition {
                 targetState: cancelingUploadState
+                onTriggered: internal.isProcessingCancelRequest = true
+                signal: internal.cancelSessionRequested
+            }
+
+            DSM.SignalTransition {
+                targetState: cancelingUploadState
                 signal: Uploader.errorOcurred
             }
         }
@@ -235,11 +249,22 @@ Item {
         DSM.State {
             id: cancelingUploadState
 
-            onEntered: Uploader.cancel()
+            onEntered: function() {
+                internal.playingState = EcollectController.CancelingState
+                Uploader.cancel()
+            }
 
             DSM.SignalTransition {
                 targetState: stoppedState
                 signal: Uploader.finished
+                guard: !internal.isProcessingCancelRequest
+            }
+
+            DSM.SignalTransition {
+                // Clean files if the upload was canceled by the user
+                targetState: cleanupFilesState
+                signal: Uploader.finished
+                guard: internal.isProcessingCancelRequest
             }
         }
 
@@ -247,7 +272,7 @@ Item {
             id: cleanupFilesState
 
             onEntered: function() {
-                Utils.removeFilesystemPath(currentSessionDataLocation)
+                internal.cleanupSessionFiles()
                 internal.cleanupFinished()
             }
 
@@ -258,13 +283,6 @@ Item {
         }
     }
 
-    Connections {
-        target: Uploader
-        function onErrorOcurred(errorCode, errorString) {
-            internal.handleError(EcollectController.UploadError, errorString, errorCode)
-        }
-    }
-
     QtObject {
         id: internal
 
@@ -272,12 +290,13 @@ Item {
         property int playingState: EcollectController.StoppedState
         property int currentVideoIndex: 0
         property int currentVideoReplay: 0
+        property bool isProcessingCancelRequest: false
 
         signal startCameraPreviewRequested;
         signal stopCameraPreviewRequested;
         signal startSessionRequested;
         signal continueSessionRequested;
-        signal stopSessionRequested;
+        signal cancelSessionRequested;
         signal cleanupFinished;
 
         function handleError(error, errorString, sourceErrorCode) {
@@ -307,6 +326,10 @@ Item {
 
             internal.error = error;
             root.errorOcurred();
+        }
+
+        function cleanupSessionFiles() {
+            Utils.removeFilesystemPath(root.currentSessionDataLocation)
         }
     }
 }
