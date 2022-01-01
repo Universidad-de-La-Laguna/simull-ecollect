@@ -16,9 +16,8 @@ int main(int argc, char *argv[])
     app.setOrganizationName("Universidad de La Laguna");
 
     QPointer<Utils> utils = new Utils;
-    QPointer<Uploader> uploader = new Uploader;
     qmlRegisterSingletonInstance("ecollect.Native", 1, 0, "Utils", utils.get());
-    qmlRegisterSingletonInstance("ecollect.Native", 1, 0, "Uploader", uploader.get());
+    qmlRegisterType<Uploader>("ecollect.Native", 1, 0, "Uploader");
 
     engine.addImportPath("qrc:/qml/imports");
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));

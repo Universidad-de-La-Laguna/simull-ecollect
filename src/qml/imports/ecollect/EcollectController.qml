@@ -94,11 +94,10 @@ Item {
                          internal.handleError(EcollectController.PlayerError, errorString, errorCode)
     }
 
-    Connections {
-        target: Uploader
-        function onErrorOcurred(errorCode, errorString) {
-            internal.handleError(EcollectController.UploadError, errorString, errorCode)
-        }
+    Uploader {
+        id: uploader
+        onErrorOcurred: (errorCode, errorString) =>
+                        internal.handleError(EcollectController.UploadError, errorString, errorCode)
     }
 
     DSM.StateMachine {
@@ -226,12 +225,12 @@ Item {
 
             onEntered: function() {
                 internal.playingState = EcollectController.UploadingState
-                Uploader.uploadDirectory(root.currentSessionDataLocation)
+                uploader.uploadDirectory(root.currentSessionDataLocation)
             }
 
             DSM.SignalTransition {
                 targetState: cleanupFilesState
-                signal: Uploader.finished
+                signal: uploader.finished
             }
 
             DSM.SignalTransition {
@@ -242,7 +241,7 @@ Item {
 
             DSM.SignalTransition {
                 targetState: cancelingUploadState
-                signal: Uploader.errorOcurred
+                signal: uploader.errorOcurred
             }
         }
 
@@ -251,19 +250,19 @@ Item {
 
             onEntered: function() {
                 internal.playingState = EcollectController.CancelingState
-                Uploader.cancel()
+                uploader.cancel()
             }
 
             DSM.SignalTransition {
                 targetState: stoppedState
-                signal: Uploader.finished
+                signal: uploader.finished
                 guard: !internal.isProcessingCancelRequest
             }
 
             DSM.SignalTransition {
                 // Clean files if the upload was canceled by the user
                 targetState: cleanupFilesState
-                signal: Uploader.finished
+                signal: uploader.finished
                 guard: internal.isProcessingCancelRequest
             }
         }
