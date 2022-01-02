@@ -66,6 +66,11 @@ Item {
         internal.cancelSessionRequested()
     }
 
+    function registerUserReaction(reactionId) {
+        sessionLog.log(`${recorder.duration}, ${reactionId}, ${internal.currentVideoIndex}, ${mediaPlayer.position}`);
+        internal.reactionsRegistered++;
+    }
+
     CaptureSession {
         id: captureSession
 
@@ -98,6 +103,11 @@ Item {
         id: uploader
         onErrorOcurred: (errorCode, errorString) =>
                         internal.handleError(EcollectController.UploadError, errorString, errorCode)
+    }
+
+    FileLog {
+        id: sessionLog
+        fileLocation: root.sessionDataFileUrl
     }
 
     DSM.StateMachine {
@@ -180,9 +190,9 @@ Item {
                 id: playingTransitionState
 
                 onEntered: function() {
-                    internal.playingState = EcollectController.PlayingTransitionState
                     mediaPlayer.source = root.transitionVideoUrl
                     mediaPlayer.play()
+                    internal.playingState = EcollectController.PlayingTransitionState
                 }
 
                 DSM.SignalTransition {
@@ -196,9 +206,10 @@ Item {
                 id: playingVideoState
 
                 onEntered: function() {
-                    internal.playingState = EcollectController.PlayingVideoState
+                    internal.reactionsRegistered = 0
                     mediaPlayer.source = root.videoPlaylist[internal.currentVideoIndex]
                     mediaPlayer.play()
+                    internal.playingState = EcollectController.PlayingVideoState
                 }
 
                 DSM.SignalTransition {
@@ -289,6 +300,7 @@ Item {
         property int playingState: EcollectController.StoppedState
         property int currentVideoIndex: 0
         property int currentVideoReplay: 0
+        property int reactionsRegistered: 0
         property bool isProcessingCancelRequest: false
 
         signal startCameraPreviewRequested;

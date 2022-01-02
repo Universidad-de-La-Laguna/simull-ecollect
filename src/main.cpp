@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "filelog.h"
 #include "messagehandler.h"
 #include "uploader/uploader.h"
 #include "utils.h"
@@ -18,6 +19,7 @@ int main(int argc, char *argv[])
     QPointer<Utils> utils = new Utils;
     qmlRegisterSingletonInstance("ecollect.Native", 1, 0, "Utils", utils.get());
     qmlRegisterType<Uploader>("ecollect.Native", 1, 0, "Uploader");
+    qmlRegisterType<FileLog>("ecollect.Native", 1, 0, "FileLog");
 
     engine.addImportPath("qrc:/qml/imports");
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));

@@ -8,7 +8,7 @@ Item {
     property alias name: button.text
     property alias enabled: button.enabled
 
-    signal onClicked
+    signal clicked
 
     implicitHeight: button.implicitHeight
     implicitWidth: button.implicitWidth
@@ -16,6 +16,6 @@ Item {
     Button {
         id: button
         display: Button.TextBesideIcon
-        onClicked: root.onClicked()
+        onClicked: root.clicked()
     }
 }

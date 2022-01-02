@@ -39,6 +39,7 @@ ApplicationWindow {
         rightSidebar: Reactions {
             model: Constants.reactions
             enabled: controller.playingState === EcollectController.PlayingVideoState
+            onReactionClicked: (name) => controller.registerUserReaction(name)
         }
     }
 

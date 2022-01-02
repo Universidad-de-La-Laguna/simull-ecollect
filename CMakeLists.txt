@@ -23,6 +23,8 @@ find_package(AWSSDK CONFIG COMPONENTS transfer REQUIRED)
 
 set(PROJECT_SOURCES
     src/main.cpp
+    src/filelog.cpp
+    src/filelog.h
     src/messagehandler.cpp
     src/messagehandler.h
     src/utils.cpp

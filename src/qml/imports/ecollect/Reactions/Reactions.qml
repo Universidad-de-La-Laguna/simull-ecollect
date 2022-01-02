@@ -10,6 +10,8 @@ Item {
     property ReactionsProps reactions: ReactionsProps {}
     property alias model: reactionsRepeater.model
 
+    signal reactionClicked(string name)
+
     anchors.fill: parent
 
     Column {
@@ -26,6 +28,7 @@ Item {
                 name: model.name
                 icon: model.icon
                 enabled: reactions.enabled
+                onClicked: root.reactionClicked(name)
             }
         }
     }

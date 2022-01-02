@@ -35,7 +35,8 @@ namespace MessageHandler
         }
         else
         {
-            QTextStream(stdout) << "ERROR: Cannot open log file: " << getLogFileName() << '\n';
+            QTextStream(stdout) << QStringLiteral("ERROR: Cannot open log file: %1. Caused by (%2) %3\n")
+                                   .arg(getLogFileName()).arg(log.error()).arg(log.errorString());
         }
 
 #if defined(QT_DEBUG)
