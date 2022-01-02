@@ -52,21 +52,45 @@ ApplicationWindow {
 
     WelcomeDialog {
         id: welcomeDialog
+
+        anchors.centerIn: parent
         visible: welcomeState.active
+    }
+
+    Item {
+        parent: videoOutput
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        width: sessionPausedDialog.width
+        height: sessionPausedDialog.height
+
+        SessionPausedDialog {
+            id: sessionPausedDialog
+
+            anchors.centerIn: parent
+            visible: controller.playingState === EcollectController.PausedState
+            onAccepted: controller.continueSession()
+        }
     }
 
     UploadingDialog {
         id: uploadingDialog
+
+        anchors.centerIn: parent
         visible: uploadingResultsState.active
     }
 
     CancelingUploadDialog {
         id: cancelingUploadDialog
+
+        anchors.centerIn: parent
         visible: cancelingUploadState.active
     }
 
     GoodbyeDialog {
         id: goodbyeDialog
+
+        anchors.centerIn: parent
         visible: goodbyeState.active
     }
 

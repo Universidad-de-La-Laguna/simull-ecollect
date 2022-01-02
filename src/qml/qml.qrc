@@ -22,5 +22,6 @@
         <file>imports/ecollect/Dialogs/UploadingDialog.qml</file>
         <file>imports/ecollect/Dialogs/CancelingUploadDialog.qml</file>
         <file>imports/ecollect/Dialogs/GoodbyeDialog.qml</file>
+        <file>imports/ecollect/Dialogs/SessionPausedDialog.qml</file>
     </qresource>
 </RCC>

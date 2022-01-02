@@ -67,7 +67,8 @@ Item {
     }
 
     function registerUserReaction(reactionId) {
-        sessionLog.log(`${recorder.duration}, ${reactionId}, ${internal.currentVideoIndex}, ${mediaPlayer.position}`);
+        sessionLog.log(`${recorder.duration}, ${reactionId}, ${internal.currentVideoIndex}, ` +
+                       `${internal.currentVideoReplay}, ${mediaPlayer.position}`);
         internal.reactionsRegistered++;
     }
 
@@ -213,10 +214,18 @@ Item {
                 }
 
                 DSM.SignalTransition {
+                    targetState: pausedState
+                    signal: mediaPlayer.onPlaybackStateChanged
+                    guard: mediaPlayer.playbackState === MediaPlayer.StoppedState
+                           && internal.reactionsRegistered == 0
+                }
+
+                DSM.SignalTransition {
                     targetState: uploadingState
                     signal: mediaPlayer.onPlaybackStateChanged
                     guard: mediaPlayer.playbackState === MediaPlayer.StoppedState
                         && ++internal.currentVideoIndex === root.videoPlaylist.length
+                    onTriggered: internal.currentVideoReplay = 0
                 }
 
                 DSM.SignalTransition {
@@ -228,6 +237,20 @@ Item {
 
             DSM.State {
                 id: pausedState
+
+                onEntered: function() {
+                    internal.playingState = EcollectController.PausedState
+                    recorder.pause()
+                }
+                onExited: function() {
+                    internal.currentVideoReplay++
+                    recorder.record()
+                }
+
+                DSM.SignalTransition {
+                    targetState: playingTransitionState
+                    signal: internal.continueSessionRequested
+                }
             }
         }
 

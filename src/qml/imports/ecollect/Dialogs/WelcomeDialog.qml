@@ -2,10 +2,9 @@ import QtQuick
 import QtQuick.Controls
 
 Dialog {
-    title: qsTr("Bienvenido/a")
+    title: qsTr("¡Bienvenido/a!")
     standardButtons: Dialog.Yes | Dialog.No
     closePolicy: Popup.CloseOnEscape
-    anchors.centerIn: parent
     modal: true
 
     Label {

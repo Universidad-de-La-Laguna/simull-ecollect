@@ -6,7 +6,6 @@ import ecollect
 Dialog {
     title: qsTr("Cancelando el envío de datos...")
     closePolicy: Popup.NoAutoClose
-    anchors.centerIn: parent
     modal: true
 
     Column {
