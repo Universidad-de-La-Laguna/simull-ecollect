@@ -146,11 +146,11 @@ ApplicationWindow {
                 guard: controller.playingState === EcollectController.CancelingState
             }
 
-            DSM.SignalTransition {
-                targetState: finishState
-                signal: controller.onPlayingStateChanged
-                guard: controller.playingState === EcollectController.StoppedState
-            }
+//            DSM.SignalTransition {
+//                targetState: finishState
+//                signal: controller.onPlayingStateChanged
+//                guard: controller.playingState === EcollectController.StoppedState
+//            }
 
             DSM.State {
                 id: doingSurveyState
@@ -167,11 +167,11 @@ ApplicationWindow {
             DSM.State {
                 id: uploadingResultsState
 
-                DSM.SignalTransition {
-                    targetState: goodbyeState
-                    signal: controller.onPlayingStateChanged
-                    guard: controller.playingState === EcollectController.StoppedState
-                }
+//                DSM.SignalTransition {
+//                    targetState: goodbyeState
+//                    signal: controller.onPlayingStateChanged
+//                    guard: controller.playingState === EcollectController.StoppedState
+//                }
             }
         }
 

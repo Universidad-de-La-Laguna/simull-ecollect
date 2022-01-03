@@ -15,7 +15,10 @@ Dialog {
             text: qsTr("Por favor, espere un momento a que se cancele la operación.")
         }
 
-        BusyIndicator {
+        ProgressBar {
+            indeterminate: true
+            topPadding: Constants.spacingUnit * 2
+            bottomPadding: Constants.spacingUnit * 2
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
