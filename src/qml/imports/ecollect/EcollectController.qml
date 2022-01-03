@@ -15,6 +15,7 @@ Item {
     property url transitionVideoUrl: Constants.transitionVideoUrl
     property VideoOutput videoOutput
     property var videoPlaylist: []
+    property alias audioOutputVolume: mediaPlayerAudioOutput.volume
 
     readonly property alias error: internal.error
     readonly property alias playingState: internal.playingState
@@ -92,10 +93,14 @@ Item {
         }
     }
 
+    AudioOutput {
+        id: mediaPlayerAudioOutput
+    }
+
     MediaPlayer {
         id: mediaPlayer
 
-        audioOutput: AudioOutput {}
+        audioOutput: mediaPlayerAudioOutput
         onErrorOccurred: (errorCode, errorString) =>
                          internal.handleError(EcollectController.PlayerError, errorString, errorCode)
     }

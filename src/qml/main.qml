@@ -28,6 +28,7 @@ ApplicationWindow {
         recordingMediaFormat.videoCodec: Constants.recordingVideoCodec
         recordingQuality: Constants.recordingQuality
         videoPlaylist: Constants.videoPlaylist
+        audioOutputVolume: volumeSlider.value
     }
 
     MainWindowLayout {
@@ -40,6 +41,15 @@ ApplicationWindow {
             model: Constants.reactions
             enabled: controller.playingState === EcollectController.PlayingVideoState
             onReactionClicked: (name) => controller.registerUserReaction(name)
+        }
+
+        footerContent: Slider {
+            id: volumeSlider
+
+            from: 0.0
+            to: 1.0
+            value: 1.0
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 
