@@ -12,10 +12,10 @@
         <file>imports/ecollect/Reactions/qmldir</file>
         <file>imports/ecollect/Reactions/Reactions.qml</file>
         <file>imports/ecollect/Reactions/ReactionsProps.qml</file>
-        <file>imports/ecollect/Utils/RedSquare.qml</file>
-        <file>imports/ecollect/Utils/qmldir</file>
-        <file>imports/ecollect/Utils/GreenSquare.qml</file>
-        <file>imports/ecollect/Utils/BlueSquare.qml</file>
+        <file>imports/ecollect/Debug/RedSquare.qml</file>
+        <file>imports/ecollect/Debug/qmldir</file>
+        <file>imports/ecollect/Debug/GreenSquare.qml</file>
+        <file>imports/ecollect/Debug/BlueSquare.qml</file>
         <file>imports/ecollect/EcollectController.qml</file>
         <file>imports/ecollect/Dialogs/ErrorDialog.qml</file>
         <file>imports/ecollect/Dialogs/ErrorDialogController.qml</file>
@@ -23,5 +23,6 @@
         <file>imports/ecollect/Dialogs/CancelingUploadDialog.qml</file>
         <file>imports/ecollect/Dialogs/GoodbyeDialog.qml</file>
         <file>imports/ecollect/Dialogs/SessionPausedDialog.qml</file>
+        <file>imports/ecollect/utils.js</file>
     </qresource>
 </RCC>

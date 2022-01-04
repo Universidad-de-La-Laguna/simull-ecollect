@@ -8,7 +8,6 @@ import ecollect
 import ecollect.Dialogs
 import ecollect.Layouts
 import ecollect.Reactions
-import ecollect.Utils
 
 ApplicationWindow {
 
@@ -43,13 +42,35 @@ ApplicationWindow {
             onReactionClicked: (name) => controller.registerUserReaction(name)
         }
 
-        footerContent: Slider {
-            id: volumeSlider
-
-            from: 0.0
-            to: 1.0
-            value: 1.0
+        footerContent: Row {
             anchors.horizontalCenter: parent.horizontalCenter
+
+            Label {
+                text: Math.round(volumeSlider.value * 100)
+                width: 1
+                anchors.verticalCenter: parent.verticalCenter
+                rightPadding: Constants.spacingUnit * 0.5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Slider {
+                id: volumeSlider
+
+                from: 0.0;
+                to: 1.0
+                value: 1.0
+            }
+
+            Label {
+                text: Utils.mapVolumeValueToIcon(volumeSlider.value)
+                font.family: "Material Design Icons"
+                font.pointSize: 18
+                opacity: 0.75
+                width: 1
+                anchors.verticalCenter: parent.verticalCenter
+                verticalAlignment: Text.AlignVCenter
+            }
         }
     }
 
@@ -146,11 +167,11 @@ ApplicationWindow {
                 guard: controller.playingState === EcollectController.CancelingState
             }
 
-//            DSM.SignalTransition {
-//                targetState: finishState
-//                signal: controller.onPlayingStateChanged
-//                guard: controller.playingState === EcollectController.StoppedState
-//            }
+            DSM.SignalTransition {
+                targetState: finishState
+                signal: controller.onPlayingStateChanged
+                guard: controller.playingState === EcollectController.StoppedState
+            }
 
             DSM.State {
                 id: doingSurveyState
@@ -167,11 +188,11 @@ ApplicationWindow {
             DSM.State {
                 id: uploadingResultsState
 
-//                DSM.SignalTransition {
-//                    targetState: goodbyeState
-//                    signal: controller.onPlayingStateChanged
-//                    guard: controller.playingState === EcollectController.StoppedState
-//                }
+                DSM.SignalTransition {
+                    targetState: goodbyeState
+                    signal: controller.onPlayingStateChanged
+                    guard: controller.playingState === EcollectController.StoppedState
+                }
             }
         }
 

@@ -1,4 +1,4 @@
-module Utils
+module Debug
 
 BlueSquare 1.0 BlueSquare.qml
 GreenSquare 1.0 GreenSquare.qml

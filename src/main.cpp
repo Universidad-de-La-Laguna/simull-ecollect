@@ -1,3 +1,4 @@
+#include <QFontDatabase>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
@@ -20,6 +21,8 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonInstance("ecollect.Native", 1, 0, "Utils", utils.get());
     qmlRegisterType<Uploader>("ecollect.Native", 1, 0, "Uploader");
     qmlRegisterType<FileLog>("ecollect.Native", 1, 0, "FileLog");
+
+    auto a = QFontDatabase::addApplicationFont(":/fonts/materialdesignicons-webfont.ttf");
 
     engine.addImportPath("qrc:/qml/imports");
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
