@@ -141,12 +141,12 @@ Item {
         DSM.State {
             id: cameraPreviewState
 
-            onEntered: function() {
+            onEntered: {
                 camera.start()
                 captureSession.videoOutput = videoOutput
                 internal.playingState = EcollectController.CameraPreviewState
             }
-            onExited: function() {
+            onExited: {
                 camera.stop()
                 captureSession.videoOutput = null
             }
@@ -166,7 +166,7 @@ Item {
             id: runningSessionState
             initialState: playingTransitionState
 
-            onEntered: function() {
+            onEntered: {
                 Utils.makeFilesystemPath(currentSessionDataLocation)
                 internal.currentVideoIndex = 0
                 internal.currentVideoReplay = 0
@@ -176,7 +176,7 @@ Item {
                 recorder.record()
             }
 
-            onExited: function() {
+            onExited: {
                 mediaPlayer.videoOutput = null
                 camera.stop()
                 recorder.stop()
@@ -195,7 +195,7 @@ Item {
             DSM.State {
                 id: playingTransitionState
 
-                onEntered: function() {
+                onEntered: {
                     mediaPlayer.source = root.transitionVideoUrl
                     mediaPlayer.play()
                     internal.playingState = EcollectController.PlayingTransitionState
@@ -211,7 +211,7 @@ Item {
             DSM.State {
                 id: playingVideoState
 
-                onEntered: function() {
+                onEntered: {
                     internal.reactionsRegistered = 0
                     mediaPlayer.source = root.videoPlaylist[internal.currentVideoIndex]
                     mediaPlayer.play()
@@ -243,11 +243,11 @@ Item {
             DSM.State {
                 id: pausedState
 
-                onEntered: function() {
+                onEntered: {
                     internal.playingState = EcollectController.PausedState
                     recorder.pause()
                 }
-                onExited: function() {
+                onExited: {
                     internal.currentVideoReplay++
                     recorder.record()
                 }
@@ -262,7 +262,7 @@ Item {
         DSM.State {
             id: uploadingState
 
-            onEntered: function() {
+            onEntered: {
                 internal.playingState = EcollectController.UploadingState
                 uploader.uploadDirectory(root.currentSessionDataLocation)
             }
@@ -287,7 +287,7 @@ Item {
         DSM.State {
             id: cancelingUploadState
 
-            onEntered: function() {
+            onEntered: {
                 internal.playingState = EcollectController.CancelingState
                 uploader.cancel()
             }
@@ -309,7 +309,7 @@ Item {
         DSM.State {
             id: cleanupFilesState
 
-            onEntered: function() {
+            onEntered: {
                 internal.cleanupSessionFiles()
                 internal.cleanupFinished()
             }
