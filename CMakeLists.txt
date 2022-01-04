@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
+set(VCPKG_TARGET_TRIPLET x64-windows-static)
 
 project(ecollect VERSION 0.1 LANGUAGES CXX)
 
