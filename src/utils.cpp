@@ -27,3 +27,12 @@ bool Utils::removeFilesystemPath(const QUrl &localUrl) const
     return QDir(localUrl.toLocalFile()).removeRecursively();
 
 }
+
+bool Utils::showFullscreen() const
+{
+#if ECOLLECT_FULLSCREEN_DISABLED
+    return false;
+#else
+    return true;
+#endif
+}

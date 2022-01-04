@@ -18,6 +18,8 @@ set(AWS_SECRET_ACCESS_KEY "/base64+encrypted+secret+access+key/" CACHE STRING "E
 set(AWS_CRYPTO_KEY "0" CACHE STRING "Key to decrypt the AWS secret key")
 set(AWS_S3_BUCKET_NAME "<bucket-name>" CACHE STRING "AWS S3 bucket name")
 
+set(ECOLLECT_FULLSCREEN_DISABLED 0 CACHE STRING "Disable open the main window in fullscreen")
+
 find_package(Qt6 COMPONENTS Core Multimedia Quick REQUIRED)
 find_package(AWSSDK CONFIG COMPONENTS transfer REQUIRED)
 
@@ -61,6 +63,7 @@ target_compile_definitions(ecollect
             AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
             AWS_CRYPTO_KEY=${AWS_CRYPTO_KEY}
             AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
+            ECOLLECT_FULLSCREEN_DISABLED=${ECOLLECT_FULLSCREEN_DISABLED}
 )
 target_include_directories(ecollect
     PRIVATE src/thirdparty ${AWSSDK_INCLUDE_DIRS})
