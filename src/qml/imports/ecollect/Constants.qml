@@ -25,10 +25,17 @@ QtObject {
     readonly property ListModel reactions: ListModel {
         ListElement {
             name: "Divertido"
+            icon: "qrc:///images/face-with-tears-of-joy.png"
         }
 
         ListElement {
-            name: "Desagradable"
+            name: "Desagradado"
+            icon: "qrc:///images/nauseated-face.png"
+        }
+
+        ListElement {
+            name: "Enfadado"
+            icon: "qrc:///images/pouting-face.png"
         }
     }
 }

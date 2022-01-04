@@ -3,5 +3,8 @@
         <file>qtquickcontrols2.conf</file>
         <file>mp4/321_action.mp4</file>
         <file>fonts/materialdesignicons-webfont.ttf</file>
+        <file>images/face-with-tears-of-joy.png</file>
+        <file>images/pouting-face.png</file>
+        <file>images/nauseated-face.png</file>
     </qresource>
 </RCC>

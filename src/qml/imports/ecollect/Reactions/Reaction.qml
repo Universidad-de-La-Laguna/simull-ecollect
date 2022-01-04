@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import ecollect
+
 Item {
     id: root
 
@@ -13,9 +15,17 @@ Item {
     implicitHeight: button.implicitHeight
     implicitWidth: button.implicitWidth
 
-    Button {
+    RoundButton {
         id: button
+
+        property color defaultIconColor: icon.color
+
         display: Button.TextBesideIcon
+        radius: Constants.spacingUnit * 0.5
         onClicked: root.clicked()
+
+        Component.onCompleted: {
+            onEnabledChanged.connect(() => icon.color = enabled ? "transparent" : defaultIconColor)
+        }
     }
 }
