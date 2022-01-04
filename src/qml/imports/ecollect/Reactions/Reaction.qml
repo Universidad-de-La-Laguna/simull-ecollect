@@ -30,7 +30,7 @@ Item {
         radius: Constants.spacingUnit * 0.5
         onClicked: {
             root.clicked()
-            emitter.burst(Math.round(Math.random() * 2 + 3))
+            emitter.pulse(Math.round(Math.random() * 300+100))
         }
 
         Component.onCompleted: {
@@ -46,6 +46,7 @@ Item {
             height: 1
             system: particles
             enabled: false
+            emitRate: 10
             lifeSpan: 1000
             lifeSpanVariation: 50
             size: 24
