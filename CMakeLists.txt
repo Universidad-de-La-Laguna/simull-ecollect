@@ -24,6 +24,13 @@ set(ECOLLECT_FULLSCREEN_DISABLED 0 CACHE STRING "Disable open the main window in
 find_package(Qt6 COMPONENTS Core Multimedia Quick REQUIRED)
 find_package(AWSSDK CONFIG COMPONENTS transfer REQUIRED)
 
+# Get path to the Qt translations directory
+execute_process(
+    COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_TRANSLATIONS
+    OUTPUT_VARIABLE QT_INSTALL_TRANSLATIONS
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
 set(PROJECT_SOURCES
     src/main.cpp
     src/filelog.cpp
@@ -56,6 +63,14 @@ set(QML_IMPORT_PATH
 qt_add_executable(ecollect
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
+)
+
+qt_add_resources(ecollect "i18n"
+    PREFIX /i18n
+    BASE ${QT_INSTALL_TRANSLATIONS}
+    FILES ${QT_INSTALL_TRANSLATIONS}/qtbase_es.qm
+          ${QT_INSTALL_TRANSLATIONS}/qtdeclarative_es.qm
+          ${QT_INSTALL_TRANSLATIONS}/qtmultimedia_es.qm
 )
 
 target_compile_definitions(ecollect
