@@ -3,6 +3,7 @@ import QtMultimedia
 import QtQml.StateMachine as DSM
 import Qt.labs.platform
 
+import ecollect
 import ecollect.Native
 
 Item {

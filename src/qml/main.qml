@@ -5,6 +5,7 @@ import QtMultimedia
 import QtQml.StateMachine as DSM
 
 import ecollect
+import ecollect.Controllers
 import ecollect.Dialogs
 import ecollect.Layouts
 import ecollect.Reactions
@@ -17,17 +18,6 @@ ApplicationWindow {
 
         close.accepted = false
         controller.cancelSession()
-    }
-
-    EcollectController {
-        id: controller
-
-        videoOutput: videoOutput
-        recordingMediaFormat.fileFormat: Constants.recordingMediaFormat
-        recordingMediaFormat.videoCodec: Constants.recordingVideoCodec
-        recordingQuality: Constants.recordingQuality
-        videoPlaylist: Constants.videoPlaylist
-        audioOutputVolume: volumeSlider.value
     }
 
     MainWindowLayout {
@@ -89,6 +79,7 @@ ApplicationWindow {
     }
 
     Item {
+        // This is to anchor the SessionPausedDialog to the video output
         parent: videoOutput
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
@@ -125,6 +116,22 @@ ApplicationWindow {
         visible: goodbyeState.active
     }
 
+    TutorialController {
+        id: tutorialController
+        appController: controller
+    }
+
+    EcollectController {
+        id: controller
+
+        videoOutput: videoOutput
+        recordingMediaFormat.fileFormat: Constants.recordingMediaFormat
+        recordingMediaFormat.videoCodec: Constants.recordingVideoCodec
+        recordingQuality: Constants.recordingQuality
+        videoPlaylist: Constants.videoPlaylist
+        audioOutputVolume: volumeSlider.value
+    }
+
     DSM.StateMachine {
         id: appStateMachine
 
@@ -135,7 +142,7 @@ ApplicationWindow {
             id: welcomeState
 
             DSM.SignalTransition {
-                targetState: runningSessionState
+                targetState: tutorialState
                 signal: welcomeDialog.accepted
             }
 
@@ -148,8 +155,17 @@ ApplicationWindow {
         DSM.State {
             id: tutorialState
 
-            onEntered: controller.startCameraPreview()
-            onExited: controller.stopCameraPreview()
+            onEntered: tutorialController.start()
+
+            DSM.SignalTransition {
+                targetState: runningSessionState
+                signal: tutorialController.finished
+            }
+
+            DSM.SignalTransition {
+                targetState: finishState
+                signal: tutorialController.aborted
+            }
         }
 
         DSM.State {
