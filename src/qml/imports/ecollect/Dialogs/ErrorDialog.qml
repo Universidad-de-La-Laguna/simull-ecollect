@@ -12,8 +12,6 @@ Dialog {
 
     title: qsTr("Error")
     standardButtons: Dialog.Close
-
-    parent: currentView
     anchors.centerIn: parent
     modal: true
 

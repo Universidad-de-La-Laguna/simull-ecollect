@@ -1,0 +1,4 @@
+module Controls
+
+TutorialControlMarker 1.0 TutorialControlMarker.qml
+VolumeControl 1.0 VolumeControl.qml

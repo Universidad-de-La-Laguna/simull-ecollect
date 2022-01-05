@@ -37,7 +37,7 @@ public:
 
 signals:
     void errorChanged();
-    void errorOcurred(Uploader::Error errorCode, const QString& errorString);
+    void errorOccurred(Uploader::Error errorCode, const QString& errorString);
     void finished();
     void stateChanged();
 

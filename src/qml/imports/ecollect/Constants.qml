@@ -20,6 +20,7 @@ QtObject {
     readonly property var videoPlaylist: [
         "qrc:///videos/film_leader.mp4",
         "qrc:///videos/film_leader.mp4",
+        "qrc:///videos/film_leader.mp4",
     ]
 
     readonly property ListModel reactions: ListModel {

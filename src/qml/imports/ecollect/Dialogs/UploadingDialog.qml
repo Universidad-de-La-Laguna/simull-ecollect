@@ -6,8 +6,6 @@ import ecollect
 Dialog {
     title: qsTr("Enviando los datos...")
     closePolicy: Popup.NoAutoClose
-
-    parent: currentView
     anchors.centerIn: parent
     modal: true
 

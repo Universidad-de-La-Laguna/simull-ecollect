@@ -1,37 +1,23 @@
 import QtQuick
 import QtMultimedia
 import QtQml.StateMachine as DSM
-import Qt.labs.platform
 
 import ecollect
 
 Item {
     id: root
 
-    property string recordingFilename: Constants.recordingFilename
-    property alias recordingMediaFormat: recorder.mediaFormat
-    property alias recordingQuality: recorder.quality
-    property string sessionDataFilename: Constants.sessionDataFilename
-    property url transitionVideoUrl: Constants.transitionVideoUrl
-    property VideoOutput videoOutput
-    property var videoPlaylist: []
-    property alias audioOutputVolume: mediaPlayerAudioOutput.volume
-
+    readonly property bool active: internal.playingState !== SessionManager.StoppedState
     readonly property alias error: internal.error
     readonly property alias playingState: internal.playingState
-    readonly property alias currentVideoIndex: internal.currentVideoIndex
-    readonly property alias currentVideoReplay: internal.currentVideoReplay
 
-    readonly property url sessionDataRootLocation: StandardPaths.writableLocation(StandardPaths.AppDataLocation)
-    readonly property url currentSessionDataLocation: `${sessionDataRootLocation}/${Utils.createUuid()}`
-    readonly property url recordingFileUrl: `${currentSessionDataLocation}/${recordingFilename}`
-    readonly property url sessionDataFileUrl: `${currentSessionDataLocation}/${sessionDataFilename}`
+    property Camera camera
+    property VideoOutput videoOutput
 
-    signal errorOcurred
+    signal errorOccurred
 
     enum PlayingState {
         StoppedState,
-        CameraPreviewState,
         PausedState,
         PlayingTransitionState,
         PlayingVideoState,
@@ -39,32 +25,16 @@ Item {
         CancelingState
     }
 
-    enum Error {
-        NoError,
-        CameraError,
-        RecorderError,
-        PlayerError,
-        UploadError
+    function start() {
+        internal.startRequested()
     }
 
-    function startCameraPreview() {
-        internal.startCameraPreviewRequested()
+    function resume() {
+        internal.resumenRequested()
     }
 
-    function stopCameraPreview() {
-        internal.stopCameraPreviewRequested()
-    }
-
-    function startSession() {
-        internal.startSessionRequested()
-    }
-
-    function continueSession() {
-        internal.continueSessionRequested()
-    }
-
-    function cancelSession() {
-        internal.cancelSessionRequested()
+    function cancel() {
+        internal.cancelRequested()
     }
 
     function registerUserReaction(reactionId) {
@@ -76,44 +46,54 @@ Item {
     CaptureSession {
         id: captureSession
 
-        camera: Camera {
-            id: camera
-
-            onErrorOccurred: (errorCode, errorString) =>
-                             internal.handleError(EcollectManager.CameraError, errorString, errorCode)
-        }
-
+        camera: root.camera
         recorder: MediaRecorder {
             id: recorder
 
-            outputLocation: root.recordingFileUrl
+            outputLocation: internal.recordingFileUrl
+            quality: internal.recordingQuality
+            mediaFormat.fileFormat: internal.recordingMediaFileFormat
+            mediaFormat.videoCodec: internal.recordingMediaVideoCodec
             onActualLocationChanged: console.log(`Session data location: ${actualLocation}`)
-            onErrorOccurred: (errorCode, errorString) =>
-                             internal.handleError(EcollectManager.RecorderError, errorString, errorCode)
+            onErrorOccurred: function(errorCode, errorString) {
+                appManager.logError(AppManager.RecorderError, errorCode, errorString)
+                internal.handleError(AppManager.RecorderError)
+            }
         }
-    }
-
-    AudioOutput {
-        id: mediaPlayerAudioOutput
     }
 
     MediaPlayer {
         id: mediaPlayer
 
-        audioOutput: mediaPlayerAudioOutput
-        onErrorOccurred: (errorCode, errorString) =>
-                         internal.handleError(EcollectManager.PlayerError, errorString, errorCode)
+        audioOutput: AudioOutput {
+            volume: volumeControl.value
+        }
+        onErrorOccurred: function(errorCode, errorString) {
+            appManager.logError(AppManager.PlayerError, errorCode, errorString)
+            internal.handleError(AppManager.PlayerError)
+        }
     }
 
     Uploader {
         id: uploader
-        onErrorOcurred: (errorCode, errorString) =>
-                        internal.handleError(EcollectManager.UploadError, errorString, errorCode)
+        onErrorOccurred: function(errorCode, errorString) {
+            appManager.logError(AppManager.UploadError, errorCode, errorString)
+            internal.handleError(AppManager.UploadError)
+        }
     }
 
     FileLog {
         id: sessionLog
-        fileLocation: root.sessionDataFileUrl
+        fileLocation: internal.sessionDataFileUrl
+    }
+
+    Connections {
+        target: root.camera
+        enabled: root.active
+
+        function onErrorOccurred(errorCode, errorString) {
+            internal.handleError(AppManager.CameraError)
+        }
     }
 
     DSM.StateMachine {
@@ -125,40 +105,11 @@ Item {
         DSM.State {
             id: stoppedState
 
-            onEntered: internal.playingState = EcollectManager.StoppedState
-
-            DSM.SignalTransition {
-                targetState: cameraPreviewState
-                signal: internal.startCameraPreviewRequested
-            }
+            onEntered: internal.playingState = SessionManager.StoppedState
 
             DSM.SignalTransition {
                 targetState: runningSessionState
-                signal: internal.startSessionRequested
-            }
-        }
-
-        DSM.State {
-            id: cameraPreviewState
-
-            onEntered: {
-                camera.start()
-                captureSession.videoOutput = videoOutput
-                internal.playingState = EcollectManager.CameraPreviewState
-            }
-            onExited: {
-                camera.stop()
-                captureSession.videoOutput = null
-            }
-
-            DSM.SignalTransition {
-                targetState: stoppedState
-                signal: internal.stopCameraPreviewRequested
-            }
-
-            DSM.SignalTransition {
-                targetState: stoppedState
-                signal: root.errorOcurred
+                signal: internal.startRequested
             }
         }
 
@@ -167,7 +118,7 @@ Item {
             initialState: playingTransitionState
 
             onEntered: {
-                Utils.makeFilesystemPath(currentSessionDataLocation)
+                Utils.makeFilesystemPath(appManager.sessionDataLocation)
                 internal.currentVideoIndex = 0
                 internal.currentVideoReplay = 0
                 internal.isProcessingCancelRequest = false
@@ -184,21 +135,21 @@ Item {
 
             DSM.SignalTransition {
                 targetState: cleanupFilesState
-                signal: internal.cancelSessionRequested
+                signal: internal.cancelRequested
             }
 
             DSM.SignalTransition {
                 targetState: cleanupFilesState
-                signal: root.errorOcurred
+                signal: root.errorOccurred
             }
 
             DSM.State {
                 id: playingTransitionState
 
                 onEntered: {
-                    mediaPlayer.source = root.transitionVideoUrl
+                    mediaPlayer.source = internal.transitionVideoUrl
                     mediaPlayer.play()
-                    internal.playingState = EcollectManager.PlayingTransitionState
+                    internal.playingState = SessionManager.PlayingTransitionState
                 }
 
                 DSM.SignalTransition {
@@ -213,9 +164,9 @@ Item {
 
                 onEntered: {
                     internal.reactionsRegistered = 0
-                    mediaPlayer.source = root.videoPlaylist[internal.currentVideoIndex]
+                    mediaPlayer.source = internal.videoPlaylist[internal.currentVideoIndex]
                     mediaPlayer.play()
-                    internal.playingState = EcollectManager.PlayingVideoState
+                    internal.playingState = SessionManager.PlayingVideoState
                 }
 
                 DSM.SignalTransition {
@@ -229,7 +180,7 @@ Item {
                     targetState: uploadingState
                     signal: mediaPlayer.onPlaybackStateChanged
                     guard: mediaPlayer.playbackState === MediaPlayer.StoppedState
-                        && ++internal.currentVideoIndex === root.videoPlaylist.length
+                        && ++internal.currentVideoIndex === internal.videoPlaylist.length
                     onTriggered: internal.currentVideoReplay = 0
                 }
 
@@ -244,7 +195,7 @@ Item {
                 id: pausedState
 
                 onEntered: {
-                    internal.playingState = EcollectManager.PausedState
+                    internal.playingState = SessionManager.PausedState
                     recorder.pause()
                 }
                 onExited: {
@@ -254,7 +205,7 @@ Item {
 
                 DSM.SignalTransition {
                     targetState: playingTransitionState
-                    signal: internal.continueSessionRequested
+                    signal: internal.resumenRequested
                 }
             }
         }
@@ -263,8 +214,8 @@ Item {
             id: uploadingState
 
             onEntered: {
-                internal.playingState = EcollectManager.UploadingState
-                uploader.uploadDirectory(root.currentSessionDataLocation)
+                internal.playingState = SessionManager.UploadingState
+                uploader.uploadDirectory(appManager.sessionDataLocation)
             }
 
             DSM.SignalTransition {
@@ -275,12 +226,12 @@ Item {
             DSM.SignalTransition {
                 targetState: cancelingUploadState
                 onTriggered: internal.isProcessingCancelRequest = true
-                signal: internal.cancelSessionRequested
+                signal: internal.cancelRequested
             }
 
             DSM.SignalTransition {
                 targetState: cancelingUploadState
-                signal: uploader.errorOcurred
+                signal: uploader.errorOccurred
             }
         }
 
@@ -288,7 +239,7 @@ Item {
             id: cancelingUploadState
 
             onEntered: {
-                internal.playingState = EcollectManager.CancelingState
+                internal.playingState = SessionManager.CancelingState
                 uploader.cancel()
             }
 
@@ -324,8 +275,17 @@ Item {
     QtObject {
         id: internal
 
-        property int error: EcollectManager.NoError
-        property int playingState: EcollectManager.StoppedState
+        readonly property int recordingMediaFileFormat: Constants.recordingMediaFormat
+        readonly property int recordingMediaVideoCodec: Constants.recordingVideoCodec
+        readonly property int recordingQuality: Constants.recordingQuality
+        readonly property url transitionVideoUrl: Constants.transitionVideoUrl
+        readonly property var videoPlaylist: Constants.videoPlaylist
+
+        readonly property url recordingFileUrl: `${appManager.sessionDataLocation}/${Constants.recordingFilename}`
+        readonly property url sessionDataFileUrl: `${appManager.sessionDataLocation}/${Constants.sessionDataFilename}`
+
+        property int error: AppManager.NoError
+        property int playingState: SessionManager.StoppedState
         property int currentVideoIndex: 0
         property int currentVideoReplay: 0
         property int reactionsRegistered: 0
@@ -333,42 +293,18 @@ Item {
 
         signal startCameraPreviewRequested;
         signal stopCameraPreviewRequested;
-        signal startSessionRequested;
-        signal continueSessionRequested;
-        signal cancelSessionRequested;
+        signal startRequested;
+        signal resumenRequested;
+        signal cancelRequested;
         signal cleanupFinished;
 
-        function handleError(error, errorString, sourceErrorCode) {
-            var tag = "Manager";
-            switch(error) {
-            case EcollectManager.CameraError:
-                tag = "Camera"
-                break
-
-            case EcollectManager.RecorderError:
-                tag = "Recorder"
-                break
-
-            case EcollectManager.PlayerError:
-                tag = "MediaPlayer"
-                break
-
-            case EcollectManager.UploadError:
-                tag = "Upload"
-                break
-            }
-
-            var message = `[${tag}]: `
-            message += error !== undefined ? `Error (${error}): ` : ""
-            message += errorString !== undefined ? errorString : ""
-            console.warn(message);
-
-            internal.error = error;
-            root.errorOcurred();
+        function cleanupSessionFiles() {
+            Utils.removeFilesystemPath(appManager.sessionDataLocation)
         }
 
-        function cleanupSessionFiles() {
-            Utils.removeFilesystemPath(root.currentSessionDataLocation)
+        function handleError(error) {
+            internal.error = error;
+            root.errorOccurred();
         }
     }
 }

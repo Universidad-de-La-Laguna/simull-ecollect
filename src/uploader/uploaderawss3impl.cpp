@@ -113,7 +113,7 @@ void UploaderAwsS3Impl::setError(Uploader::Error errorCode,
         error_.string = errorString;
     }
     QMetaObject::invokeMethod(uploader_, "errorChanged", Qt::QueuedConnection);
-    QMetaObject::invokeMethod(uploader_, "errorOcurred", Qt::QueuedConnection, Q_ARG(Uploader::Error, errorCode),
+    QMetaObject::invokeMethod(uploader_, "errorOccurred", Qt::QueuedConnection, Q_ARG(Uploader::Error, errorCode),
                               Q_ARG(QString, errorString));
 }
 

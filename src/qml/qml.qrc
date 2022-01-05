@@ -8,11 +8,8 @@
         <file>imports/ecollect/Dialogs/WelcomeDialog.qml</file>
         <file>imports/ecollect/Dialogs/qmldir</file>
         <file>imports/ecollect/Layouts/MainWindowLayout.qml</file>
-        <file>imports/ecollect/Reactions/Reaction.qml</file>
-        <file>imports/ecollect/Reactions/qmldir</file>
-        <file>imports/ecollect/Reactions/Reactions.qml</file>
-        <file>imports/ecollect/Reactions/ReactionsProps.qml</file>
-        <file>imports/ecollect/Managers/EcollectManager.qml</file>
+        <file>imports/ecollect/Managers/AppManager.qml</file>
+        <file>imports/ecollect/Managers/SessionManager.qml</file>
         <file>imports/ecollect/Managers/ErrorDialogManager.qml</file>
         <file>imports/ecollect/Managers/TutorialManager.qml</file>
         <file>imports/ecollect/Managers/qmldir</file>
@@ -25,6 +22,13 @@
         <file>imports/ecollect/Dialogs/CancelingUploadDialog.qml</file>
         <file>imports/ecollect/Dialogs/GoodbyeDialog.qml</file>
         <file>imports/ecollect/Dialogs/SessionPausedDialog.qml</file>
-        <file>imports/ecollect/utils.js</file>
+        <file>imports/ecollect/Controls/VolumeControl.qml</file>
+        <file>imports/ecollect/Controls/qmldir</file>
+        <file>imports/ecollect/Controls/TutorialControlMarker.qml</file>
+        <file>imports/ecollect/Controls/Reactions/Reaction.qml</file>
+        <file>imports/ecollect/Controls/Reactions/qmldir</file>
+        <file>imports/ecollect/Controls/Reactions/Reactions.qml</file>
+        <file>imports/ecollect/Controls/Reactions/ReactionsProps.qml</file>
+        <file>imports/ecollect/Managers/Manager.qml</file>
     </qresource>
 </RCC>

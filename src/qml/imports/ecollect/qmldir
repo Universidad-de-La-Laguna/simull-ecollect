@@ -2,4 +2,3 @@ module ecollect
 
 singleton Constants 1.0 Constants.qml
 ApplicationWindow 1.0 ApplicationWindow.qml
-UiUtils 1.0 utils.js

@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Particles
 
 import ecollect
-import ecollect.Debug
 
 Item {
     id: root
@@ -11,30 +10,25 @@ Item {
     property alias icon: button.icon.source
     property alias name: button.text
     property alias enabled: button.enabled
+    property alias particleSystem: emitter.system
 
     signal clicked
 
     implicitHeight: button.implicitHeight
     implicitWidth: button.implicitWidth
 
-    ParticleSystem {
-        id: particles
-    }
-
     RoundButton {
         id: button
-
-        property color defaultIconColor: icon.color
 
         display: Button.TextBesideIcon
         radius: Constants.spacingUnit * 0.5
         onClicked: {
             root.clicked()
-            emitter.pulse(Math.round(Math.random() * 300+100))
+            emitter.pulse(Math.round(Math.random() * 300 + 100))
         }
 
         Component.onCompleted: {
-            onEnabledChanged.connect(() => icon.color = enabled ? "transparent" : defaultIconColor)
+            onEnabledChanged.connect(() => icon.color = button.enabled ? "transparent" : "#4cffffff")
         }
 
         Emitter {

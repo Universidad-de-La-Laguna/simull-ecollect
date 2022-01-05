@@ -5,8 +5,6 @@ Dialog {
     title: qsTr("¡Recuerde reaccionar durante la reproducción!")
     standardButtons: Dialog.Retry
     closePolicy: Popup.CloseOnEscape
-
-    parent: currentView
     anchors.centerIn: parent
 
     Label {

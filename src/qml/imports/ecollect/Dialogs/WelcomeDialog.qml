@@ -5,8 +5,6 @@ Dialog {
     title: qsTr("¡Bienvenido/a!")
     standardButtons: Dialog.Yes | Dialog.No
     closePolicy: Popup.CloseOnEscape
-
-    parent: currentView
     anchors.centerIn: parent
     modal: true
 

@@ -1,5 +1,7 @@
 module Managers
 
-EcollectManager 1.0 EcollectManager.qml
+AppManager 1.0 AppManager.qml
 ErrorDialogManager 1.0 ErrorDialogManager.qml
+Manager 1.0 Manager.qml
+SessionManager 1.0 SessionManager.qml
 TutorialManager 1.0 TutorialManager.qml

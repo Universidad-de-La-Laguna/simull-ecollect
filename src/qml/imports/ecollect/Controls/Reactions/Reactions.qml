@@ -1,8 +1,9 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Particles
 
 import ecollect
-import ecollect.Reactions
+import ecollect.Controls.Reactions
 
 Item {
     id: root
@@ -13,6 +14,10 @@ Item {
     signal reactionClicked(string name)
 
     anchors.fill: parent
+
+    ParticleSystem {
+        id: particles
+    }
 
     Column {
         id: reactionsContainer
@@ -28,6 +33,7 @@ Item {
                 name: model.name
                 icon: model.icon
                 enabled: reactions.enabled
+                particleSystem: particles
                 onClicked: root.reactionClicked(name)
             }
         }
