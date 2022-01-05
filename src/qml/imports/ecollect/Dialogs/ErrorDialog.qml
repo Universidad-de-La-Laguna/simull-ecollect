@@ -11,8 +11,10 @@ Dialog {
     signal linkActivated (url link)
 
     title: qsTr("Error")
-    anchors.centerIn: parent
     standardButtons: Dialog.Close
+
+    parent: currentView
+    anchors.centerIn: parent
     modal: true
 
     Label {

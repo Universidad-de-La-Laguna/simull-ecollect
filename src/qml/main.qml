@@ -5,7 +5,7 @@ import QtMultimedia
 import QtQml.StateMachine as DSM
 
 import ecollect
-import ecollect.Controllers
+import ecollect.Managers
 import ecollect.Dialogs
 import ecollect.Layouts
 import ecollect.Reactions
@@ -17,10 +17,12 @@ ApplicationWindow {
             return
 
         close.accepted = false
-        controller.cancelSession()
+        appManager.cancelSession()
     }
 
     MainWindowLayout {
+        id: currentView
+
         VideoOutput {
             id: videoOutput
             anchors.fill: parent
@@ -28,8 +30,8 @@ ApplicationWindow {
 
         rightSidebar: Reactions {
             model: Constants.reactions
-            enabled: controller.playingState === EcollectController.PlayingVideoState
-            onReactionClicked: (name) => controller.registerUserReaction(name)
+            enabled: appManager.playingState === EcollectManager.PlayingVideoState
+            onReactionClicked: (name) => appManager.registerUserReaction(name)
         }
 
         footerContent: Row {
@@ -53,7 +55,7 @@ ApplicationWindow {
             }
 
             Label {
-                text: Utils.mapVolumeValueToIcon(volumeSlider.value)
+                text: UiUtils.mapVolumeValueToIcon(volumeSlider.value)
                 font.family: "Material Design Icons"
                 font.pointSize: 18
                 opacity: 0.75
@@ -64,65 +66,36 @@ ApplicationWindow {
         }
     }
 
-    ErrorDialogController {
-        id: errorDialog
-
-        anchors.centerIn: parent
-        appController: controller
-    }
-
     WelcomeDialog {
         id: welcomeDialog
-
-        anchors.centerIn: parent
         visible: welcomeState.active
     }
 
-    Item {
-        // This is to anchor the SessionPausedDialog to the video output
-        parent: videoOutput
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        width: sessionPausedDialog.width
-        height: sessionPausedDialog.height
 
-        SessionPausedDialog {
-            id: sessionPausedDialog
+    SessionPausedDialog {
+        id: sessionPausedDialog
 
-            anchors.centerIn: parent
-            visible: controller.playingState === EcollectController.PausedState
-            onAccepted: controller.continueSession()
-        }
+        visible: appManager.playingState === EcollectManager.PausedState
+        onAccepted: appManager.continueSession()
     }
 
     UploadingDialog {
         id: uploadingDialog
-
-        anchors.centerIn: parent
         visible: uploadingResultsState.active
     }
 
     CancelingUploadDialog {
         id: cancelingUploadDialog
-
-        anchors.centerIn: parent
         visible: cancelingUploadState.active
     }
 
     GoodbyeDialog {
         id: goodbyeDialog
-
-        anchors.centerIn: parent
         visible: goodbyeState.active
     }
 
-    TutorialController {
-        id: tutorialController
-        appController: controller
-    }
-
-    EcollectController {
-        id: controller
+    EcollectManager {
+        id: appManager
 
         videoOutput: videoOutput
         recordingMediaFormat.fileFormat: Constants.recordingMediaFormat
@@ -130,6 +103,14 @@ ApplicationWindow {
         recordingQuality: Constants.recordingQuality
         videoPlaylist: Constants.videoPlaylist
         audioOutputVolume: volumeSlider.value
+
+        TutorialManager {
+            id: tutorialManager
+        }
+
+        ErrorDialogManager {
+            id: errorDialog
+        }
     }
 
     DSM.StateMachine {
@@ -142,7 +123,7 @@ ApplicationWindow {
             id: welcomeState
 
             DSM.SignalTransition {
-                targetState: tutorialState
+                targetState: runningSessionState
                 signal: welcomeDialog.accepted
             }
 
@@ -155,16 +136,16 @@ ApplicationWindow {
         DSM.State {
             id: tutorialState
 
-            onEntered: tutorialController.start()
+            onEntered: tutorialManager.start()
 
             DSM.SignalTransition {
                 targetState: runningSessionState
-                signal: tutorialController.finished
+                signal: tutorialManager.finished
             }
 
             DSM.SignalTransition {
                 targetState: finishState
-                signal: tutorialController.aborted
+                signal: tutorialManager.aborted
             }
         }
 
@@ -174,30 +155,30 @@ ApplicationWindow {
 
             DSM.SignalTransition {
                 targetState: errorState
-                signal: controller.errorOcurred
+                signal: appManager.errorOcurred
             }
 
             DSM.SignalTransition {
                 targetState: cancelingUploadState
-                signal: controller.onPlayingStateChanged
-                guard: controller.playingState === EcollectController.CancelingState
+                signal: appManager.onPlayingStateChanged
+                guard: appManager.playingState === EcollectManager.CancelingState
             }
 
             DSM.SignalTransition {
                 targetState: finishState
-                signal: controller.onPlayingStateChanged
-                guard: controller.playingState === EcollectController.StoppedState
+                signal: appManager.onPlayingStateChanged
+                guard: appManager.playingState === EcollectManager.StoppedState
             }
 
             DSM.State {
                 id: doingSurveyState
 
-                onEntered: controller.startSession()
+                onEntered: appManager.startSession()
 
                 DSM.SignalTransition {
                     targetState: uploadingResultsState
-                    signal: controller.onPlayingStateChanged
-                    guard: controller.playingState === EcollectController.UploadingState
+                    signal: appManager.onPlayingStateChanged
+                    guard: appManager.playingState === EcollectManager.UploadingState
                 }
             }
 
@@ -206,8 +187,8 @@ ApplicationWindow {
 
                 DSM.SignalTransition {
                     targetState: goodbyeState
-                    signal: controller.onPlayingStateChanged
-                    guard: controller.playingState === EcollectController.StoppedState
+                    signal: appManager.onPlayingStateChanged
+                    guard: appManager.playingState === EcollectManager.StoppedState
                 }
             }
         }
@@ -220,13 +201,13 @@ ApplicationWindow {
             DSM.SignalTransition {
                 targetState: finishState
                 signal: errorDialog.closed
-                guard: controller.playingState === EcollectController.StoppedState
+                guard: appManager.playingState === EcollectManager.StoppedState
             }
 
             DSM.SignalTransition {
                 targetState: cancelingUploadState
                 signal: errorDialog.closed
-                guard: controller.playingState === EcollectController.CancelingState
+                guard: appManager.playingState === EcollectManager.CancelingState
             }
         }
 
@@ -235,8 +216,8 @@ ApplicationWindow {
 
             DSM.SignalTransition {
                 targetState: finishState
-                signal: controller.onPlayingStateChanged
-                guard: controller.playingState === EcollectController.StoppedState
+                signal: appManager.onPlayingStateChanged
+                guard: appManager.playingState === EcollectManager.StoppedState
             }
         }
 

@@ -4,14 +4,15 @@ import QtQml.StateMachine as DSM
 Item {
     id: root
 
-    property var appController
-
     signal finished
     signal aborted
 
     DSM.StateMachine {
-        onStarted: appController.startCameraPreview()
-        onFinished: appController.stopCameraPreview()
+        id: tutoiralStateMachine
+        initialState: aboutCameraState
+
+        onStarted: appManager.startCameraPreview()
+        onFinished: appManager.stopCameraPreview()
 
         DSM.State {
             id: aboutCameraState

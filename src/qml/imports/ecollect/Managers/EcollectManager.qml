@@ -4,7 +4,6 @@ import QtQml.StateMachine as DSM
 import Qt.labs.platform
 
 import ecollect
-import ecollect.Native
 
 Item {
     id: root
@@ -81,7 +80,7 @@ Item {
             id: camera
 
             onErrorOccurred: (errorCode, errorString) =>
-                             internal.handleError(EcollectController.CameraError, errorString, errorCode)
+                             internal.handleError(EcollectManager.CameraError, errorString, errorCode)
         }
 
         recorder: MediaRecorder {
@@ -90,7 +89,7 @@ Item {
             outputLocation: root.recordingFileUrl
             onActualLocationChanged: console.log(`Session data location: ${actualLocation}`)
             onErrorOccurred: (errorCode, errorString) =>
-                             internal.handleError(EcollectController.RecorderError, errorString, errorCode)
+                             internal.handleError(EcollectManager.RecorderError, errorString, errorCode)
         }
     }
 
@@ -103,13 +102,13 @@ Item {
 
         audioOutput: mediaPlayerAudioOutput
         onErrorOccurred: (errorCode, errorString) =>
-                         internal.handleError(EcollectController.PlayerError, errorString, errorCode)
+                         internal.handleError(EcollectManager.PlayerError, errorString, errorCode)
     }
 
     Uploader {
         id: uploader
         onErrorOcurred: (errorCode, errorString) =>
-                        internal.handleError(EcollectController.UploadError, errorString, errorCode)
+                        internal.handleError(EcollectManager.UploadError, errorString, errorCode)
     }
 
     FileLog {
@@ -126,7 +125,7 @@ Item {
         DSM.State {
             id: stoppedState
 
-            onEntered: internal.playingState = EcollectController.StoppedState
+            onEntered: internal.playingState = EcollectManager.StoppedState
 
             DSM.SignalTransition {
                 targetState: cameraPreviewState
@@ -145,7 +144,7 @@ Item {
             onEntered: {
                 camera.start()
                 captureSession.videoOutput = videoOutput
-                internal.playingState = EcollectController.CameraPreviewState
+                internal.playingState = EcollectManager.CameraPreviewState
             }
             onExited: {
                 camera.stop()
@@ -199,7 +198,7 @@ Item {
                 onEntered: {
                     mediaPlayer.source = root.transitionVideoUrl
                     mediaPlayer.play()
-                    internal.playingState = EcollectController.PlayingTransitionState
+                    internal.playingState = EcollectManager.PlayingTransitionState
                 }
 
                 DSM.SignalTransition {
@@ -216,7 +215,7 @@ Item {
                     internal.reactionsRegistered = 0
                     mediaPlayer.source = root.videoPlaylist[internal.currentVideoIndex]
                     mediaPlayer.play()
-                    internal.playingState = EcollectController.PlayingVideoState
+                    internal.playingState = EcollectManager.PlayingVideoState
                 }
 
                 DSM.SignalTransition {
@@ -245,7 +244,7 @@ Item {
                 id: pausedState
 
                 onEntered: {
-                    internal.playingState = EcollectController.PausedState
+                    internal.playingState = EcollectManager.PausedState
                     recorder.pause()
                 }
                 onExited: {
@@ -264,7 +263,7 @@ Item {
             id: uploadingState
 
             onEntered: {
-                internal.playingState = EcollectController.UploadingState
+                internal.playingState = EcollectManager.UploadingState
                 uploader.uploadDirectory(root.currentSessionDataLocation)
             }
 
@@ -289,7 +288,7 @@ Item {
             id: cancelingUploadState
 
             onEntered: {
-                internal.playingState = EcollectController.CancelingState
+                internal.playingState = EcollectManager.CancelingState
                 uploader.cancel()
             }
 
@@ -325,8 +324,8 @@ Item {
     QtObject {
         id: internal
 
-        property int error: EcollectController.NoError
-        property int playingState: EcollectController.StoppedState
+        property int error: EcollectManager.NoError
+        property int playingState: EcollectManager.StoppedState
         property int currentVideoIndex: 0
         property int currentVideoReplay: 0
         property int reactionsRegistered: 0
@@ -340,21 +339,21 @@ Item {
         signal cleanupFinished;
 
         function handleError(error, errorString, sourceErrorCode) {
-            var tag = "Controller";
+            var tag = "Manager";
             switch(error) {
-            case EcollectController.CameraError:
+            case EcollectManager.CameraError:
                 tag = "Camera"
                 break
 
-            case EcollectController.RecorderError:
+            case EcollectManager.RecorderError:
                 tag = "Recorder"
                 break
 
-            case EcollectController.PlayerError:
+            case EcollectManager.PlayerError:
                 tag = "MediaPlayer"
                 break
 
-            case EcollectController.UploadError:
+            case EcollectManager.UploadError:
                 tag = "Upload"
                 break
             }

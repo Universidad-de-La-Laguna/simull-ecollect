@@ -6,6 +6,9 @@ Dialog {
     standardButtons: Dialog.Retry
     closePolicy: Popup.CloseOnEscape
 
+    parent: currentView
+    anchors.centerIn: parent
+
     Label {
         text: qsTr("Ha visto el contenido pero no ha reaccionado usando los botones de la derecha.\n" +
                    "Recuerde reaccionar durante la reproducción de cada pieza de contenido. Cuantas\n" +

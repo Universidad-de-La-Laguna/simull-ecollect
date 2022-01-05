@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-import ecollect.Native
+import ecollect
 
 Window {
     width: Constants.width

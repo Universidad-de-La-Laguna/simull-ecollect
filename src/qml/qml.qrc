@@ -12,15 +12,15 @@
         <file>imports/ecollect/Reactions/qmldir</file>
         <file>imports/ecollect/Reactions/Reactions.qml</file>
         <file>imports/ecollect/Reactions/ReactionsProps.qml</file>
-        <file>imports/ecollect/Controllers/EcollectController.qml</file>
-        <file>imports/ecollect/Controllers/TutorialController.qml</file>
-        <file>imports/ecollect/Controllers/qmldir</file>
+        <file>imports/ecollect/Managers/EcollectManager.qml</file>
+        <file>imports/ecollect/Managers/ErrorDialogManager.qml</file>
+        <file>imports/ecollect/Managers/TutorialManager.qml</file>
+        <file>imports/ecollect/Managers/qmldir</file>
         <file>imports/ecollect/Debug/RedSquare.qml</file>
         <file>imports/ecollect/Debug/qmldir</file>
         <file>imports/ecollect/Debug/GreenSquare.qml</file>
         <file>imports/ecollect/Debug/BlueSquare.qml</file>
         <file>imports/ecollect/Dialogs/ErrorDialog.qml</file>
-        <file>imports/ecollect/Dialogs/ErrorDialogController.qml</file>
         <file>imports/ecollect/Dialogs/UploadingDialog.qml</file>
         <file>imports/ecollect/Dialogs/CancelingUploadDialog.qml</file>
         <file>imports/ecollect/Dialogs/GoodbyeDialog.qml</file>

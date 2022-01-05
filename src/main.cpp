@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(":/fonts/materialdesignicons-webfont.ttf");
 
     QPointer<Utils> utils = new Utils;
-    qmlRegisterSingletonInstance("ecollect.Native", 1, 0, "Utils", utils.get());
-    qmlRegisterType<Uploader>("ecollect.Native", 1, 0, "Uploader");
-    qmlRegisterType<FileLog>("ecollect.Native", 1, 0, "FileLog");
+    qmlRegisterSingletonInstance("ecollect", 1, 0, "Utils", utils.get());
+    qmlRegisterType<Uploader>("ecollect", 1, 0, "Uploader");
+    qmlRegisterType<FileLog>("ecollect", 1, 0, "FileLog");
 
     engine.addImportPath("qrc:/qml/imports");
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
