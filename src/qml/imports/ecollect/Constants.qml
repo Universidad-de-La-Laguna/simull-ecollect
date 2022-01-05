@@ -15,11 +15,11 @@ QtObject {
 
     readonly property string recordingFilename: "recording.mp4"
     readonly property string sessionDataFilename: "dataset.csv"
-    readonly property url transitionVideoUrl: "qrc:///mp4/321_action.mp4"
+    readonly property url transitionVideoUrl: "qrc:///videos/film_leader.mp4"
 
     readonly property var videoPlaylist: [
-        "qrc:///mp4/321_action.mp4",
-        "qrc:///mp4/321_action.mp4",
+        "qrc:///videos/film_leader.mp4",
+        "qrc:///videos/film_leader.mp4",
     ]
 
     readonly property ListModel reactions: ListModel {

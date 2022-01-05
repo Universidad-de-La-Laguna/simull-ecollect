@@ -31,6 +31,12 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
+set(QML_IMPORT_PATH
+    "${CMAKE_SOURCE_DIR}/src/qml/imports"
+    CACHE STRING "Qt Creator extra qml import paths"
+    FORCE
+)
+
 set(PROJECT_SOURCES
     src/main.cpp
     src/filelog.cpp
@@ -54,10 +60,8 @@ set(PROJECT_SOURCES
     res/resources.qrc
 )
 
-set(QML_IMPORT_PATH
-    "${CMAKE_SOURCE_DIR}/src/qml/imports"
-    CACHE STRING "Qt Creator extra qml import paths"
-    FORCE
+qt_add_big_resources(PROJECT_SOURCES
+    res/videos.qrc
 )
 
 qt_add_executable(ecollect
