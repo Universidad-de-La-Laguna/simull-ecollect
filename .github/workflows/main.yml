@@ -19,23 +19,26 @@ jobs:
 
     - name: Restore artifacts, or setup vcpkg for building artifacts
       uses: lukka/run-vcpkg@v10
+      with:
+        vcpkgDirectory: ${{ env.VCPKG_INSTALLATION_ROOT }}
+        vcpkgGitCommitId: "5ddd7f02689b7c5aab78711d77f61db5d2e5e79c" # 2021.12.01
 
     - name: Build 
       uses: lukka/run-cmake@v10
       with:
-        configurePreset: 'ninja-multi-vcpkg'
-        buildPreset: 'ninja-multi-vcpkg'
+        configurePreset: 'ninja-vcpkg'
+        buildPreset: 'ninja-vcpkg'
 
     - name: Upload binaries to artifacts
       uses: actions/upload-artifact@v2
       with:
         name: build
-        path: build/ninja-multi-vcpkg/ecollect.exe
+        path: build/ecollect.exe
 
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        file: build/ninja-multi-vcpkg/ecollect.exe
+        file: build/ecollect.exe
         prerelease: true
         token: ${{ secrets.GITHUB_TOKEN }}

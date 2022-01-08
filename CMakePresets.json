@@ -11,12 +11,13 @@
             "displayName": "Ninja Configure Settings with vcpkg toolchain",
             "description": "Sets build and install directories",
             "binaryDir": "${sourceDir}/build",
-            "generator": "Ninja Multi-Config",
+            "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": {
                 "type": "FILEPATH",
-                "value": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"
-                }
+                "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                },
+                "CMAKE_BUILD_TYPE": "Release"
             }
         }
     ],
