@@ -8,6 +8,10 @@ jobs:
     
     env:
       VCPKG_DEFAULT_TRIPLET: x64-windows-static
+      AWS_S3_BUCKET_NAME: ull-simull-ecollect
+      AWS_ACCESS_KEY_ID: AKIA6QTMGMCNKUSQ4F5G
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_CRYPTO_KEY: ${{ secrets.CRYPTO_KEY }}
 
     steps:
 
@@ -21,7 +25,7 @@ jobs:
       uses: lukka/run-vcpkg@v10
       with:
         vcpkgDirectory: ${{ env.VCPKG_INSTALLATION_ROOT }}
-        vcpkgGitCommitId: "5ddd7f02689b7c5aab78711d77f61db5d2e5e79c" # 2021.12.01
+        vcpkgGitCommitId: "5ddd7f02689b7c5aab78711d77f61db5d2e5e79c"  # 2021.12.01
 
     - name: Build 
       uses: lukka/run-cmake@v10

@@ -17,7 +17,11 @@
                 "type": "FILEPATH",
                 "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
                 },
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "AWS_S3_BUCKET_NAME": "$env{AWS_S3_BUCKET_NAME}",
+                "AWS_ACCESS_KEY_ID": "$env{AWS_ACCESS_KEY_ID}",
+                "AWS_SECRET_ACCESS_KEY": "$env{AWS_SECRET_ACCESS_KEY}",
+                "AWS_CRYPTO_KEY": "$env{AWS_CRYPTO_KEY}"
             }
         }
     ],
