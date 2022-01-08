@@ -1,0 +1,31 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 21,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "ninja-vcpkg",
+            "displayName": "Ninja Configure Settings with vcpkg toolchain",
+            "description": "Sets build and install directories",
+            "binaryDir": "${sourceDir}/build",
+            "generator": "Ninja Multi-Config",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": {
+                "type": "FILEPATH",
+                "value": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+                }
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "ninja-vcpkg",
+            "configurePreset": "ninja-vcpkg",
+            "displayName": "Build ninja-vcpkg",
+            "description": "Build ninja-vcpkg Configurations"
+        }
+    ]
+}
