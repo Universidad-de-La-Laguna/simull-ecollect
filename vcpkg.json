@@ -5,17 +5,6 @@
     {
         "name": "aws-sdk-cpp",
         "features": ["transfer"]
-    },
-    {
-        "name": "qtdeclarative"
-    },
-    {
-        "name": "qtmultimedia",
-        "features": ["qml"]
-    },
-    {
-        "name": "qtscxml",
-        "features": ["qml"]
     }
   ]
 }
