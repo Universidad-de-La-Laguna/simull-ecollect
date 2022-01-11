@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.21.1)
 
 project(ecollect VERSION 0.1 LANGUAGES CXX)
 
@@ -85,11 +85,11 @@ target_compile_definitions(ecollect
             ECOLLECT_FULLSCREEN_DISABLED=${ECOLLECT_FULLSCREEN_DISABLED}
 )
 target_include_directories(ecollect
-    PRIVATE src/thirdparty ${AWSSDK_INCLUDE_DIRS})
+    PRIVATE src/thirdparty AWS::transfer)
 target_link_libraries(ecollect
     PRIVATE Qt::Core Qt::Multimedia Qt::Quick)
 target_link_libraries(ecollect
-    PRIVATE ${AWSSDK_LIBRARIES})
+    PRIVATE AWS::transfer)
 
 set_target_properties(ecollect PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER ecollect.simull.ull.edu.es

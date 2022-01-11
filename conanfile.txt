@@ -1,0 +1,5 @@
+[requires]
+aws-sdk-cpp/1.9.100
+
+[generators]
+cmake_find_package_multi
