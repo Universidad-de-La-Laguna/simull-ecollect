@@ -1,0 +1,5 @@
+[requires]
+qtbase/6.2.2@qt/everywhere
+qtdeclarative/6.2.2@qt/everywhere
+qtmultimedia/6.2.2@qt/everywhere
+qtstatemachineqml/6.2.2@qt/everywhere
