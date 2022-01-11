@@ -11,14 +11,12 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 23)  # /std:c++latest - unlocks non stable MSVC C++20 features (like ranges) for new 16.11 versions
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#set(CMAKE_VERBOSE_BUILD ON)
-
 set(AWS_ACCESS_KEY_ID "<access-key-id>" CACHE STRING "AWS access key id")
 set(AWS_SECRET_ACCESS_KEY "/base64+encrypted+secret+access+key/" CACHE STRING "Encrypted AWS secret key")
 set(AWS_CRYPTO_KEY "0" CACHE STRING "Key to decrypt the AWS secret key")
 set(AWS_S3_BUCKET_NAME "<bucket-name>" CACHE STRING "AWS S3 bucket name")
 
-set(ECOLLECT_FULLSCREEN_DISABLED 0 CACHE STRING "Disable open the main window in fullscreen")
+option(ECOLLECT_ENABLE_FULLSCREEN "Enable open the main window in fullscreen" ON)
 
 find_package(Qt6 COMPONENTS Core Multimedia Quick REQUIRED)
 find_package(AWSSDK CONFIG COMPONENTS transfer REQUIRED)
@@ -82,7 +80,7 @@ target_compile_definitions(ecollect
             AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
             AWS_CRYPTO_KEY=${AWS_CRYPTO_KEY}
             AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
-            ECOLLECT_FULLSCREEN_DISABLED=${ECOLLECT_FULLSCREEN_DISABLED}
+            ECOLLECT_ENABLE_FULLSCREEN=$<BOOL:${ECOLLECT_ENABLE_FULLSCREEN}>
 )
 target_include_directories(ecollect
     PRIVATE src/thirdparty AWS::transfer)
