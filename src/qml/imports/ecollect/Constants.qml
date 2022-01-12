@@ -9,6 +9,8 @@ QtObject {
 
     readonly property string applicatioName: qsTr("Emotions Samples Collect - SIMULL")
 
+    readonly property color tutorialMarkerColor: "#E77054"
+
     readonly property int recordingMediaFormat: MediaFormat.MPEG4
     readonly property int recordingVideoCodec: MediaFormat.VideoCodec.H264
     readonly property int recordingQuality: MediaRecorder.NormalQuality

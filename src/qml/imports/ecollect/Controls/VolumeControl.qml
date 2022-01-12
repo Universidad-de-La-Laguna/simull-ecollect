@@ -8,7 +8,11 @@ Item {
 
     property alias value: volumeSlider.value
 
+    width: volumeSlider.childrenRect.width + Constants.spacingUnit * 20
+    height: childrenRect.height
+
     Row {
+
         anchors.horizontalCenter: parent.horizontalCenter
 
         Label {

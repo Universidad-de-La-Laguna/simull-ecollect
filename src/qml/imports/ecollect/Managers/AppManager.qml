@@ -15,6 +15,8 @@ Manager {
 
     readonly property url sessionDataRootLocation: StandardPaths.writableLocation(StandardPaths.AppDataLocation)
     readonly property url sessionDataLocation: `${sessionDataRootLocation}/${Utils.createUuid()}`
+    readonly property url recordingFileUrl: `${appManager.sessionDataLocation}/${Constants.recordingFilename}`
+    readonly property url sessionDataFileUrl: `${appManager.sessionDataLocation}/${Constants.sessionDataFilename}`
 
     enum Error {
         NoError,
@@ -66,7 +68,7 @@ Manager {
             id: welcomeState
 
             DSM.SignalTransition {
-                targetState: sessionState
+                targetState: tutorialState
                 signal: welcomeDialog.accepted
             }
 
@@ -206,14 +208,16 @@ Manager {
 
     TutorialManager {
         id: tutorialManager
-        camera: camera
-        videoOutput: videoOutput
+
+        captureSession: captureSession
+        videoOutputControl: videoOutput
+        reactionsControl: reactions
+        volumeControl: volumeControl
     }
 
     SessionManager {
         id: sessionManager
-        camera: camera
-        videoOutput: videoOutput
+        captureSession: captureSession
     }
 
     ErrorDialogManager {
@@ -222,10 +226,47 @@ Manager {
 
     // Multimeda components
 
-    Camera {
-        id: camera
-        onErrorOccurred: (errorCode, errorString) =>
-                         logError(EcollectManager.CameraError, errorCode, errorString)
+    CaptureSession {
+        id: captureSession
+
+        camera: Camera {
+            id: camera
+            onErrorOccurred: (errorCode, errorString) =>
+                             logError(EcollectManager.CameraError, errorCode, errorString)
+        }
+
+        recorder: MediaRecorder {
+            id: recorder
+
+            outputLocation: root.recordingFileUrl
+            quality: Constants.recordingQuality
+            mediaFormat.fileFormat: Constants.recordingMediaFormat
+            mediaFormat.videoCodec: Constants.recordingVideoCodec
+            onActualLocationChanged: console.log(`Session data location: ${actualLocation}`)
+            onErrorOccurred: (errorCode, errorString) =>
+                             logError(AppManager.RecorderError, errorCode, errorString)
+        }
+
+        function startCameraRecording() {
+            captureSession.videoOutput = null
+            camera.start()
+            recorder.record()
+        }
+
+        function stopCameraRecording() {
+            camera.stop()
+            recorder.stop()
+        }
+
+        function startCameraPreview() {
+            captureSession.videoOutput = videoOutput
+            camera.start()
+        }
+
+        function stopCameraPreview() {
+            camera.stop()
+            captureSession.videoOutput = null
+        }
     }
 
     // UI components
@@ -233,10 +274,13 @@ Manager {
     MainWindowLayout {
         VideoOutput {
             id: videoOutput
+
             anchors.fill: parent
         }
 
         rightSidebar: Reactions {
+            id: reactions
+
             model: Constants.reactions
             enabled: sessionManager.playingState === SessionManager.PlayingVideoState
             onReactionClicked: (name) => sessionManager.registerUserReaction(name)

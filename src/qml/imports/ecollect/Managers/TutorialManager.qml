@@ -1,142 +1,222 @@
-import QtMultimedia
 import QtQuick
+import QtMultimedia
 import QtQml.StateMachine as DSM
 
+import ecollect
 import ecollect.Controls
+import ecollect.Dialogs
 import ecollect.Managers
 
 Manager {
     id: root
 
-    property int error: AppManager.NoError
-    property Camera camera
-    property VideoOutput videoOutput
+    readonly property alias error: internal.error
+
+    property CaptureSession captureSession
+    property var videoOutputControl
+    property var reactionsControl
+    property var volumeControl
 
     signal finished
     signal canceled
     signal errorOccurred
 
-//    DSM.SignalTransition {
-//        targetState: cameraPreviewState
-//        signal: internal.startCameraPreviewRequested
-//    }
+    function start() {
+        stateMachine.start()
+    }
 
-//    DSM.State {
-//        id: cameraPreviewState
+    DSM.StateMachine {
+        id: stateMachine
 
-//        onEntered: {
-//            camera.start()
-//            captureSession.videoOutput = mainVideoOutput
-//            internal.playingState = SessionManager.CameraPreviewState
-//        }
-//        onExited: {
-//            camera.stop()
-//            captureSession.videoOutput = null
-//        }
+        initialState: aboutAppState
 
-//        DSM.SignalTransition {
-//            targetState: stoppedState
-//            signal: internal.stopCameraPreviewRequested
-//        }
+        DSM.State {
+            id: aboutAppState
 
-//        DSM.SignalTransition {
-//            targetState: stoppedState
-//            signal: root.errorOccurred
-//        }
-//    }
+            DSM.SignalTransition {
+                targetState: aboutAudioState
+                signal: introDialog.accepted
+            }
 
+            DSM.SignalTransition {
+                targetState: cancelState
+                signal: introDialog.rejected
+            }
 
-//    function startCameraPreview() {
-//        internal.startCameraPreviewRequested()
-//    }
+            DSM.SignalTransition {
+                targetState: abortState
+                signal: root.errorOccurred
+            }
+        }
 
-//    function stopCameraPreview() {
-//        internal.stopCameraPreviewRequested()
-//    }
+        DSM.State {
+            id: aboutAudioState
 
+            DSM.SignalTransition {
+                targetState: aboutReactionsState
+                signal: audioDialog.accepted
+            }
 
-//    TutorialControlMarker {
-//        control: videoOutput
-//        borderColor: "#E77054"
-//        borderWidth: Constants.spacingUnit
-//    }
+            DSM.SignalTransition {
+                targetState: cancelState
+                signal: audioDialog.rejected
+            }
 
+            DSM.SignalTransition {
+                targetState: abortState
+                signal: root.errorOccurred
+            }
+        }
 
-//    DSM.StateMachine {
-//        id: tutoiralStateMachine
+        DSM.State {
+            id: aboutReactionsState
 
-//        initialState: aboutCameraState
-//            running: true
+            DSM.SignalTransition {
+                targetState: aboutCameraState
+                signal: reactionsDialog.accepted
+            }
 
-//        onStarted: appManager.startCameraPreview()
-//        onFinished: appManager.stopCameraPreview()
+            DSM.SignalTransition {
+                targetState: cancelState
+                signal: reactionsDialog.rejected
+            }
 
-//        DSM.State {
-//            id: aboutCameraState
+            DSM.SignalTransition {
+                targetState: abortState
+                signal: root.errorOccurred
+            }
+        }
 
-//            DSM.SignalTransition {
-//                targetState: aboutReactionsState
-//                signal: TutorialCameraDialog.accepted
-//            }
+        DSM.State {
+            id: aboutCameraState
 
-//            DSM.SignalTransition {
-//                targetState: abortState
-//                signal: TutorialCameraDialog.rejected
-//            }
-//        }
+            onEntered: {
+                root.captureSession.camera.errorOccurred.connect(internal.handleError)
+                root.captureSession.startCameraPreview()
+            }
+            onExited: {
+                root.captureSession.stopCameraPreview()
+                root.captureSession.camera.errorOccurred.disconnect(internal.handleError)
+            }
 
-//        DSM.State {
-//            id: aboutReactionsState
+            DSM.SignalTransition {
+                targetState: beforeEndState
+                signal: cameraDialog.accepted
+            }
 
-//            DSM.SignalTransition {
-//                targetState: aboutAudioState
-//                signal: TutorialReactionsDialog.accepted
-//            }
+            DSM.SignalTransition {
+                targetState: cancelState
+                signal: cameraDialog.rejected
+            }
 
-//            DSM.SignalTransition {
-//                targetState: abortState
-//                signal: TutorialReactionsDialog.rejected
-//            }
-//        }
+            DSM.SignalTransition {
+                targetState: abortState
+                signal: root.errorOccurred
+            }
+        }
 
-//        DSM.State {
-//            id: aboutAudioState
+        DSM.State {
+            id: beforeEndState
 
-//            DSM.SignalTransition {
-//                targetState: beforeEndState
-//                signal: TutorialAudioDialog.accepted
-//            }
+            DSM.SignalTransition {
+                targetState: finishState
+                signal: endDialog.accepted
+            }
 
-//            DSM.SignalTransition {
-//                targetState: abortState
-//                signal: TutorialAudioDialog.rejected
-//            }
-//        }
+            DSM.SignalTransition {
+                targetState: cancelState
+                signal: endDialog.rejected
+            }
 
-//        DSM.State {
-//            id: beforeEndState
+            DSM.SignalTransition {
+                targetState: abortState
+                signal: root.errorOccurred
+            }
+        }
 
-//            DSM.SignalTransition {
-//                targetState: finishState
-//                signal: TutorialEndDialog.accepted
-//            }
+        DSM.FinalState {
+            id: finishState
 
-//            DSM.SignalTransition {
-//                targetState: abortState
-//                signal: TutorialEndDialog.rejected
-//            }
-//        }
+            onEntered: root.finished()
+        }
 
-//        DSM.FinalState {
-//            id: finishState
+        DSM.FinalState {
+            id: cancelState
 
-//            onEntered: root.finished()
-//        }
+            onEntered: root.canceled()
+        }
 
-//        DSM.FinalState {
-//            id: abortState
+        DSM.FinalState {
+            id: abortState
+        }
+    }
 
-//            onEntered: root.aborted()
-//        }
-//    }
+    // UI components
+
+    TutorialEndDialog {
+        id: endDialog
+        visible: beforeEndState.active
+    }
+
+    TutorialIntroDialog {
+        id: introDialog
+        visible: aboutAppState.active
+    }
+
+    TutorialControlMarker {
+        control: videoOutputControl
+        borderColor: Constants.tutorialMarkerColor
+        borderWidth: Constants.spacingUnit
+        visible: aboutAppState.active || aboutCameraState.active
+    }
+
+    TutorialCameraDialog {
+        id: cameraDialog
+
+        x: (root.width - width) / 2
+        y: Constants.spacingUnit * 2
+        visible: aboutCameraState.active
+    }
+
+    TutorialControlMarker {
+        control: reactionsControl
+        borderColor: Constants.tutorialMarkerColor
+        borderWidth: Constants.spacingUnit
+        visible: aboutReactionsState.active
+    }
+
+    TutorialReactionsDialog {
+        id: reactionsDialog
+
+        visible: aboutReactionsState.active
+
+        Component.onCompleted: {
+            var position = reactionsControl.mapToItem(root, 0, 0)
+            x = position.x - width - Constants.spacingUnit * 2
+            y = position.y
+        }
+    }
+
+    TutorialControlMarker {
+        control: volumeControl
+        borderColor: Constants.tutorialMarkerColor
+        borderWidth: Constants.spacingUnit
+        visible: aboutAudioState.active
+    }
+
+    TutorialAudioDialog {
+        id: audioDialog
+        visible: aboutAudioState.active
+    }
+
+    QtObject {
+        id: internal
+
+        property int error: AppManager.NoError
+
+        function handleError(error, errorString) {
+            internal.error = error;
+            root.errorOccurred();
+        }
+    }
 }

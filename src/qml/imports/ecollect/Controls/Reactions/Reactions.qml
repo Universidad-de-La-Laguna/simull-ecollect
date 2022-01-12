@@ -14,6 +14,7 @@ Item {
     signal reactionClicked(string name)
 
     anchors.fill: parent
+    anchors.rightMargin: Constants.spacingUnit * 2
 
     ParticleSystem {
         id: particles

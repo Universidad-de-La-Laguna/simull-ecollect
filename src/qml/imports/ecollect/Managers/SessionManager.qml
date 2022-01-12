@@ -11,8 +11,7 @@ Item {
     readonly property alias error: internal.error
     readonly property alias playingState: internal.playingState
 
-    property Camera camera
-    property VideoOutput videoOutput
+    property CaptureSession captureSession
 
     signal errorOccurred
 
@@ -26,7 +25,8 @@ Item {
     }
 
     function start() {
-        internal.startRequested()
+        if (root.active) return;
+        stateMachine.start()
     }
 
     function resume() {
@@ -41,25 +41,6 @@ Item {
         sessionLog.log(`${recorder.duration}, ${reactionId}, ${internal.currentVideoIndex}, ` +
                        `${internal.currentVideoReplay}, ${mediaPlayer.position}`);
         internal.reactionsRegistered++;
-    }
-
-    CaptureSession {
-        id: captureSession
-
-        camera: root.camera
-        recorder: MediaRecorder {
-            id: recorder
-
-            outputLocation: internal.recordingFileUrl
-            quality: internal.recordingQuality
-            mediaFormat.fileFormat: internal.recordingMediaFileFormat
-            mediaFormat.videoCodec: internal.recordingMediaVideoCodec
-            onActualLocationChanged: console.log(`Session data location: ${actualLocation}`)
-            onErrorOccurred: function(errorCode, errorString) {
-                appManager.logError(AppManager.RecorderError, errorCode, errorString)
-                internal.handleError(AppManager.RecorderError)
-            }
-        }
     }
 
     MediaPlayer {
@@ -78,40 +59,37 @@ Item {
         id: uploader
         onErrorOccurred: function(errorCode, errorString) {
             appManager.logError(AppManager.UploadError, errorCode, errorString)
-            internal.handleError(AppManager.UploadError)
+            internal.handleError(AppManager.UploadError, errorString)
         }
     }
 
     FileLog {
         id: sessionLog
-        fileLocation: internal.sessionDataFileUrl
+        fileLocation: appManager.sessionDataFileUrl
     }
 
     Connections {
-        target: root.camera
+        target: root.captureSession.camera
         enabled: root.active
 
         function onErrorOccurred(errorCode, errorString) {
-            internal.handleError(AppManager.CameraError)
+            internal.handleError(AppManager.CameraError, errorString)
+        }
+    }
+
+    Connections {
+        target: root.captureSession.recorder
+        enabled: root.active
+
+        function onErrorOccurred(errorCode, errorString) {
+            internal.handleError(AppManager.RecorderError, errorString)
         }
     }
 
     DSM.StateMachine {
         id: stateMachine
 
-        initialState: stoppedState
-        running: true
-
-        DSM.State {
-            id: stoppedState
-
-            onEntered: internal.playingState = SessionManager.StoppedState
-
-            DSM.SignalTransition {
-                targetState: runningSessionState
-                signal: internal.startRequested
-            }
-        }
+        initialState: runningSessionState
 
         DSM.State {
             id: runningSessionState
@@ -123,14 +101,12 @@ Item {
                 internal.currentVideoReplay = 0
                 internal.isProcessingCancelRequest = false
                 mediaPlayer.videoOutput = videoOutput
-                camera.start()
-                recorder.record()
+                captureSession.startCameraRecording()
             }
 
             onExited: {
+                captureSession.stopCameraRecording()
                 mediaPlayer.videoOutput = null
-                camera.stop()
-                recorder.stop()
             }
 
             DSM.SignalTransition {
@@ -270,19 +246,19 @@ Item {
                 signal: internal.cleanupFinished
             }
         }
+
+        DSM.FinalState {
+            id: stoppedState
+        }
+
+        onFinished: internal.playingState = SessionManager.StoppedState
     }
 
     QtObject {
         id: internal
 
-        readonly property int recordingMediaFileFormat: Constants.recordingMediaFormat
-        readonly property int recordingMediaVideoCodec: Constants.recordingVideoCodec
-        readonly property int recordingQuality: Constants.recordingQuality
         readonly property url transitionVideoUrl: Constants.transitionVideoUrl
         readonly property var videoPlaylist: Constants.videoPlaylist
-
-        readonly property url recordingFileUrl: `${appManager.sessionDataLocation}/${Constants.recordingFilename}`
-        readonly property url sessionDataFileUrl: `${appManager.sessionDataLocation}/${Constants.sessionDataFilename}`
 
         property int error: AppManager.NoError
         property int playingState: SessionManager.StoppedState
@@ -291,9 +267,6 @@ Item {
         property int reactionsRegistered: 0
         property bool isProcessingCancelRequest: false
 
-        signal startCameraPreviewRequested;
-        signal stopCameraPreviewRequested;
-        signal startRequested;
         signal resumenRequested;
         signal cancelRequested;
         signal cleanupFinished;
@@ -302,7 +275,7 @@ Item {
             Utils.removeFilesystemPath(appManager.sessionDataLocation)
         }
 
-        function handleError(error) {
+        function handleError(error, errorString) {
             internal.error = error;
             root.errorOccurred();
         }

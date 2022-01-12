@@ -4,5 +4,10 @@ CancelingUploadDialog 1.0 CancelingUploadDialog.qml
 GoodbyeDialog 1.0 GoodbyeDialog.qml
 ErrorDialog 1.0 ErrorDialog.qml
 SessionPausedDialog 1.0 SessionPausedDialog.qml
+TutorialAudioDialog 1.0 TutorialAudioDialog.qml
+TutorialCameraDialog 1.0 TutorialCameraDialog.qml
+TutorialEndDialog 1.0 TutorialEndDialog.qml
+TutorialIntroDialog 1.0 TutorialIntroDialog.qml
+TutorialReactionsDialog 1.0 TutorialReactionsDialog.qml
 UploadingDialog 1.0 UploadingDialog.qml
 WelcomeDialog 1.0 WelcomeDialog.qml
