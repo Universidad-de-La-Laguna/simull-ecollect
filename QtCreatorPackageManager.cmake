@@ -1,0 +1,1 @@
+list(APPEND CMAKE_PROGRAM_PATH "${CMAKE_SOURCE_DIR}/tools/vcpkg")

@@ -1,0 +1,11 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+    "name": "ecollect",
+    "version-string": "0.1",
+    "dependencies": [
+        {
+            "name": "aws-sdk-cpp",
+            "features": ["transfer"]
+        }
+    ]
+}

@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 COMPONENTS Core REQUIRED)
@@ -26,4 +26,4 @@ target_compile_definitions(awskeygen
             AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
 )
 target_include_directories(awskeygen PRIVATE ${CMAKE_SOURCE_DIR}/src/thirdparty)
-target_link_libraries(awskeygen Qt::Core)
+target_link_libraries(awskeygen PRIVATE Qt6::Core)

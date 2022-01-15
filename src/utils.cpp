@@ -30,9 +30,9 @@ bool Utils::removeFilesystemPath(const QUrl &localUrl) const
 
 bool Utils::showFullscreen() const
 {
-#if ECOLLECT_ENABLE_FULLSCREEN == 1
-    return true;
-#else
+#ifdef ECOLLECT_DISABLE_FULLSCREEN
     return false;
+#else
+    return true;
 #endif
 }
