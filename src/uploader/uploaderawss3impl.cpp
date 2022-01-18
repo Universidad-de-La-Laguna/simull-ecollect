@@ -20,11 +20,8 @@ static const char CLASS_TAG[] = "UploaderAwsS3Impl";
 UploaderAwsS3Impl::UploaderAwsS3Impl(Uploader *parent)
     : UploaderImplAbstract{parent}, uploader_{parent}
 {
-#if defined(AWS_LOG_LEVEL_DEBUG)
-    awsOptions_.loggingOptions.logLevel = Aws::Utils::Logging::LogLevel::Debug;
-#elif defined(AWS_LOG_LEVEL_INFO)
-    awsOptions_.loggingOptions.logLevel = Aws::Utils::Logging::LogLevel::Info;
-#endif
+
+    awsOptions_.loggingOptions.logLevel = static_cast<Aws::Utils::Logging::LogLevel>(AWS_LOGGING_LOGLEVEL);
     Aws::InitAPI(awsOptions_);
 
     SimpleCrypt crypto(AWS_CRYPTO_KEY);
