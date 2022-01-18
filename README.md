@@ -47,8 +47,10 @@ Si se escoge otra letra de unidad, será necesario modificar `CMakePreset.json` 
 ### Configuración de AWS S3
 
 Por motivos de seguridad, la configuración de AWS no se almacena junto al proyecto.
-Por eso, antes de copilar el proyecto es necesario editar las variables `AWS_*` en `CMakeUserPresets.json` para asignarles los valores adecuados.
-Otra opción es asignar estos valores a variables de entorno con el mismo nombre que las variables `AWS_*` en `CMakeUserPresets.json`.
+Por eso, antes de copilar el proyecto es necesario configurar las variables `AWS_*` en `CMakePresets.json`.
+
+Tal y como se ve en dicho archivo, los valores adecuados para esas variables se pueden indicar mediante variables de entorno con el mismo nombre.
+Otra opción es copiar `CMakeUserPresets.json.template` como `CMakeUserPresets.json` y modificar los valores en el nuevo archivo.
 
 ### Compilar
 

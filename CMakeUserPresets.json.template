@@ -1,0 +1,44 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+      "major": 3,
+      "minor": 21,
+      "patch": 1
+    },
+    "configurePresets": [
+        {
+            "name": "default-local",
+            "inherits": "default",
+            "cacheVariables": {
+                "AWS_S3_BUCKET_NAME": "XXXX",
+                "AWS_ACCESS_KEY_ID": "XXXX",
+                "AWS_SECRET_ACCESS_KEY": "XXXX",
+                "AWS_CRYPTO_KEY": "XXXX"
+            }            
+        },
+        {
+            "name": "debug",
+            "inherits": "default-local",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release",
+            "inherits": "default-local",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug",
+            "configurePreset": "debug"
+        },
+        {
+            "name": "release",
+            "configurePreset": "release"
+        }
+    ]
+}
