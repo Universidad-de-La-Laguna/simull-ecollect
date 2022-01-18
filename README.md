@@ -44,6 +44,12 @@ Por eso se recomienda hacer accesible la carpeta `tools/vcpkg` a través de una 
 El archivo `CMakePreset.json` está configurado con rutas en la unidad `V:`, asumiendo que se ha ejecutado el comando anterior.
 Si se escoge otra letra de unidad, será necesario modificar `CMakePreset.json` convenientemente.
 
+### Configuración de AWS S3
+
+Por motivos de seguridad, la configuración de AWS no se almacena junto al proyecto.
+Por eso, antes de copilar el proyecto es necesario editar las variables `AWS_*` en `CMakeUserPresets.json` para asignarles los valores adecuados.
+Otra opción es asignar estos valores a variables de entorno con el mismo nombre que las variables `AWS_*` en `CMakeUserPresets.json`.
+
 ### Compilar
 
 Para compilar el proyecto con enlazado estático, primero se configura:

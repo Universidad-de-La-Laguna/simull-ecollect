@@ -8,8 +8,8 @@
 #include <aws/s3/S3Client.h>
 
 #include <simplecrypt/simplecrypt.h>
+#include <uploader/awsconfig.h>
 
-#include "awsconfig.h"
 #include "uploadererror.h"
 #include "uploaderawss3impl.h"
 

@@ -7,9 +7,9 @@
     },
     "configurePresets": [
         {
-            "name": "default",
-            "displayName": "Default Config",
-            "description": "Default static build using Ninja generator",
+            "name": "base",
+            "displayName": "Base Config",
+            "description": "Base configuration of static build using Ninja generator",
             "generator": "Ninja",
             "binaryDir": "V:/${presetName}",
             "cacheVariables": {
@@ -17,20 +17,6 @@
                 "STATIC_BUILD": "ON",
                 "VCPKG_TARGET_TRIPLET": "x64-windows-static",
                 "VCPKG_MANIFEST_DIR": "${sourceDir}/tools/vcpkg-manifest"
-            }
-        },
-        {
-            "name": "debug",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "release",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
             }
         }
     ],

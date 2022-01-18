@@ -7,7 +7,7 @@ option(STATIC_BUILD "Enable build a static linked executable" OFF)
 
 set(AWS_ACCESS_KEY_ID "<access-key-id>" CACHE STRING "AWS access key id")
 set(AWS_SECRET_ACCESS_KEY "/base64+encrypted+secret+access+key/" CACHE STRING "Encrypted AWS secret key")
-set(AWS_CRYPTO_KEY "0" CACHE STRING "Key to decrypt the AWS secret key")
+set(AWS_CRYPTO_KEY 0 CACHE STRING "Key to decrypt the AWS secret key")
 set(AWS_S3_BUCKET_NAME "<bucket-name>" CACHE STRING "AWS S3 bucket name")
 set(AWS_LOGGING_LOGLEVEL 0 CACHE STRING "AWS logging log level. See 'common/logging.h'")
 
@@ -52,7 +52,7 @@ set(PROJECT_SOURCES
     src/utils.cpp
     src/utils.h
     src/qml/qml.qrc
-    src/uploader/awsconfig.h
+    src/uploader/awsconfig.h.in
     src/uploader/uploader.cpp
     src/uploader/uploader.h
     src/uploader/uploadererror.h
@@ -87,15 +87,16 @@ qt_add_resources(ecollect "i18n"
 target_compile_definitions(ecollect
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
             Qt6_COMPILE_OPTIONS_LIST
-            AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-            AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-            AWS_CRYPTO_KEY=${AWS_CRYPTO_KEY}
-            AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
             AWS_LOGGING_LOGLEVEL=${AWS_LOGGING_LOGLEVEL}
             ECOLLECT_DISABLE_FULLSCREEN=$<$<BOOL:${ECOLLECT_DISABLE_FULLSCREEN}>:"1">
 )
 
-target_include_directories(ecollect PRIVATE src/thirdparty)
+configure_file(src/uploader/awsconfig.h.in include/uploader/awsconfig.h)
+target_include_directories(ecollect
+    PRIVATE src/thirdparty
+            ${CMAKE_BINARY_DIR}/include
+)
+
 target_link_libraries(ecollect
     PRIVATE Qt6::Core
             Qt6::Multimedia

@@ -1,0 +1,18 @@
+#pragma once
+
+#include <aws/core/Aws.h>
+#include <aws/core/Region.h>
+
+#include <base64.h>
+
+#define AWS_ACCESS_KEY_ID "@AWS_ACCESS_KEY_ID@"
+#define AWS_SECRET_ACCESS_KEY "@AWS_SECRET_ACCESS_KEY@"
+#define AWS_CRYPTO_KEY @AWS_CRYPTO_KEY@
+#define AWS_S3_BUCKET_NAME "@AWS_S3_BUCKET_NAME@"
+
+namespace AwsConfig {
+    inline const char ACCESS_KEY_ID[] = AWS_ACCESS_KEY_ID;
+    inline const auto SECRET_ACCESS_KEY = base64::decode(AWS_SECRET_ACCESS_KEY);
+    inline const char BUCKET_NAME[] = AWS_S3_BUCKET_NAME;
+    inline const char* REGION = Aws::Region::EU_WEST_3;
+};
