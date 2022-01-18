@@ -23,10 +23,13 @@ if (STATIC_BUILD)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
-find_package(Qt6 COMPONENTS Core Multimedia Quick REQUIRED)
+find_package(Qt6 COMPONENTS Core CoreTools Multimedia Quick REQUIRED)
 find_package(AWSSDK COMPONENTS transfer REQUIRED)
 
-# Get path to the Qt translations directory
+# Get paths to QMAKE and the Qt translations directory
+if (NOT QT_QMAKE_EXECUTABLE)
+    get_target_property(QT_QMAKE_EXECUTABLE Qt6::qmake IMPORTED_LOCATION_RELEASE)
+endif()
 execute_process(
     COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_TRANSLATIONS
     OUTPUT_VARIABLE QT_INSTALL_TRANSLATIONS
@@ -71,13 +74,13 @@ qt_add_executable(ecollect
     ${PROJECT_SOURCES}
 )
 
-# qt_add_resources(ecollect "i18n"
-#     PREFIX /i18n
-#     BASE ${QT_INSTALL_TRANSLATIONS}
-#     FILES ${QT_INSTALL_TRANSLATIONS}/qtbase_es.qm
-#           ${QT_INSTALL_TRANSLATIONS}/qtdeclarative_es.qm
-#           ${QT_INSTALL_TRANSLATIONS}/qtmultimedia_es.qm
-# )
+qt_add_resources(ecollect "i18n"
+    PREFIX /i18n
+    BASE ${QT_INSTALL_TRANSLATIONS}
+    FILES ${QT_INSTALL_TRANSLATIONS}/qtbase_es.qm
+       ${QT_INSTALL_TRANSLATIONS}/qtdeclarative_es.qm
+       ${QT_INSTALL_TRANSLATIONS}/qtmultimedia_es.qm
+)
 
 target_compile_definitions(ecollect
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
@@ -94,7 +97,7 @@ target_link_libraries(ecollect
     PRIVATE Qt6::Core
             Qt6::Multimedia
             Qt6::Quick
-            ${AWSSDK_LINK_LIBRARIES}
+            ${AWSSDK_LIBRARIES}
 )
 
 set_target_properties(ecollect PROPERTIES
