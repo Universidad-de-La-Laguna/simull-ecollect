@@ -70,6 +70,7 @@ qt_add_big_resources(PROJECT_SOURCES
 )
 
 qt_add_executable(ecollect
+    WIN32
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
 )
