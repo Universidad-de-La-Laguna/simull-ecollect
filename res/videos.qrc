@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>videos/film_leader.mp4</file>
+        <file>videos/video_test01.mp4</file>
+        <file>videos/video_test02.mp4</file>
     </qresource>
 </RCC>
