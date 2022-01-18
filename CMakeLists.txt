@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21.1)
 
 project(ecollect VERSION 0.1 LANGUAGES CXX)
 
-option(ECOLLECT_DISABLE_FULLSCREEN "Disable open the main window in fullscreen" ON)
+option(ECOLLECT_DISABLE_FULLSCREEN "Disable open the main window in fullscreen" OFF)
 option(STATIC_BUILD "Enable build a static linked executable" OFF)
 
 set(AWS_ACCESS_KEY_ID "<access-key-id>" CACHE STRING "AWS access key id")
