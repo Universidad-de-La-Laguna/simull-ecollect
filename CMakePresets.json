@@ -7,26 +7,45 @@
     },
     "configurePresets": [
         {
-            "name": "base",
-            "displayName": "Base Config",
-            "description": "Base configuration of static build using Ninja generator",
+            "name": "default",
+            "displayName": "Default Config",
+            "description": "Default configuration of static build using Ninja generator",
             "generator": "Ninja",
             "binaryDir": "V:/${presetName}",
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "V:/scripts/buildsystems/vcpkg.cmake",
                 "STATIC_BUILD": "ON",
                 "VCPKG_TARGET_TRIPLET": "x64-windows-static",
-                "VCPKG_MANIFEST_DIR": "${sourceDir}/tools/vcpkg-manifest"
+                "VCPKG_MANIFEST_DIR": "${sourceDir}/tools/vcpkg-manifest",
+                "AWS_S3_BUCKET_NAME": "$env{AWS_S3_BUCKET_NAME}",
+                "AWS_ACCESS_KEY_ID": "$env{AWS_ACCESS_KEY_ID}",
+                "AWS_SECRET_ACCESS_KEY": "$env{AWS_SECRET_ACCESS_KEY}",
+                "AWS_CRYPTO_KEY": "$env{AWS_CRYPTO_KEY}"
+            }
+        },
+        {
+            "name": "debug-static",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release-static",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
             }
         }
+
     ],
     "buildPresets": [
         {
-            "name": "debug",
+            "name": "debug-static",
             "configurePreset": "debug"
         },
         {
-            "name": "release",
+            "name": "release-static",
             "configurePreset": "release"
         }
     ]
