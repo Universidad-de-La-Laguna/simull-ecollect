@@ -4,12 +4,13 @@
 #include <QPointer>
 #include <QTextStream>
 #include <QUrl>
+#include <QtQml/qqmlregistration.h>
 
 class FileLog : public QObject
 {
     Q_OBJECT
-
     Q_PROPERTY(QUrl fileLocation READ fileLocation WRITE setFileLocation NOTIFY fileLocationChanged)
+    QML_ELEMENT
 
 public:
     explicit FileLog(QObject *parent = nullptr);

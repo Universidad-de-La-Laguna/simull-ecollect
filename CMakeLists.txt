@@ -84,6 +84,11 @@ qt_add_resources(ecollect "i18n"
        ${QT_INSTALL_TRANSLATIONS}/qtmultimedia_es.qm
 )
 
+qt_add_qml_module(ecollect
+    URI ecollect
+    VERSION 1.0
+)
+
 target_compile_definitions(ecollect
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
             Qt6_COMPILE_OPTIONS_LIST
@@ -95,6 +100,11 @@ configure_file(src/uploader/awsconfig.h.in include/uploader/awsconfig.h)
 target_include_directories(ecollect
     PRIVATE src/thirdparty
             ${CMAKE_BINARY_DIR}/include
+
+            # All headers that declare QML types need to be accessible without any prefix
+            # from the project's include path
+            src
+            src/uploader
 )
 
 target_link_libraries(ecollect
