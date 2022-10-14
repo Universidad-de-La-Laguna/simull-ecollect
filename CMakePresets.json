@@ -8,8 +8,6 @@
     "configurePresets": [
         {
             "name": "default",
-            "displayName": "Default Static Config",
-            "description": "Default configuration of static build using Ninja generator",
             "generator": "Ninja",
             "hidden": true,
             "binaryDir": "C:/b",
@@ -37,7 +35,6 @@
                 "CMAKE_BUILD_TYPE": "Release"
             }
         }
-
     ],
     "buildPresets": [
         {

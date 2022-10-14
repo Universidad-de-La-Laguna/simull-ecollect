@@ -1,0 +1,57 @@
+name: Release
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build-and-release:
+    runs-on: windows-2022
+
+    env:
+      AWS_S3_BUCKET_NAME: ull-simull-ecollect
+      AWS_ACCESS_KEY_ID: AKIA6QTMGMCNKUSQ4F5G
+      VCPKG_BINARY_SOURCES: 'clear;nuget,GitHub,readwrite'
+      CMAKE_BINARY_DIR: 'C:/b'
+      VS_INSTALLATION_PATH: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+        persist-credentials: false
+
+    - name: Setup NuGet credentials
+      run: |
+        nuget sources add `
+          -source "https://nuget.pkg.github.com/Universidad-de-La-Laguna/index.json" `
+          -storepasswordincleartext `
+          -name "GitHub" `
+          -username "<OWNER>" `
+          -password "${{ secrets.GITHUB_TOKEN }}"
+        nuget setapikey "${{ secrets.GITHUB_TOKEN }}" `
+          -source "https://nuget.pkg.github.com/Universidad-de-La-Laguna/index.json"
+
+    - name: Setup Visual Studio shell
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: x64
+
+    - name: CMake configure
+      run: |
+        cmake --preset=release `
+          -DAWS_S3_BUCKET_NAME="${{ env.AWS_S3_BUCKET_NAME }}" `
+          -DAWS_ACCESS_KEY_ID="${{ env.AWS_ACCESS_KEY_ID }}" `
+          -DAWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" `
+          -DAWS_CRYPTO_KEY="${{ secrets.AWS_CRYPTO_KEY }}" `
+          -DCMAKE_BINARY_DIR="${{ env.CMAKE_BINARY_DIR }}" `
+          -DVCPKG_INSTALL_OPTIONS="--x-buildtrees-root=${{ env.CMAKE_BINARY_DIR }}/build;--x-packages-root=${{ env.CMAKE_BINARY_DIR }}/packages;--downloads-root=${{ env.CMAKE_BINARY_DIR }}/downloads"
+
+    - name: CMake build
+      run: cmake --build --preset=release
+
+    - name: Release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: "${{ env.CMAKE_BINARY_DIR }}/ecollect.exe"
+        overwrite: true
