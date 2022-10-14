@@ -17,7 +17,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 23)  # /std:c++latest - unlocks non stable MSVC C++20 features (like ranges) for new 16.11 versions
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (STATIC_BUILD)
@@ -120,7 +120,6 @@ set_target_properties(ecollect PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
 
-qt_import_qml_plugins(ecollect)
 qt_finalize_target(ecollect)
 
 if (NOT STATIC_BUILD)
