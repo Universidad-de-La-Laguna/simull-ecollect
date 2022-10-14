@@ -59,7 +59,7 @@ Otra opción, es copiar `CMakeUserPresets.json.template` como `CMakeUserPresets.
 Debido a la limitación de 260 caracteres de Windows, la compilación de Qt puede fallar si las rutas de los archivos son demasiado largas.
 Por eso, el proyecto se compila en `C:\b\` por defecto.
 
-Si es necesario compilar en otra ruta, se puede crear el archivo `CMakeUserPresets.json` —como señalamos anteriormente— y sobrescribir las variables `configurePresets.binaryDir` y `VCPKG_INSTALL_OPTIONS` para que apunten a la nueva ubicación.
+Si es necesario compilar en otra ruta, se puede crear el archivo `CMakeUserPresets.json` —como señalamos anteriormente— y sobrescribir las variables `configurePresets.binaryDir` y `configurePresets.cacheVariables.VCPKG_INSTALL_OPTIONS` para que apunten a la nueva ubicación.
 En todo caso, es importante evitar rutas más largas que la configurada por defecto porque eso puede causar los problemas señalados.
 
 ### Compilar
