@@ -24,7 +24,7 @@ UploaderAwsS3Impl::UploaderAwsS3Impl(Uploader *parent)
     awsOptions_.loggingOptions.logLevel = static_cast<Aws::Utils::Logging::LogLevel>(AWS_LOGGING_LOGLEVEL);
     Aws::InitAPI(awsOptions_);
 
-    SimpleCrypt crypto(AWS_CRYPTO_KEY);
+    SimpleCrypt crypto{AWS_CRYPTO_KEY};
     Aws::Auth::AWSCredentials awsCredentials(
                 AwsConfig::ACCESS_KEY_ID,
                 crypto.decryptToString(QByteArray(AwsConfig::SECRET_ACCESS_KEY.data())).toStdString());

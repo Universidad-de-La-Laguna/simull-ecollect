@@ -8,30 +8,30 @@
     "configurePresets": [
         {
             "name": "default",
-            "displayName": "Default Config",
+            "displayName": "Default Static Config",
             "description": "Default configuration of static build using Ninja generator",
             "generator": "Ninja",
-            "binaryDir": "V:/${presetName}",
+            "hidden": true,
+            "binaryDir": "C:/b",
             "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": "V:/scripts/buildsystems/vcpkg.cmake",
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/tools/vcpkg/scripts/buildsystems/vcpkg.cmake",
                 "STATIC_BUILD": "ON",
-                "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/tools/vcpkg-triplets",
+                "VCPKG_TARGET_TRIPLET": "x64-windows-release",
+                "VCPKG_HOST_TRIPLET": "x64-windows-release",
                 "VCPKG_MANIFEST_DIR": "${sourceDir}/tools/vcpkg-manifest",
-                "AWS_S3_BUCKET_NAME": "$env{AWS_S3_BUCKET_NAME}",
-                "AWS_ACCESS_KEY_ID": "$env{AWS_ACCESS_KEY_ID}",
-                "AWS_SECRET_ACCESS_KEY": "$env{AWS_SECRET_ACCESS_KEY}",
-                "AWS_CRYPTO_KEY": "$env{AWS_CRYPTO_KEY}"
+                "VCPKG_INSTALL_OPTIONS": "--x-buildtrees-root=C:/b/build"
             }
         },
         {
-            "name": "debug-static",
+            "name": "debug",
             "inherits": "default",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
-            "name": "release-static",
+            "name": "release",
             "inherits": "default",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
@@ -41,11 +41,11 @@
     ],
     "buildPresets": [
         {
-            "name": "debug-static",
+            "name": "debug",
             "configurePreset": "debug"
         },
         {
-            "name": "release-static",
+            "name": "release",
             "configurePreset": "release"
         }
     ]
