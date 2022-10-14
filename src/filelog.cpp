@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QDir>
 
 #include "filelog.h"
 
@@ -16,7 +17,15 @@ void FileLog::setFileLocation(const QUrl& location)
 
 void FileLog::log(const QString &str)
 {
-    QFile file(fileLocation_.toLocalFile());
+    QString localFileLocation = fileLocation_.toLocalFile();
+    QDir fileLocationDir = QFileInfo(localFileLocation).dir();
+
+    if (!fileLocationDir.exists())
+    {
+        QDir().mkpath(fileLocationDir.path());
+    }
+
+    QFile file(localFileLocation);
     if (!file.open(QFile::WriteOnly | QIODeviceBase::Append | QIODevice::Text))
     {
         qWarning() << QStringLiteral("ERROR: Cannot open file to write: %1. Caused by (%2) %3")

@@ -28,6 +28,12 @@ namespace MessageHandler
     {
         QString message = qFormatLogMessage(type, context, msg);
 
+        QDir logFileDir = QFileInfo(getLogFileName()).dir();
+        if (!logFileDir.exists())
+        {
+            QDir().mkpath(logFileDir.path());
+        }
+
         QFile log(getLogFileName());
         if (log.open(QIODeviceBase::WriteOnly | QIODeviceBase::Append | QIODevice::Text))
         {
