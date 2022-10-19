@@ -31,11 +31,11 @@ Item {
             model: reactions.model
 
             Reaction {
-                name: model.name
+                text: model.label
                 icon: model.icon
                 enabled: reactions.enabled
                 particleSystem: particles
-                onClicked: root.reactionClicked(name)
+                onClicked: root.reactionClicked(model.name)
             }
         }
     }

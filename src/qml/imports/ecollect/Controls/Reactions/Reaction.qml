@@ -8,7 +8,7 @@ Item {
     id: root
 
     property alias icon: button.icon.source
-    property alias name: button.text
+    property alias text: button.text
     property alias enabled: button.enabled
     property alias particleSystem: emitter.system
 

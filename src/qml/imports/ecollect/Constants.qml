@@ -7,7 +7,7 @@ QtObject {
     readonly property int height: 1080
     readonly property real spacingUnit: 8.0
 
-    readonly property string applicatioName: qsTr("Emotions Samples Collect - SIMULL")
+    readonly property string applicatioName: "Emotions Samples Collect - SIMULL"
 
     readonly property color tutorialMarkerColor: "#E77054"
 
@@ -26,17 +26,20 @@ QtObject {
 
     readonly property ListModel reactions: ListModel {
         ListElement {
-            name: "Divertido"
+            name: "funny"
+            label: "Divertido"
             icon: "qrc:///images/face-with-tears-of-joy.png"
         }
 
         ListElement {
-            name: "Desagradado"
+            name: "nauseated"
+            label: "Desagradado"
             icon: "qrc:///images/nauseated-face.png"
         }
 
         ListElement {
-            name: "Enfadado"
+            name: "pouting"
+            label: "Enfadado"
             icon: "qrc:///images/pouting-face.png"
         }
     }
