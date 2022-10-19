@@ -1,10 +1,10 @@
 #include <QFontDatabase>
 #include <QGuiApplication>
 #include <QLibraryInfo>
-#include <QTranslator>
 #include <QQmlApplicationEngine>
 
 #include <messagehandler.h>
+#include <translator.h>
 
 using namespace Qt::Literals;
 
@@ -16,11 +16,8 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain("ull.es");
     app.setOrganizationName("Universidad de La Laguna");
 
-    QTranslator translator;
-    if (translator.load(QLocale::system(), u"qtbase"_s, u"_"_s, u":/i18n"_s))
-    {
-        app.installTranslator(&translator);
-    }
+    // TODO: Sobrescribir locale por la línea de comandos.
+    Translator::install();
 
     QQmlApplicationEngine engine;
     QFontDatabase::addApplicationFont(":/fonts/materialdesignicons-webfont.ttf");

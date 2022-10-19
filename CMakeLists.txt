@@ -24,7 +24,7 @@ if (STATIC_BUILD)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
-find_package(Qt6 COMPONENTS Core CoreTools Multimedia Quick REQUIRED)
+find_package(Qt6 COMPONENTS Core CoreTools LinguistTools Multimedia Quick REQUIRED)
 find_package(AWSSDK COMPONENTS transfer REQUIRED)
 
 # Get paths to QMAKE and the Qt translations directory
@@ -43,12 +43,18 @@ set(QML_IMPORT_PATH
     FORCE
 )
 
+set(TRANSLATION_FILES
+    src/translations/ecollect_es.ts
+)
+
 set(PROJECT_SOURCES
     src/main.cpp
     src/filelog.cpp
     src/filelog.h
     src/messagehandler.cpp
     src/messagehandler.h
+    src/translator.cpp
+    src/translator.h
     src/utils.cpp
     src/utils.h
     src/qml/qml.qrc
@@ -79,14 +85,23 @@ qt_add_executable(ecollect
 qt_add_resources(ecollect "i18n"
     PREFIX /i18n
     BASE ${QT_INSTALL_TRANSLATIONS}
-    FILES ${QT_INSTALL_TRANSLATIONS}/qtbase_es.qm
-       ${QT_INSTALL_TRANSLATIONS}/qtdeclarative_es.qm
-       ${QT_INSTALL_TRANSLATIONS}/qtmultimedia_es.qm
+    FILES
+        ${QT_INSTALL_TRANSLATIONS}/qtbase_en.qm
+        ${QT_INSTALL_TRANSLATIONS}/qtdeclarative_en.qm
+        ${QT_INSTALL_TRANSLATIONS}/qtmultimedia_en.qm
+        ${QT_INSTALL_TRANSLATIONS}/qtbase_es.qm
+        ${QT_INSTALL_TRANSLATIONS}/qtdeclarative_es.qm
+        ${QT_INSTALL_TRANSLATIONS}/qtmultimedia_es.qm
 )
 
 qt_add_qml_module(ecollect
     URI ecollect
     VERSION 1.0
+)
+
+qt_add_translations(ecollect
+    TS_FILES ${TRANSLATION_FILES}
+    RESOURCE_PREFIX /i18n
 )
 
 target_compile_definitions(ecollect
