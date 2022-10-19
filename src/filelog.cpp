@@ -3,6 +3,8 @@
 
 #include "filelog.h"
 
+using namespace Qt::Literals;
+
 FileLog::FileLog(QObject *parent)
     : QObject{parent}
 {
@@ -28,7 +30,7 @@ void FileLog::log(const QString &str)
     QFile file(localFileLocation);
     if (!file.open(QFile::WriteOnly | QIODeviceBase::Append | QIODevice::Text))
     {
-        qWarning() << QStringLiteral("ERROR: Cannot open file to write: %1. Caused by (%2) %3")
+        qWarning() << u"ERROR: Cannot open file to write: %1. Caused by (%2) %3"_s
                       .arg(fileLocation_.toString()).arg(file.error()).arg(file.errorString());
     }
 

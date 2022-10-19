@@ -5,16 +5,18 @@
 
 #include "messagehandler.h"
 
+using namespace Qt::Literals;
+
 namespace MessageHandler
 {
-    const char LOG_FILENAME[] = "main.log";
-    const char MESSAGE_PATTERN[] = "[%{time}] "
+    const auto LOG_FILENAME = u"main.log"_s;
+    const auto MESSAGE_PATTERN = u"[%{time}] "
                                    "%{if-debug}[dbug] %{endif}"
                                    "%{if-info}[info] %{endif}"
                                    "%{if-warning}[warn] %{endif}"
                                    "%{if-critical}[crit] %{endif}"
                                    "%{if-fatal}[ftal] %{endif}"
-                                   "%{message}";
+                                   "%{message}"_s;
 
     QtMessageHandler defaultMessageHandler = nullptr;
 
@@ -41,7 +43,7 @@ namespace MessageHandler
         }
         else
         {
-            QTextStream(stdout) << QStringLiteral("ERROR: Cannot open log file: %1. Caused by (%2) %3\n")
+            QTextStream(stdout) << u"ERROR: Cannot open log file: %1. Caused by (%2) %3\n"_s
                                    .arg(getLogFileName()).arg(log.error()).arg(log.errorString());
         }
 
@@ -52,7 +54,7 @@ namespace MessageHandler
 
     void install()
     {
-        qSetMessagePattern(QString(MESSAGE_PATTERN));
+        qSetMessagePattern(MESSAGE_PATTERN);
 
         auto logFileName = getLogFileName();
         auto logFileDirname = QFileInfo(logFileName).dir();

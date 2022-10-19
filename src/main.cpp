@@ -6,6 +6,8 @@
 
 #include <messagehandler.h>
 
+using namespace Qt::Literals;
+
 int main(int argc, char *argv[])
 {
     MessageHandler::install();
@@ -15,8 +17,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("Universidad de La Laguna");
 
     QTranslator translator;
-    if (translator.load(QLocale::system(), QStringLiteral("qtbase"), QStringLiteral("_"),
-                        QStringLiteral(":/i18n")))
+    if (translator.load(QLocale::system(), u"qtbase"_s, u"_"_s, u":/i18n"_s))
     {
         app.installTranslator(&translator);
     }
@@ -25,7 +26,7 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(":/fonts/materialdesignicons-webfont.ttf");
 
     engine.addImportPath("qrc:/qml/imports");
-    const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
+    const QUrl url(u"qrc:/qml/main.qml"_s);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
