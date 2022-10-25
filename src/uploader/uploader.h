@@ -9,10 +9,11 @@ class UploaderImplAbstract;
 class Uploader : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(Error error READ error NOTIFY errorChanged)
     Q_PROPERTY(QString errorString READ errorString NOTIFY errorChanged)
-    QML_ELEMENT
 
 public:
     enum class State {
@@ -30,7 +31,7 @@ public:
     };
     Q_ENUM(Error);
 
-    explicit Uploader(QObject *parent = nullptr);
+    explicit Uploader(QObject* parent = nullptr);
 
     State state() const;
     Error error() const;

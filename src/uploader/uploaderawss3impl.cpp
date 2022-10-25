@@ -15,7 +15,7 @@
 
 #undef GetMessage
 
-static const char CLASS_TAG[] = "UploaderAwsS3Impl";
+const char CLASS_TAG[] = "UploaderAwsS3Impl";
 
 UploaderAwsS3Impl::UploaderAwsS3Impl(Uploader *parent)
     : UploaderImplAbstract{parent}, uploader_{parent}
