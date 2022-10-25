@@ -1,4 +1,5 @@
 module Controls
 
+LanguageSelector 1.0 LanguageSelector.qml
 TutorialControlMarker 1.0 TutorialControlMarker.qml
 VolumeControl 1.0 VolumeControl.qml

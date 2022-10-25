@@ -3,8 +3,8 @@
 #include <QLibraryInfo>
 #include <QQmlApplicationEngine>
 
+#include <i18n.h>
 #include <messagehandler.h>
-#include <translator.h>
 
 using namespace Qt::Literals;
 
@@ -13,16 +13,15 @@ int main(int argc, char *argv[])
     MessageHandler::install();
 
     QGuiApplication app(argc, argv);
-    app.setOrganizationDomain("ull.es");
-    app.setOrganizationName("Universidad de La Laguna");
+    app.setOrganizationDomain(u"ull.es"_s);
+    app.setOrganizationName(u"Universidad de La Laguna"_s);
 
-    // TODO: Sobrescribir locale por la línea de comandos.
-    Translator::install();
+    auto i18n = I18n::instance();
 
     QQmlApplicationEngine engine;
-    QFontDatabase::addApplicationFont(":/fonts/materialdesignicons-webfont.ttf");
+    QFontDatabase::addApplicationFont(u":/fonts/materialdesignicons-webfont.ttf"_s);
 
-    engine.addImportPath("qrc:/qml/imports");
+    engine.addImportPath(u"qrc:/qml/imports"_s);
     const QUrl url(u"qrc:/qml/main.qml"_s);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

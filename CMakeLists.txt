@@ -44,6 +44,7 @@ set(QML_IMPORT_PATH
 )
 
 set(TRANSLATION_FILES
+    src/translations/ecollect_en.ts
     src/translations/ecollect_es.ts
 )
 
@@ -51,10 +52,10 @@ set(PROJECT_SOURCES
     src/main.cpp
     src/filelog.cpp
     src/filelog.h
+    src/i18n.cpp
+    src/i18n.h
     src/messagehandler.cpp
     src/messagehandler.h
-    src/translator.cpp
-    src/translator.h
     src/utils.cpp
     src/utils.h
     src/qml/qml.qrc
