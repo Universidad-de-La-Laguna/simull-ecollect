@@ -91,6 +91,7 @@ void I18n::setActiveLanguageIndex(int index)
     {
         activeLanguageIndex_ = index;
         activateTranslation(SUPPORTED_LANGUAGES[activeLanguageIndex_]);
+        QLocale::setDefault(QLocale(SUPPORTED_LANGUAGES[activeLanguageIndex_]));
 
         auto qmlEngine = qobject_cast<QQmlEngine*>(parent());
         if (qmlEngine)
