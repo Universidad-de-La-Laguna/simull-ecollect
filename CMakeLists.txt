@@ -74,7 +74,8 @@ set(PROJECT_SOURCES
 )
 
 qt_add_big_resources(PROJECT_SOURCES
-    res/videos.qrc
+    res/videos/videos.qrc
+    res/campains/campains.qrc
 )
 
 qt_add_executable(ecollect
