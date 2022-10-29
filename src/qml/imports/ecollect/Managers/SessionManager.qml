@@ -125,8 +125,13 @@ Item {
 
                 onEntered: {
                     mediaPlayer.source = internal.transitionVideoUrl
+                    mediaPlayer.audioOutput.muted = true
                     mediaPlayer.play()
                     internal.playingState = SessionManager.PlayingTransitionState
+                }
+
+                onExited: {
+                    mediaPlayer.audioOutput.muted = false
                 }
 
                 DSM.SignalTransition {
