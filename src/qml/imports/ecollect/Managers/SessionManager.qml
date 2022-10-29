@@ -181,7 +181,7 @@ Item {
                 }
 
                 DSM.SignalTransition {
-                    targetState: playingTransitionState
+                    targetState: playingVideoState
                     signal: internal.resumenRequested
                 }
             }
