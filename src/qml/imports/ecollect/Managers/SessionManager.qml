@@ -97,6 +97,7 @@ Item {
 
             onEntered: {
                 Utils.makeFilesystemPath(appManager.sessionDataLocation)
+                internal.videoPlaylist = Utils.readPlaylist(internal.videoPlaylistUrl)
                 internal.currentVideoIndex = 0
                 internal.currentVideoReplay = 0
                 internal.isProcessingCancelRequest = false
@@ -258,10 +259,11 @@ Item {
         id: internal
 
         readonly property url transitionVideoUrl: Constants.transitionVideoUrl
-        readonly property var videoPlaylist: Constants.videoPlaylist
+        readonly property url videoPlaylistUrl: Constants.videoPlaylistUrl
 
         property int error: AppManager.NoError
         property int playingState: SessionManager.StoppedState
+        property var videoPlaylist: []
         property int currentVideoIndex: 0
         property int currentVideoReplay: 0
         property int reactionsRegistered: 0

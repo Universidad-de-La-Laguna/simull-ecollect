@@ -16,5 +16,7 @@ public:
     Q_INVOKABLE QString createUuid() const;
     Q_INVOKABLE bool makeFilesystemPath(const QUrl& localUrl) const;
     Q_INVOKABLE bool removeFilesystemPath(const QUrl& localUrl) const;
+    Q_INVOKABLE QString UrlToFilePath(const QUrl& localUrl) const;
+    Q_INVOKABLE QStringList readPlaylist(const QUrl& localUrl) const;
     Q_INVOKABLE bool showFullscreen() const;
 };

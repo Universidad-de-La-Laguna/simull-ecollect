@@ -52,15 +52,15 @@
         <file alias="img_HolaIslasCanarias-10.mp4">islas_canarias/still/img_HolaIslasCanarias-10.mp4</file>
     </qresource>
     <qresource prefix="/campains/visit_tenerife">
-        <file alias="img_TenerifeVisita-01">visit_tenerife/still/img_TenerifeVisita-01.mp4</file>
-        <file alias="img_TenerifeVisita-02">visit_tenerife/still/img_TenerifeVisita-02.mp4</file>
-        <file alias="img_TenerifeVisita-03">visit_tenerife/still/img_TenerifeVisita-03.mp4</file>
-        <file alias="img_TenerifeVisita-04">visit_tenerife/still/img_TenerifeVisita-04.mp4</file>
-        <file alias="img_TenerifeVisita-05">visit_tenerife/still/img_TenerifeVisita-05.mp4</file>
-        <file alias="img_TenerifeVisita-06">visit_tenerife/still/img_TenerifeVisita-06.mp4</file>
-        <file alias="img_TenerifeVisita-07">visit_tenerife/still/img_TenerifeVisita-07.mp4</file>
-        <file alias="img_TenerifeVisita-08">visit_tenerife/still/img_TenerifeVisita-08.mp4</file>
-        <file alias="img_TenerifeVisita-09">visit_tenerife/still/img_TenerifeVisita-09.mp4</file>
-        <file alias="img_TenerifeVisita-10">visit_tenerife/still/img_TenerifeVisita-10.mp4</file>
+        <file alias="img_TenerifeVisita-01.mp4">visit_tenerife/still/img_TenerifeVisita-01.mp4</file>
+        <file alias="img_TenerifeVisita-02.mp4">visit_tenerife/still/img_TenerifeVisita-02.mp4</file>
+        <file alias="img_TenerifeVisita-03.mp4">visit_tenerife/still/img_TenerifeVisita-03.mp4</file>
+        <file alias="img_TenerifeVisita-04.mp4">visit_tenerife/still/img_TenerifeVisita-04.mp4</file>
+        <file alias="img_TenerifeVisita-05.mp4">visit_tenerife/still/img_TenerifeVisita-05.mp4</file>
+        <file alias="img_TenerifeVisita-06.mp4">visit_tenerife/still/img_TenerifeVisita-06.mp4</file>
+        <file alias="img_TenerifeVisita-07.mp4">visit_tenerife/still/img_TenerifeVisita-07.mp4</file>
+        <file alias="img_TenerifeVisita-08.mp4">visit_tenerife/still/img_TenerifeVisita-08.mp4</file>
+        <file alias="img_TenerifeVisita-09.mp4">visit_tenerife/still/img_TenerifeVisita-09.mp4</file>
+        <file alias="img_TenerifeVisita-10.mp4">visit_tenerife/still/img_TenerifeVisita-10.mp4</file>
     </qresource>
 </RCC>

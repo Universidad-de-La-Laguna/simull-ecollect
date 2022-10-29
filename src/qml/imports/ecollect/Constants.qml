@@ -19,10 +19,7 @@ QtObject {
     readonly property string sessionDataFilename: "dataset.csv"
     readonly property url transitionVideoUrl: "qrc:///videos/film_leader.mp4"
 
-    readonly property var videoPlaylist: [
-        "qrc:///videos/video_test01.mp4",
-        "qrc:///videos/video_test02.mp4",
-    ]
+    readonly property var videoPlaylistUrl: "qrc:///campains/playlist.txt"
 
     readonly property ListModel reactions: ListModel {
         ListElement {

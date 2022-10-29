@@ -1,0 +1,36 @@
+qrc:///campains/visit_tenerife/img_TenerifeVisita-01.mp4
+qrc:///campains/visit_tenerife/1 - Tenerife awakens emotions 30 seconds.mp4
+qrc:///campains/visit_tenerife/img_TenerifeVisita-02.mp4
+qrc:///campains/visit_tenerife/2 - Tenerife Destiny.mp4
+qrc:///campains/visit_tenerife/img_TenerifeVisita-03.mp4
+qrc:///campains/visit_tenerife/3 - Merry Christmas! Visit Tenerife.mp4
+qrc:///campains/visit_tenerife/img_TenerifeVisita-04.mp4
+qrc:///campains/visit_tenerife/img_TenerifeVisita-05.mp4
+qrc:///campains/visit_tenerife/4 - Emotions in our destination.mp4
+qrc:///campains/visit_tenerife/img_TenerifeVisita-06.mp4
+qrc:///campains/visit_tenerife/5 - Tenerife #AwakenEmotions.mp4
+qrc:///campains/visit_tenerife/img_TenerifeVisita-07.mp4
+qrc:///campains/visit_tenerife/6 - For food lovers... a trip to the flavours of Tenerife.mp4
+qrc:///campains/visit_tenerife/img_TenerifeVisita-08.mp4
+qrc:///campains/visit_tenerife/7 - Christmas in La Laguna, Tenerife.mp4
+qrc:///campains/visit_tenerife/img_TenerifeVisita-09.mp4
+qrc:///campains/visit_tenerife/8 - Tenerife Whale Watching Sustainability Charter.mp4
+qrc:///campains/visit_tenerife/img_TenerifeVisita-10.mp4
+qrc:///campains/islas_canarias/img_HolaIslasCanarias-01.mp4
+qrc:///campains/islas_canarias/1 - Canary Islands - The office with the best climate in the world.mp4
+qrc:///campains/islas_canarias/img_HolaIslasCanarias-02.mp4
+qrc:///campains/islas_canarias/2 - Go on a journey packed with experiences in the Canary Islands.mp4
+qrc:///campains/islas_canarias/img_HolaIslasCanarias-03.mp4
+qrc:///campains/islas_canarias/3 - Around the world in 8 islands.mp4
+qrc:///campains/islas_canarias/img_HolaIslasCanarias-04.mp4
+qrc:///campains/islas_canarias/4 - THE EARTH IS EXTRAORDINARY - The Canary Islands.mp4
+qrc:///campains/islas_canarias/img_HolaIslasCanarias-05.mp4
+qrc:///campains/islas_canarias/img_HolaIslasCanarias-06.mp4
+qrc:///campains/islas_canarias/5 - How much nature do you need.mp4
+qrc:///campains/islas_canarias/img_HolaIslasCanarias-07.mp4
+qrc:///campains/islas_canarias/6 - What would you do in the best climate in the world Canary Islands.mp4
+qrc:///campains/islas_canarias/img_HolaIslasCanarias-08.mp4
+qrc:///campains/islas_canarias/7 - Gastronomy in the Canary Islands.mp4
+qrc:///campains/islas_canarias/img_HolaIslasCanarias-09.mp4
+qrc:///campains/islas_canarias/8 - Winter is not coming - Canary Islands.mp4
+qrc:///campains/islas_canarias/img_HolaIslasCanarias-10.mp4

@@ -5,5 +5,6 @@
         <file>images/face-with-tears-of-joy.png</file>
         <file>images/pouting-face.png</file>
         <file>images/nauseated-face.png</file>
+        <file>campains/playlist.txt</file>
     </qresource>
 </RCC>
