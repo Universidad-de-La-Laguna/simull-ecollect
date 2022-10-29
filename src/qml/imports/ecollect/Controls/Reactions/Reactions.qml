@@ -31,7 +31,7 @@ Item {
             model: reactions.model
 
             Reaction {
-                text: model.label
+                text: model.displayName
                 icon: model.icon
                 enabled: reactions.enabled
                 particleSystem: particles
