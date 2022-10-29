@@ -23,7 +23,7 @@ Dialog {
                        "y sensaciones que el contenido despiertan en ella.\n\n" +
                        "Esta información será valiosa para crear modelos predictivos sobre las emociones\n" +
                        "humanas. Muchas gracias por su colaboración.\n\n" +
-                       "El tiempo estimado para completar una sesión es de 15 minutos. ¿Desea continuar?")
+                       "El tiempo estimado para completar una sesión es de 20 minutos. ¿Desea continuar?")
         }
     }
 }
