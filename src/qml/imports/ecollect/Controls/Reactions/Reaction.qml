@@ -7,7 +7,8 @@ import ecollect
 Item {
     id: root
 
-    property alias icon: button.icon.source
+    property url icon
+    property url disabledIcon: ""
     property alias text: button.text
     property alias enabled: button.enabled
     property alias particleSystem: emitter.system
@@ -22,13 +23,13 @@ Item {
 
         display: Button.TextBesideIcon
         radius: Constants.spacingUnit * 0.5
+        icon.color: "transparent"
+        icon.source: button.enabled ? root.icon :
+                     root.disabledIcon.toString() === "" ? root.icon : root.disabledIcon
+
         onClicked: {
             root.clicked()
             emitter.pulse(Math.round(Math.random() * 300 + 100))
-        }
-
-        Component.onCompleted: {
-            onEnabledChanged.connect(() => icon.color = button.enabled ? "transparent" : "#4cffffff")
         }
 
         Emitter {

@@ -25,42 +25,49 @@ QtObject {
             name: "angry"
             displayName: qsTr("Angry")
             icon: "qrc:///images/pouting-face.png"
+            disabledIcon: "qrc:///images/pouting-face-greyed.png"
         }
 
         ListElement {
             name: "disgust"
             displayName: qsTr("Disgust")
             icon: "qrc:///images/nauseated-face.png"
+            disabledIcon: "qrc:///images/nauseated-face-greyed.png"
         }
 
         ListElement {
             name: "fear"
             displayName: qsTr("Fear")
             icon: "qrc:///images/face-screaming-in-fear.png"
+            disabledIcon: "qrc:///images/face-screaming-in-fear-greyed.png"
         }
 
         ListElement {
             name: "happy"
             displayName: qsTr("Happy")
             icon: "qrc:///images/grinning-face-with-smiling-eye.png"
+            disabledIcon: "qrc:///images/grinning-face-with-smiling-eye-greyed.png"
         }
 
         ListElement {
             name: "sad"
             displayName: qsTr("Sad")
             icon: "qrc:///images/slightly-frowning-face.png"
+            disabledIcon: "qrc:///images/slightly-frowning-face-greyed.png"
         }
 
         ListElement {
             name: "surprise"
             displayName: qsTr("Surprise")
             icon: "qrc:///images/astonished-face.png"
+            disabledIcon: "qrc:///images/astonished-face-greyed.png"
         }
 
         ListElement {
             name: "neutral"
             displayName: qsTr("Neutral")
             icon: "qrc:///images/neutral-face.png"
+            disabledIcon: "qrc:///images/neutral-face-greyed.png"
         }
     }
 }

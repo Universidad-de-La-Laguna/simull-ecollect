@@ -28,7 +28,6 @@
         <file>imports/ecollect/Controls/Reactions/Reaction.qml</file>
         <file>imports/ecollect/Controls/Reactions/qmldir</file>
         <file>imports/ecollect/Controls/Reactions/Reactions.qml</file>
-        <file>imports/ecollect/Controls/Reactions/ReactionsProps.qml</file>
         <file>imports/ecollect/Managers/Manager.qml</file>
         <file>imports/ecollect/Dialogs/TutorialCameraDialog.qml</file>
         <file>imports/ecollect/Dialogs/TutorialReactionsDialog.qml</file>

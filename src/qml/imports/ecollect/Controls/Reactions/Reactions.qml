@@ -8,8 +8,9 @@ import ecollect.Controls.Reactions
 Item {
     id: root
 
-    property ReactionsProps reactions: ReactionsProps {}
     property alias model: reactionsRepeater.model
+    property bool enabled: true
+    property bool useDefaultIcons: false
 
     signal reactionClicked(string name)
 
@@ -28,14 +29,14 @@ Item {
 
         Repeater {
             id: reactionsRepeater
-            model: reactions.model
 
             Reaction {
                 text: model.displayName
                 icon: model.icon
-                enabled: reactions.enabled
+                disabledIcon: useDefaultIcons ? model.icon : model.disabledIcon
+                enabled: root.enabled
                 particleSystem: particles
-                onClicked: root.reactionClicked(model.name)
+                onClicked: if (enabled) root.reactionClicked(model.name)
             }
         }
     }

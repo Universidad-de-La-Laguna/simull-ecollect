@@ -2,13 +2,20 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>fonts/materialdesignicons-webfont.ttf</file>
-        <file>images/pouting-face.png</file>
-        <file>images/nauseated-face.png</file>
         <file>campains/playlist.txt</file>
-        <file>images/face-screaming-in-fear.png</file>
-        <file>images/grinning-face-with-smiling-eye.png</file>
-        <file>images/slightly-frowning-face.png</file>
         <file>images/astonished-face.png</file>
         <file>images/neutral-face.png</file>
+        <file>images/face-screaming-in-fear.png</file>
+        <file>images/grinning-face-with-smiling-eye.png</file>
+        <file>images/nauseated-face.png</file>
+        <file>images/pouting-face.png</file>
+        <file>images/slightly-frowning-face.png</file>
+        <file>images/astonished-face-greyed.png</file>
+        <file>images/face-screaming-in-fear-greyed.png</file>
+        <file>images/grinning-face-with-smiling-eye-greyed.png</file>
+        <file>images/nauseated-face-greyed.png</file>
+        <file>images/neutral-face-greyed.png</file>
+        <file>images/pouting-face-greyed.png</file>
+        <file>images/slightly-frowning-face-greyed.png</file>
     </qresource>
 </RCC>

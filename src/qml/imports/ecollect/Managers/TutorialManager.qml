@@ -11,6 +11,7 @@ Manager {
     id: root
 
     readonly property alias error: internal.error
+    readonly property alias aboutReactionsStateActive: aboutReactionsState.active
 
     property CaptureSession captureSession
     property var videoOutputControl

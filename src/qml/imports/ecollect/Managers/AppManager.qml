@@ -283,6 +283,7 @@ Manager {
 
             model: Constants.reactions
             enabled: sessionManager.playingState === SessionManager.PlayingVideoState
+            useDefaultIcons: tutorialManager.aboutReactionsStateActive
             onReactionClicked: (name) => sessionManager.registerUserReaction(name)
         }
 
