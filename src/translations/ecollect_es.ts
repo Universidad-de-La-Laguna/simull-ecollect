@@ -15,6 +15,44 @@
     </message>
 </context>
 <context>
+    <name>Constants</name>
+    <message>
+        <location filename="../qml/imports/ecollect/Constants.qml" line="26"/>
+        <source>Angry</source>
+        <translation>Enfadado</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Constants.qml" line="33"/>
+        <source>Disgust</source>
+        <translation>Disgustado</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Constants.qml" line="40"/>
+        <source>Fear</source>
+        <translation>Temeroso</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Constants.qml" line="47"/>
+        <source>Happy</source>
+        <translation>Feliz</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Constants.qml" line="54"/>
+        <source>Sad</source>
+        <translation>Triste</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Constants.qml" line="61"/>
+        <source>Surprise</source>
+        <translation>Sorprendido</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Constants.qml" line="68"/>
+        <source>Neutral</source>
+        <translation>Neutral</translation>
+    </message>
+</context>
+<context>
     <name>ErrorDialog</name>
     <message>
         <location filename="../qml/imports/ecollect/Dialogs/ErrorDialog.qml" line="13"/>
@@ -195,12 +233,12 @@ terminen de enviarse.</source>
 <context>
     <name>WelcomeDialog</name>
     <message>
-        <location filename="../qml/imports/ecollect/Dialogs/WelcomeDialog.qml" line="5"/>
-        <source>¡Bienvenido/a!</source>
-        <translation type="unfinished"></translation>
+        <location filename="../qml/imports/ecollect/Dialogs/WelcomeDialog.qml" line="10"/>
+        <source>Welcome!</source>
+        <translation>¡Bienvenido/a!</translation>
     </message>
     <message>
-        <location filename="../qml/imports/ecollect/Dialogs/WelcomeDialog.qml" line="12"/>
+        <location filename="../qml/imports/ecollect/Dialogs/WelcomeDialog.qml" line="21"/>
         <source>El propósito de esta aplicación es recoger vídeos de expresiones faciales de una
 persona mientras observa videos e imágenes promocionales y señala las emociones
 y sensaciones que el contenido despiertan en ella.
@@ -208,7 +246,7 @@ y sensaciones que el contenido despiertan en ella.
 Esta información será valiosa para crear modelos predictivos sobre las emociones
 humanas. Muchas gracias por su colaboración.
 
-El tiempo estimado para completar una sesión es de 15 minutos. ¿Desea continuar?</source>
+El tiempo estimado para completar una sesión es de 20 minutos. ¿Desea continuar?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

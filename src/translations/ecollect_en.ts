@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es">
+<TS version="2.1" language="en">
 <context>
     <name>CancelingUploadDialog</name>
     <message>
@@ -195,12 +195,7 @@ terminen de enviarse.</source>
 <context>
     <name>WelcomeDialog</name>
     <message>
-        <location filename="../qml/imports/ecollect/Dialogs/WelcomeDialog.qml" line="5"/>
-        <source>¡Bienvenido/a!</source>
-        <translation>Welcome!</translation>
-    </message>
-    <message>
-        <location filename="../qml/imports/ecollect/Dialogs/WelcomeDialog.qml" line="12"/>
+        <location filename="../qml/imports/ecollect/Dialogs/WelcomeDialog.qml" line="21"/>
         <source>El propósito de esta aplicación es recoger vídeos de expresiones faciales de una
 persona mientras observa videos e imágenes promocionales y señala las emociones
 y sensaciones que el contenido despiertan en ella.
@@ -208,7 +203,7 @@ y sensaciones que el contenido despiertan en ella.
 Esta información será valiosa para crear modelos predictivos sobre las emociones
 humanas. Muchas gracias por su colaboración.
 
-El tiempo estimado para completar una sesión es de 15 minutos. ¿Desea continuar?</source>
+El tiempo estimado para completar una sesión es de 20 minutos. ¿Desea continuar?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

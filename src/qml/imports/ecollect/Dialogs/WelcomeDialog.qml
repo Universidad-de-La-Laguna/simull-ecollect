@@ -7,7 +7,7 @@ import ecollect.Controls
 Dialog {
     id: dialog
 
-    title: qsTr("¡Bienvenido/a!")
+    title: qsTr("Welcome!")
     standardButtons: Dialog.Yes | Dialog.No
     closePolicy: Popup.CloseOnEscape
     anchors.centerIn: parent
