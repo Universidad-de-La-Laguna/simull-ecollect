@@ -43,7 +43,7 @@ Item {
         internal.reactionsRegistered++;
     }
 
-    MediaPlayer {
+    property var mediaPlayer: MediaPlayer {
         id: mediaPlayer
 
         audioOutput: AudioOutput {

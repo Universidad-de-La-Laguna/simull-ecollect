@@ -2,4 +2,5 @@ module Controls
 
 LanguageSelector 1.0 LanguageSelector.qml
 TutorialControlMarker 1.0 TutorialControlMarker.qml
+VideoProgressBar 1.0 VideoProgressBar.qml
 VolumeControl 1.0 VolumeControl.qml

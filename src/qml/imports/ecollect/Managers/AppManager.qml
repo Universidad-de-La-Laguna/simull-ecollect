@@ -224,7 +224,7 @@ Manager {
         id: errorDialog
     }
 
-    // Multimeda components
+    // Multimedia components
 
     CaptureSession {
         id: captureSession
@@ -276,6 +276,12 @@ Manager {
             id: videoOutput
 
             anchors.fill: parent
+
+            VideoProgressBar {
+                visible: sessionManager.playingState === SessionManager.PlayingVideoState &&
+                         sessionManager.mediaPlayer.playbackState === MediaPlayer.PlayingState
+                value: sessionManager.mediaPlayer.position / sessionManager.mediaPlayer.duration
+            }
         }
 
         rightSidebar: Reactions {

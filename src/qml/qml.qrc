@@ -35,5 +35,6 @@
         <file>imports/ecollect/Dialogs/TutorialEndDialog.qml</file>
         <file>imports/ecollect/Dialogs/TutorialIntroDialog.qml</file>
         <file>imports/ecollect/Controls/LanguageSelector.qml</file>
+        <file>imports/ecollect/Controls/VideoProgressBar.qml</file>
     </qresource>
 </RCC>
