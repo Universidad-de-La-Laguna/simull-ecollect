@@ -58,8 +58,8 @@ I18n::I18n(QObject *parent)
     : QObject(parent), activeLanguageIndex_(-1)
 {
     supportedLanguagesModel_ = new QStringListModel(SUPPORTED_LANGUAGES, this);
-    activeLanguageIndex_ = chooseBestLanguage();
-    setActiveLanguageIndex(activeLanguageIndex_);
+    int activeLanguageIndex = chooseBestLanguage();
+    setActiveLanguageIndex(activeLanguageIndex);
 }
 
 I18n* I18n::instance()
@@ -114,8 +114,11 @@ void I18n::installTranslation(const QString& language, const QString& filename)
     QTranslator* translator = translators_.value(filename, new QTranslator(this));
     if (translator->load(QLocale(language), filename, TRANSLATIONS_FIILENAME_SEP, TRANSLATIONS_DIRECTORY))
     {
-        qApp->installTranslator(translator);
-        translators_.insert(filename, translator);
+        if (! translators_.contains(filename))
+        {
+            qApp->installTranslator(translator);
+            translators_.insert(filename, translator);
+        }
     }
     else
     {

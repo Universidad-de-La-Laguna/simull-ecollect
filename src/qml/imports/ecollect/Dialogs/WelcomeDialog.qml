@@ -8,10 +8,22 @@ Dialog {
     id: dialog
 
     title: qsTr("Welcome!")
-    standardButtons: Dialog.Yes | Dialog.No
     closePolicy: Popup.CloseOnEscape
     anchors.centerIn: parent
     modal: true
+
+    footer: DialogButtonBox {
+        Button {
+            text: qsTr("No")
+            flat: true
+            DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
+        }
+        Button {
+            text: qsTr("Yes")
+            flat: true
+            DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
+        }
+    }
 
     ColumnLayout {
 

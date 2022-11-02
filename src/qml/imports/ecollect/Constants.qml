@@ -23,49 +23,49 @@ QtObject {
     readonly property ListModel reactions: ListModel {
         ListElement {
             name: "angry"
-            displayName: qsTr("Angry")
+            displayName: "Angry"
             icon: "qrc:///images/pouting-face.png"
             disabledIcon: "qrc:///images/pouting-face-greyed.png"
         }
 
         ListElement {
             name: "disgust"
-            displayName: qsTr("Disgust")
+            displayName: "Disgust"
             icon: "qrc:///images/nauseated-face.png"
             disabledIcon: "qrc:///images/nauseated-face-greyed.png"
         }
 
         ListElement {
             name: "fear"
-            displayName: qsTr("Fear")
+            displayName: "Fear"
             icon: "qrc:///images/face-screaming-in-fear.png"
             disabledIcon: "qrc:///images/face-screaming-in-fear-greyed.png"
         }
 
         ListElement {
             name: "happy"
-            displayName: qsTr("Happy")
+            displayName: "Happy"
             icon: "qrc:///images/grinning-face-with-smiling-eye.png"
             disabledIcon: "qrc:///images/grinning-face-with-smiling-eye-greyed.png"
         }
 
         ListElement {
             name: "sad"
-            displayName: qsTr("Sad")
+            displayName: "Sad"
             icon: "qrc:///images/slightly-frowning-face.png"
             disabledIcon: "qrc:///images/slightly-frowning-face-greyed.png"
         }
 
         ListElement {
             name: "surprise"
-            displayName: qsTr("Surprise")
+            displayName: "Surprise"
             icon: "qrc:///images/astonished-face.png"
             disabledIcon: "qrc:///images/astonished-face-greyed.png"
         }
 
         ListElement {
             name: "neutral"
-            displayName: qsTr("Neutral")
+            displayName: "Neutral"
             icon: "qrc:///images/neutral-face.png"
             disabledIcon: "qrc:///images/neutral-face-greyed.png"
         }

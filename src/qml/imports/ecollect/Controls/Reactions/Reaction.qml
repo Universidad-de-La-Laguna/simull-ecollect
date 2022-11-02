@@ -53,7 +53,7 @@ Item {
             }
 
             ImageParticle {
-                source: button.icon.source
+                source: root.icon
                 system: particles
                 width: 24
                 height: 24

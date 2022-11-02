@@ -15,49 +15,16 @@
     </message>
 </context>
 <context>
-    <name>Constants</name>
-    <message>
-        <location filename="../qml/imports/ecollect/Constants.qml" line="26"/>
-        <source>Angry</source>
-        <translation>Enfadado</translation>
-    </message>
-    <message>
-        <location filename="../qml/imports/ecollect/Constants.qml" line="33"/>
-        <source>Disgust</source>
-        <translation>Disgustado</translation>
-    </message>
-    <message>
-        <location filename="../qml/imports/ecollect/Constants.qml" line="40"/>
-        <source>Fear</source>
-        <translation>Temeroso</translation>
-    </message>
-    <message>
-        <location filename="../qml/imports/ecollect/Constants.qml" line="47"/>
-        <source>Happy</source>
-        <translation>Feliz</translation>
-    </message>
-    <message>
-        <location filename="../qml/imports/ecollect/Constants.qml" line="54"/>
-        <source>Sad</source>
-        <translation>Triste</translation>
-    </message>
-    <message>
-        <location filename="../qml/imports/ecollect/Constants.qml" line="61"/>
-        <source>Surprise</source>
-        <translation>Sorprendido</translation>
-    </message>
-    <message>
-        <location filename="../qml/imports/ecollect/Constants.qml" line="68"/>
-        <source>Neutral</source>
-        <translation>Neutral</translation>
-    </message>
-</context>
-<context>
     <name>ErrorDialog</name>
     <message>
         <location filename="../qml/imports/ecollect/Dialogs/ErrorDialog.qml" line="13"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/ErrorDialog.qml" line="19"/>
+        <source>Close</source>
+        <translation>Cerrar</translation>
     </message>
 </context>
 <context>
@@ -117,8 +84,44 @@ sistema e inténtelo de nuevo.</source>
     </message>
     <message>
         <location filename="../qml/imports/ecollect/Dialogs/GoodbyeDialog.qml" line="12"/>
+        <source>Close</source>
+        <translation>Cerrar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/GoodbyeDialog.qml" line="19"/>
         <source>Ya hemos terminado. Muchísimas gracias por su colaboración.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <source>Angry</source>
+        <translation>Enfadado</translation>
+    </message>
+    <message>
+        <source>Disgust</source>
+        <translation>Disgustado</translation>
+    </message>
+    <message>
+        <source>Fear</source>
+        <translation>Temeroso</translation>
+    </message>
+    <message>
+        <source>Happy</source>
+        <translation>Feliz</translation>
+    </message>
+    <message>
+        <source>Sad</source>
+        <translation>Triste</translation>
+    </message>
+    <message>
+        <source>Surprise</source>
+        <translation>Sorprendido</translation>
+    </message>
+    <message>
+        <source>Neutral</source>
+        <translation>Neutral</translation>
     </message>
 </context>
 <context>
@@ -130,6 +133,11 @@ sistema e inténtelo de nuevo.</source>
     </message>
     <message>
         <location filename="../qml/imports/ecollect/Dialogs/SessionPausedDialog.qml" line="11"/>
+        <source>Retry</source>
+        <translation>Reintentar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/SessionPausedDialog.qml" line="18"/>
         <source>Ha visto el contenido pero no ha reaccionado usando los botones de la derecha.
 Recuerde reaccionar durante la reproducción de cada pieza de contenido. Cuantas
 más veces lo haga mejor, pero debe hacerlo al menos una vez.</source>
@@ -145,6 +153,16 @@ más veces lo haga mejor, pero debe hacerlo al menos una vez.</source>
     </message>
     <message>
         <location filename="../qml/imports/ecollect/Dialogs/TutorialAudioDialog.qml" line="11"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/TutorialAudioDialog.qml" line="16"/>
+        <source>OK</source>
+        <translation>Aceptar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/TutorialAudioDialog.qml" line="23"/>
         <source>En todo momento podrá controlar el volumen de la reproducción usando el control
 de volumen bajo el reproductor de vídeo.</source>
         <translation type="unfinished"></translation>
@@ -158,7 +176,17 @@ de volumen bajo el reproductor de vídeo.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/imports/ecollect/Dialogs/TutorialCameraDialog.qml" line="11"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
         <location filename="../qml/imports/ecollect/Dialogs/TutorialCameraDialog.qml" line="17"/>
+        <source>OK</source>
+        <translation>Aceptar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/TutorialCameraDialog.qml" line="31"/>
         <source>Antes de continuar, compruebe que se le ve correctamente en la cámara. Por
 ejemplo, que la iluminación de la habitación es adecuada y que está de
 frente a la cámara.</source>
@@ -174,6 +202,16 @@ frente a la cámara.</source>
     </message>
     <message>
         <location filename="../qml/imports/ecollect/Dialogs/TutorialEndDialog.qml" line="11"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/TutorialEndDialog.qml" line="16"/>
+        <source>OK</source>
+        <translation>Aceptar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/TutorialEndDialog.qml" line="23"/>
         <source>Ya casi estamos listos. Podemos empezar la sesión.
 
 ¿Desea continuar?</source>
@@ -189,6 +227,16 @@ frente a la cámara.</source>
     </message>
     <message>
         <location filename="../qml/imports/ecollect/Dialogs/TutorialIntroDialog.qml" line="11"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/TutorialIntroDialog.qml" line="16"/>
+        <source>OK</source>
+        <translation>Aceptar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/TutorialIntroDialog.qml" line="23"/>
         <source>Durante la sesión reproduciremos en el centro de la ventana una serie de vídeos e
 imágenes mientras grabamos sus expresiones faciales con la cámara del ordenador.</source>
         <translation type="unfinished"></translation>
@@ -203,6 +251,16 @@ imágenes mientras grabamos sus expresiones faciales con la cámara del ordenado
     </message>
     <message>
         <location filename="../qml/imports/ecollect/Dialogs/TutorialReactionsDialog.qml" line="10"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/TutorialReactionsDialog.qml" line="15"/>
+        <source>OK</source>
+        <translation>Aceptar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/TutorialReactionsDialog.qml" line="22"/>
         <source>Necesitamos que durante la reproducción de cada vídeo indique las emociones
 que le despierta, usando los botones de la derecha. Cuanta más información
 nos proporcione mejor, por lo que le animamos a pulsar todas las veces que
@@ -238,7 +296,17 @@ terminen de enviarse.</source>
         <translation>¡Bienvenido/a!</translation>
     </message>
     <message>
-        <location filename="../qml/imports/ecollect/Dialogs/WelcomeDialog.qml" line="21"/>
+        <location filename="../qml/imports/ecollect/Dialogs/WelcomeDialog.qml" line="17"/>
+        <source>No</source>
+        <translation>No</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/WelcomeDialog.qml" line="22"/>
+        <source>Yes</source>
+        <translation>Sí</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/WelcomeDialog.qml" line="33"/>
         <source>El propósito de esta aplicación es recoger vídeos de expresiones faciales de una
 persona mientras observa videos e imágenes promocionales y señala las emociones
 y sensaciones que el contenido despiertan en ella.

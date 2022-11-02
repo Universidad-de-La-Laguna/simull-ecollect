@@ -31,7 +31,7 @@ Item {
             id: reactionsRepeater
 
             Reaction {
-                text: model.displayName
+                text: qsTr(model.displayName)
                 icon: model.icon
                 disabledIcon: useDefaultIcons ? model.icon : model.disabledIcon
                 enabled: root.enabled

@@ -11,9 +11,16 @@ Dialog {
     signal linkActivated (url link)
 
     title: qsTr("Error")
-    standardButtons: Dialog.Close
     anchors.centerIn: parent
     modal: true
+
+    footer: DialogButtonBox {
+        Button {
+            text: qsTr("Close")
+            flat: true
+            DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
+        }
+    }
 
     Label {
         id: label

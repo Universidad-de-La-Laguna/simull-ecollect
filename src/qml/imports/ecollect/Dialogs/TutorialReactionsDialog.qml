@@ -3,8 +3,20 @@ import QtQuick.Controls
 
 Dialog {
     title: qsTr("Reacciones")
-    standardButtons: Dialog.Ok | Dialog.Cancel
     closePolicy: Popup.CloseOnEscape
+
+    footer: DialogButtonBox {
+        Button {
+            text: qsTr("Cancel")
+            flat: true
+            DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
+        }
+        Button {
+            text: qsTr("OK")
+            flat: true
+            DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
+        }
+    }
 
     Label {
         text: qsTr("Necesitamos que durante la reproducción de cada vídeo indique las emociones\n" +

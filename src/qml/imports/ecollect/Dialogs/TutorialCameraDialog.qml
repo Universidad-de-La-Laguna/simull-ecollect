@@ -3,13 +3,27 @@ import QtQuick.Controls
 
 Dialog {
     title: qsTr("Previsualización de la cámara")
-    standardButtons: Dialog.Ok | Dialog.Cancel
     closePolicy: Popup.CloseOnEscape
+
+    footer: DialogButtonBox {
+        Button {
+            id: cancelButton
+            text: qsTr("Cancel")
+            flat: true
+            DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
+        }
+        Button {
+            id: okButton
+            text: qsTr("OK")
+            flat: true
+            DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
+        }
+    }
 
     onVisibleChanged: {
         if (! visible) return
-        standardButton(Dialog.Ok).enabled = false
-        standardButton(Dialog.Cancel).enabled = false
+        cancelButton.enabled = false
+        okButton.enabled = false
         timer.restart()
     }
 
@@ -24,8 +38,8 @@ Dialog {
 
         interval: 3000
         onTriggered: {
-            standardButton(Dialog.Ok).enabled = true
-            standardButton(Dialog.Cancel).enabled = true
+            cancelButton.enabled = true
+            okButton.enabled= true
         }
     }
 }
