@@ -17,10 +17,6 @@ Item {
     anchors.fill: parent
     anchors.rightMargin: Constants.spacingUnit * 2
 
-    ParticleSystem {
-        id: particles
-    }
-
     Column {
         id: reactionsContainer
         anchors.top: parent.top
@@ -35,7 +31,6 @@ Item {
                 icon: model.icon
                 disabledIcon: useDefaultIcons ? model.icon : model.disabledIcon
                 enabled: root.enabled
-                particleSystem: particles
                 onClicked: if (enabled) root.reactionClicked(model.name)
             }
         }

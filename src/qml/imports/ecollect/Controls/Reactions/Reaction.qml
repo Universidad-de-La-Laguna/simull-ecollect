@@ -11,12 +11,15 @@ Item {
     property url disabledIcon: ""
     property alias text: button.text
     property alias enabled: button.enabled
-    property alias particleSystem: emitter.system
 
     signal clicked
 
     implicitHeight: button.implicitHeight
     implicitWidth: button.implicitWidth
+
+    ParticleSystem {
+        id: particles
+    }
 
     RoundButton {
         id: button
@@ -39,8 +42,8 @@ Item {
             y: 28
             width: 1
             height: 1
-            system: particles
             enabled: false
+            system: particles
             emitRate: 10
             lifeSpan: 1000
             lifeSpanVariation: 50
