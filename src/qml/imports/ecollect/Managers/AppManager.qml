@@ -278,9 +278,12 @@ Manager {
             anchors.fill: parent
 
             VideoProgressBar {
-                visible: sessionManager.playingState === SessionManager.PlayingVideoState &&
-                         sessionManager.mediaPlayer.playbackState === MediaPlayer.PlayingState
-                value: sessionManager.mediaPlayer.position / sessionManager.mediaPlayer.duration
+                mediaPlayer: sessionManager.mediaPlayer
+                backgroundColor: Constants.videoProgressBarBackground
+                color: Constants.videoProgressBarColor
+                length: Constants.videoProgressBarLength
+                thick: Constants.videoProgressBarThick
+                visible: sessionManager.playingState === SessionManager.PlayingVideoState
             }
         }
 

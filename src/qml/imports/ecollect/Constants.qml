@@ -1,5 +1,6 @@
 pragma Singleton
 import QtQuick
+import QtQuick.Controls.Material
 import QtMultimedia
 
 QtObject {
@@ -10,6 +11,11 @@ QtObject {
     readonly property string applicatioName: "Emotions Samples Collect - SIMULL"
 
     readonly property color tutorialMarkerColor: "#E77054"
+
+    readonly property color videoProgressBarBackground: Material.primary
+    readonly property color videoProgressBarColor: "white"
+    readonly property int videoProgressBarLength: 500
+    readonly property int videoProgressBarThick: 2
 
     readonly property int recordingMediaFormat: MediaFormat.MPEG4
     readonly property int recordingVideoCodec: MediaFormat.VideoCodec.H264
