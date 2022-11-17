@@ -49,54 +49,61 @@ QtObject {
     readonly property url transitionVideoUrl: "qrc:///videos/film_leader.mp4"
     readonly property url videoPlaylistUrl: "qrc:///campains/playlist.txt"
 
-    readonly property ListModel reactions: ListModel {
+    property ListModel reactions: ListModel {
         ListElement {
             name: "angry"
-            displayName: "Angry"
             icon: "qrc:///images/pouting-face.png"
             disabledIcon: "qrc:///images/pouting-face-greyed.png"
+
+            getDisplayName: () => qsTr("Angry")
         }
 
         ListElement {
             name: "disgust"
-            displayName: "Disgust"
             icon: "qrc:///images/nauseated-face.png"
             disabledIcon: "qrc:///images/nauseated-face-greyed.png"
+
+            getDisplayName: () => qsTr("Disgust")
         }
 
         ListElement {
             name: "fear"
-            displayName: "Fear"
             icon: "qrc:///images/face-screaming-in-fear.png"
             disabledIcon: "qrc:///images/face-screaming-in-fear-greyed.png"
+
+            getDisplayName: () => qsTr("Fear")
         }
 
         ListElement {
             name: "happy"
-            displayName: "Happy"
             icon: "qrc:///images/grinning-face-with-smiling-eye.png"
             disabledIcon: "qrc:///images/grinning-face-with-smiling-eye-greyed.png"
+
+            getDisplayName: () => qsTr("Happy")
         }
 
         ListElement {
             name: "sad"
-            displayName: "Sad"
             icon: "qrc:///images/slightly-frowning-face.png"
             disabledIcon: "qrc:///images/slightly-frowning-face-greyed.png"
+
+            getDisplayName: () => qsTr("Sad")
         }
 
         ListElement {
             name: "surprise"
-            displayName: "Surprise"
             icon: "qrc:///images/astonished-face.png"
             disabledIcon: "qrc:///images/astonished-face-greyed.png"
+
+            getDisplayName: () => qsTr("Surprise")
         }
 
         ListElement {
             name: "neutral"
-            displayName: "Neutral"
             icon: "qrc:///images/neutral-face.png"
             disabledIcon: "qrc:///images/neutral-face-greyed.png"
+
+            getDisplayName: () => qsTr("Neutral")
         }
     }
 }

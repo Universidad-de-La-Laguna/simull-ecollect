@@ -4,7 +4,7 @@ import QtQuick.Particles
 
 import ecollect
 
-Item {
+MouseArea {
     id: root
 
     property url icon
@@ -14,8 +14,9 @@ Item {
 
     signal clicked
 
-    implicitHeight: button.implicitHeight
+    hoverEnabled: true
     implicitWidth: button.implicitWidth
+    implicitHeight: button.implicitHeight
 
     ParticleSystem {
         id: particles
@@ -24,6 +25,7 @@ Item {
     RoundButton {
         id: button
 
+        anchors.fill: parent
         display: Button.TextBesideIcon
         radius: Constants.spacingUnit * 0.5
         icon.color: "transparent"
@@ -32,14 +34,15 @@ Item {
 
         onClicked: {
             root.clicked()
+            var positionInButton = mapToItem(button, mouseX, mouseY)
+            emitter.x = positionInButton.x
+            emitter.y = positionInButton.y
             emitter.pulse(Math.round(Math.random() * 300 + 100))
         }
 
         Emitter {
             id: emitter
 
-            x: 28
-            y: 28
             width: 1
             height: 1
             enabled: false

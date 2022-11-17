@@ -28,6 +28,34 @@
         <source>Non-binary</source>
         <translation>No binario</translation>
     </message>
+    <message>
+        <source>Angry</source>
+        <translation>Enfadado</translation>
+    </message>
+    <message>
+        <source>Disgust</source>
+        <translation>Disgustado</translation>
+    </message>
+    <message>
+        <source>Fear</source>
+        <translation>Temeroso</translation>
+    </message>
+    <message>
+        <source>Happy</source>
+        <translation>Feliz</translation>
+    </message>
+    <message>
+        <source>Sad</source>
+        <translation>Triste</translation>
+    </message>
+    <message>
+        <source>Surprise</source>
+        <translation>Sorprendido</translation>
+    </message>
+    <message>
+        <source>Neutral</source>
+        <translation>Neutral</translation>
+    </message>
 </context>
 <context>
     <name>ErrorDialog</name>
@@ -106,37 +134,6 @@ sistema e inténtelo de nuevo.</source>
         <location filename="../qml/imports/ecollect/Dialogs/GoodbyeDialog.qml" line="19"/>
         <source>Ya hemos terminado. Muchísimas gracias por su colaboración.</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reactions</name>
-    <message>
-        <source>Angry</source>
-        <translation>Enfadado</translation>
-    </message>
-    <message>
-        <source>Disgust</source>
-        <translation>Disgustado</translation>
-    </message>
-    <message>
-        <source>Fear</source>
-        <translation>Temeroso</translation>
-    </message>
-    <message>
-        <source>Happy</source>
-        <translation>Feliz</translation>
-    </message>
-    <message>
-        <source>Sad</source>
-        <translation>Triste</translation>
-    </message>
-    <message>
-        <source>Surprise</source>
-        <translation>Sorprendido</translation>
-    </message>
-    <message>
-        <source>Neutral</source>
-        <translation>Neutral</translation>
     </message>
 </context>
 <context>

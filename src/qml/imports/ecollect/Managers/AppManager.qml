@@ -290,6 +290,8 @@ Manager {
         rightSidebar: Reactions {
             id: reactions
 
+            anchors.rightMargin: width * 0.3
+
             model: Constants.reactions
             enabled: sessionManager.playingState === SessionManager.PlayingVideoState
             useDefaultIcons: tutorialManager.aboutReactionsStateActive

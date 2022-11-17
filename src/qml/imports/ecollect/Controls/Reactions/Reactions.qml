@@ -8,7 +8,7 @@ import ecollect.Controls.Reactions
 Item {
     id: root
 
-    property alias model: reactionsRepeater.model
+    property alias model: reactionsView.model
     property bool enabled: true
     property bool useDefaultIcons: false
 
@@ -17,21 +17,24 @@ Item {
     anchors.fill: parent
     anchors.rightMargin: Constants.spacingUnit * 2
 
-    Column {
-        id: reactionsContainer
-        anchors.top: parent.top
-        anchors.left: parent.left
-        spacing: Constants.spacingUnit
+    ListView {
+        id: reactionsView
+        anchors.fill: parent
+        interactive: false
 
-        Repeater {
-            id: reactionsRepeater
+        delegate: Reaction {
+            width: parent.width
+            height: implicitHeight * 2
+            enabled: root.enabled
 
-            Reaction {
-                text: qsTr(model.displayName)
-                icon: model.icon
-                disabledIcon: useDefaultIcons ? model.icon : model.disabledIcon
-                enabled: root.enabled
-                onClicked: if (enabled) root.reactionClicked(model.name)
+            text: model.getDisplayName()
+            icon: model.icon
+            disabledIcon: useDefaultIcons ? model.icon : model.disabledIcon
+
+            onClicked: if (enabled) root.reactionClicked(model.name)
+
+            Component.onCompleted: {
+                text: Qt.binding(model.getDisplayName)
             }
         }
     }
