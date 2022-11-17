@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
+        <file>countries.json</file>
         <file>fonts/materialdesignicons-webfont.ttf</file>
         <file>campains/playlist.txt</file>
         <file>images/astonished-face.png</file>

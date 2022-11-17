@@ -15,6 +15,21 @@
     </message>
 </context>
 <context>
+    <name>Constants</name>
+    <message>
+        <source>Man</source>
+        <translation>Hombre</translation>
+    </message>
+    <message>
+        <source>Woman</source>
+        <translation>Mujer</translation>
+    </message>
+    <message>
+        <source>Non-binary</source>
+        <translation>No binario</translation>
+    </message>
+</context>
+<context>
     <name>ErrorDialog</name>
     <message>
         <location filename="../qml/imports/ecollect/Dialogs/ErrorDialog.qml" line="13"/>
@@ -286,6 +301,31 @@ de nuevo.</source>
 Se están enviando los datos de la sesión. Por favor, espere un momento a que
 terminen de enviarse.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UserProfileDialog</name>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/UserProfileDialog.qml" line="21"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <location filename="../qml/imports/ecollect/Dialogs/UserProfileDialog.qml" line="26"/>
+        <source>OK</source>
+        <translation>Aceptar</translation>
+    </message>
+    <message>
+        <source>Age:</source>
+        <translation>Edad:</translation>
+    </message>
+    <message>
+        <source>Gender:</source>
+        <translation>Género:</translation>
+    </message>
+    <message>
+        <source>Country of nationality:</source>
+        <translation>País de nacionalidad:</translation>
     </message>
 </context>
 <context>

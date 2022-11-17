@@ -12,12 +12,18 @@ Item {
     readonly property alias playingState: internal.playingState
 
     property CaptureSession captureSession
+    property var userProfile: QtObject {
+        property string gender
+        property int age
+        property string nationality
+    }
 
     signal errorOccurred
 
     enum PlayingState {
         StoppedState,
         PausedState,
+        RequestingUserProfileState,
         PlayingTransitionState,
         PlayingVideoState,
         UploadingState,
@@ -30,7 +36,7 @@ Item {
     }
 
     function resume() {
-        internal.resumenRequested()
+        internal.resumeRequested()
     }
 
     function cancel() {
@@ -38,7 +44,7 @@ Item {
     }
 
     function registerUserReaction(reactionId) {
-        sessionLog.log(`${recorder.duration}, ${reactionId}, ${internal.currentVideoIndex}, ` +
+        sessionLog.log(`R, ${recorder.duration}, ${reactionId}, ${internal.currentVideoIndex}, ` +
                        `${internal.currentVideoReplay}, ${mediaPlayer.position}`);
         internal.reactionsRegistered++;
     }
@@ -89,14 +95,36 @@ Item {
     DSM.StateMachine {
         id: stateMachine
 
-        initialState: runningSessionState
+        initialState: requestingUserProfileState
+
+        DSM.State {
+            id: requestingUserProfileState
+
+            onEntered: {
+                Utils.makeFilesystemPath(appManager.sessionDataLocation)
+                internal.playingState = SessionManager.RequestingUserProfileState
+            }
+
+            DSM.SignalTransition {
+                targetState: runningSessionState
+                signal: internal.resumeRequested
+                guard: {
+                    sessionLog.log(`P, ${userProfile.gender}, ${userProfile.age}, ${userProfile.nationality}`)
+                    return true
+                }
+            }
+
+            DSM.SignalTransition {
+                targetState: cleanupFilesState
+                signal: internal.cancelRequested
+            }
+        }
 
         DSM.State {
             id: runningSessionState
             initialState: playingTransitionState
 
             onEntered: {
-                Utils.makeFilesystemPath(appManager.sessionDataLocation)
                 internal.videoPlaylist = Utils.readPlaylist(internal.videoPlaylistUrl)
                 internal.currentVideoIndex = 0
                 internal.currentVideoReplay = 0
@@ -187,7 +215,7 @@ Item {
 
                 DSM.SignalTransition {
                     targetState: playingVideoState
-                    signal: internal.resumenRequested
+                    signal: internal.resumeRequested
                 }
             }
         }
@@ -274,7 +302,7 @@ Item {
         property int reactionsRegistered: 0
         property bool isProcessingCancelRequest: false
 
-        signal resumenRequested;
+        signal resumeRequested;
         signal cancelRequested;
         signal cleanupFinished;
 

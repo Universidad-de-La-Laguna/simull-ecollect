@@ -3,6 +3,8 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtMultimedia
 
+import JSONListModel
+
 QtObject {
     readonly property int width: 1920
     readonly property int height: 1080
@@ -11,6 +13,27 @@ QtObject {
     readonly property string applicatioName: "Emotions Samples Collect - SIMULL"
 
     readonly property color tutorialMarkerColor: "#E77054"
+
+    readonly property ListModel genders:  ListModel {
+        ListElement {
+            tag: "W"
+            displayName: qsTr("Woman")
+        }
+
+        ListElement {
+            tag: "M"
+            displayName: qsTr("Man")
+        }
+
+        ListElement {
+            tag: "O"
+            displayName: qsTr("Non-binary")
+        }
+    }
+
+    readonly property JSONListModel nationalities: JSONListModel {
+        source: "qrc:///countries.json"
+    }
 
     readonly property color videoProgressBarBackground: Material.primary
     readonly property color videoProgressBarColor: "white"

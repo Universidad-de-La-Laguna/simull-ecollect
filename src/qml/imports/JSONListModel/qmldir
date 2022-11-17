@@ -1,0 +1,4 @@
+module JSONListModel
+
+JSONListModel 1.0 JSONListModel.qml
+jsonpath 1.0 jsonpath.js

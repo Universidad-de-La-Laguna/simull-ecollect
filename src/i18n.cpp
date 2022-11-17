@@ -85,6 +85,11 @@ I18n* I18n::create(QQmlEngine* qmlEngine, QJSEngine* jsEngine)
     return instance;
 }
 
+QString I18n::activeLanguage() const
+{
+    return SUPPORTED_LANGUAGES.at(activeLanguageIndex_);
+}
+
 void I18n::setActiveLanguageIndex(int index)
 {
     if (activeLanguageIndex_ != index && index >= 0 && index < SUPPORTED_LANGUAGES.size())

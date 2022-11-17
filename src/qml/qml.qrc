@@ -36,5 +36,9 @@
         <file>imports/ecollect/Dialogs/TutorialIntroDialog.qml</file>
         <file>imports/ecollect/Controls/LanguageSelector.qml</file>
         <file>imports/ecollect/Controls/VideoProgressBar.qml</file>
+        <file>imports/ecollect/Dialogs/UserProfileDialog.qml</file>
+        <file>imports/JSONListModel/JSONListModel.qml</file>
+        <file>imports/JSONListModel/jsonpath.js</file>
+        <file>imports/JSONListModel/qmldir</file>
     </qresource>
 </RCC>

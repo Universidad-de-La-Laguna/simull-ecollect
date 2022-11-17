@@ -16,6 +16,10 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain(u"ull.es"_s);
     app.setOrganizationName(u"Universidad de La Laguna"_s);
 
+    // Required by JSONListModel to avoid error:
+    //  XMLHttpRequest: Using GET on a local file is disabled by default.
+    qputenv("QML_XHR_ALLOW_FILE_READ", "1");
+
     auto i18n = I18n::instance();
 
     QQmlApplicationEngine engine;

@@ -14,6 +14,7 @@ class I18n : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(QStringListModel* supportedLanguages READ supportedLanguages CONSTANT)
+    Q_PROPERTY(QString activeLanguage READ activeLanguage NOTIFY activeLanguageChanged)
     Q_PROPERTY(int activeLanguageIndex READ activeLanguageIndex WRITE setActiveLanguageIndex
                NOTIFY activeLanguageChanged)
 
@@ -23,6 +24,7 @@ public:
 
     QStringListModel* supportedLanguages() const { return supportedLanguagesModel_; }
 
+    QString activeLanguage() const;
     int activeLanguageIndex() const { return activeLanguageIndex_; };
     void setActiveLanguageIndex(int index);
 

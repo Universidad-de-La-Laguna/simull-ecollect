@@ -3,6 +3,7 @@ module Dialogs
 CancelingUploadDialog 1.0 CancelingUploadDialog.qml
 GoodbyeDialog 1.0 GoodbyeDialog.qml
 ErrorDialog 1.0 ErrorDialog.qml
+UserProfileDialog 1.0 UserProfileDialog.qml
 SessionPausedDialog 1.0 SessionPausedDialog.qml
 TutorialAudioDialog 1.0 TutorialAudioDialog.qml
 TutorialCameraDialog 1.0 TutorialCameraDialog.qml

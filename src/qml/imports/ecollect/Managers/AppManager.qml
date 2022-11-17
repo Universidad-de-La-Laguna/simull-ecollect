@@ -307,6 +307,19 @@ Manager {
         visible: welcomeState.active
     }
 
+    UserProfileDialog {
+        id: userProfileDialog
+
+        visible: sessionManager.playingState === SessionManager.RequestingUserProfileState
+        onAccepted: {
+            sessionManager.userProfile.gender = userProfileDialog.gender
+            sessionManager.userProfile.age = userProfileDialog.age
+            sessionManager.userProfile.nationality = userProfileDialog.nationality
+            sessionManager.resume()
+        }
+        onRejected: sessionManager.cancel()
+    }
+
     SessionPausedDialog {
         id: sessionPausedDialog
 
