@@ -34,5 +34,6 @@ void FileLog::log(const QString &str)
                       .arg(fileLocation_.toString()).arg(file.error()).arg(file.errorString());
     }
 
+    qDebug().noquote() << u"LOGGING: %1"_s.arg(str);
     QTextStream(&file) << str << Qt::endl;
 }
