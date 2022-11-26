@@ -12,9 +12,9 @@ int main(int argc, char *argv[])
 {
     MessageHandler::install();
 
+    QCoreApplication::setOrganizationDomain(u"ull.es"_s);
+    QCoreApplication::setOrganizationName(u"Universidad de La Laguna"_s);
     QGuiApplication app(argc, argv);
-    app.setOrganizationDomain(u"ull.es"_s);
-    app.setOrganizationName(u"Universidad de La Laguna"_s);
 
     // Required by JSONListModel to avoid error:
     //  XMLHttpRequest: Using GET on a local file is disabled by default.

@@ -277,14 +277,14 @@ Manager {
 
             anchors.fill: parent
 
-            VideoProgressBar {
-                mediaPlayer: sessionManager.mediaPlayer
-                backgroundColor: Constants.videoProgressBarBackground
-                color: Constants.videoProgressBarColor
-                length: Constants.videoProgressBarLength
-                thick: Constants.videoProgressBarThick
-                visible: sessionManager.playingState === SessionManager.PlayingVideoState
-            }
+//            VideoProgressBar {
+//                mediaPlayer: sessionManager.mediaPlayer
+//                backgroundColor: Constants.videoProgressBarBackground
+//                color: Constants.videoProgressBarColor
+//                length: Constants.videoProgressBarLength
+//                thick: Constants.videoProgressBarThick
+//                visible: sessionManager.playingState === SessionManager.PlayingVideoState
+//            }
         }
 
         rightSidebar: Reactions {

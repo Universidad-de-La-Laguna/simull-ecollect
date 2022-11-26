@@ -18,9 +18,9 @@ MouseArea {
     implicitWidth: button.implicitWidth
     implicitHeight: button.implicitHeight
 
-    ParticleSystem {
-        id: particles
-    }
+//    ParticleSystem {
+//        id: particles
+//    }
 
     RoundButton {
         id: button
@@ -34,10 +34,11 @@ MouseArea {
 
         onClicked: {
             root.clicked()
-            var positionInButton = mapToItem(button, mouseX, mouseY)
-            emitter.x = positionInButton.x
-            emitter.y = positionInButton.y
-            emitter.pulse(Math.round(Math.random() * 300 + 100))
+
+//            var positionInButton = mapToItem(button, mouseX, mouseY)
+//            emitter.x = positionInButton.x
+//            emitter.y = positionInButton.y
+//            emitter.pulse(Math.round(Math.random() * 300 + 100))
         }
 
         Emitter {
@@ -46,7 +47,7 @@ MouseArea {
             width: 1
             height: 1
             enabled: false
-            system: particles
+//            system: particles
             emitRate: 10
             lifeSpan: 1000
             lifeSpanVariation: 50
@@ -60,7 +61,7 @@ MouseArea {
 
             ImageParticle {
                 source: root.icon
-                system: particles
+//                system: particles
                 width: 24
                 height: 24
                 alpha: 0.5
