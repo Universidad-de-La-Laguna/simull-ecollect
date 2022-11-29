@@ -1,12 +1,11 @@
 qrc:///campains/visit_tenerife/img_TenerifeVisita-01.mp4
 qrc:///campains/visit_tenerife/1 - Tenerife awakens emotions 30 seconds.mp4
 qrc:///campains/visit_tenerife/img_TenerifeVisita-02.mp4
-qrc:///campains/visit_tenerife/2 - Tenerife Destiny.mp4
 qrc:///campains/visit_tenerife/img_TenerifeVisita-03.mp4
 qrc:///campains/visit_tenerife/3 - Merry Christmas! Visit Tenerife.mp4
 qrc:///campains/visit_tenerife/img_TenerifeVisita-04.mp4
-qrc:///campains/visit_tenerife/img_TenerifeVisita-05.mp4
 qrc:///campains/visit_tenerife/4 - Emotions in our destination.mp4
+qrc:///campains/visit_tenerife/img_TenerifeVisita-05.mp4
 qrc:///campains/visit_tenerife/img_TenerifeVisita-06.mp4
 qrc:///campains/visit_tenerife/5 - Tenerife #AwakenEmotions.mp4
 qrc:///campains/visit_tenerife/img_TenerifeVisita-07.mp4

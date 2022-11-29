@@ -11,7 +11,6 @@
     </qresource>
     <qresource lang="en" prefix="/campains/visit_tenerife">
         <file alias="1 - Tenerife awakens emotions 30 seconds.mp4">visit_tenerife/en/1 - Tenerife awakens emotions 30 seconds.mp4</file>
-        <file alias="2 - Tenerife Destiny.mp4">visit_tenerife/en/2 - Tenerife Destiny.mp4</file>
         <file alias="3 - Merry Christmas! Visit Tenerife.mp4">visit_tenerife/en/3 - Merry Christmas! Visit Tenerife.mp4</file>
         <file alias="4 - Emotions in our destination.mp4">visit_tenerife/en/4 - Emotions in our destination.mp4</file>
         <file alias="5 - Tenerife #AwakenEmotions.mp4">visit_tenerife/en/5 - Tenerife #AwakenEmotions.mp4</file>
@@ -31,7 +30,6 @@
     </qresource>
     <qresource lang="es" prefix="/campains/visit_tenerife">
         <file alias="1 - Tenerife awakens emotions 30 seconds.mp4">visit_tenerife/es/1 - Tenerife despierta emociones 30 seg.mp4</file>
-        <file alias="2 - Tenerife Destiny.mp4">visit_tenerife/es/2 - Destino Tenerife.mp4</file>
         <file alias="3 - Merry Christmas! Visit Tenerife.mp4">visit_tenerife/es/3 - Feliz Navidad Visit Tenerife.mp4</file>
         <file alias="4 - Emotions in our destination.mp4">visit_tenerife/es/4 - Emociones en nuestro destino.mp4</file>
         <file alias="5 - Tenerife #AwakenEmotions.mp4">visit_tenerife/es/5 - Tenerife #DespiertaEmociones.mp4</file>
