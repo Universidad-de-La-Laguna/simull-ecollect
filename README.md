@@ -2,7 +2,7 @@
 
 ## Requisitos
 
-- Qt 6.2 o posterior.
+- Qt 6.4 o posterior.
 - Visual Studio 2019 o 2022.
 
 Algunas consideraciones a la hora de elegir las versiones de estas dependencias:
