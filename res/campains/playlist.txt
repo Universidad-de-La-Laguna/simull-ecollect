@@ -7,7 +7,7 @@ qrc:///campains/visit_tenerife/img_TenerifeVisita-04.mp4
 qrc:///campains/visit_tenerife/4 - Emotions in our destination.mp4
 qrc:///campains/visit_tenerife/img_TenerifeVisita-05.mp4
 qrc:///campains/visit_tenerife/img_TenerifeVisita-06.mp4
-qrc:///campains/visit_tenerife/5 - Tenerife #AwakenEmotions.mp4
+qrc:///campains/visit_tenerife/5 - Tenerife AwakenEmotions.mp4
 qrc:///campains/visit_tenerife/img_TenerifeVisita-07.mp4
 qrc:///campains/visit_tenerife/6 - For food lovers... a trip to the flavours of Tenerife.mp4
 qrc:///campains/visit_tenerife/img_TenerifeVisita-08.mp4
