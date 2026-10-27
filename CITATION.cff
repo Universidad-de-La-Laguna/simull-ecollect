@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: "Si utilizas este software, cítalo usando estos metadatos."
+title: "ecollect: Emotions Samples Collect - SIMULL"
+abstract: >-
+  Aplicación de escritorio para Windows (Qt 6 / QML) desarrollada en la
+  Universidad de La Laguna, por el grupo de investigación SIMULL, para
+  recoger muestras de reacciones emocionales de participantes que ven vídeos de
+  promoción turística. Graba al participante con cámara y micrófono, registra
+  las reacciones que marca en pantalla y sube los datos de la sesión a AWS S3.
+type: software
+authors:
+  - family-names: Torres Jorge
+    given-names: Jesús Miguel
+    email: jmtorres@ull.edu.es
+    affiliation: Universidad de La Laguna
+    orcid: "https://orcid.org/0000-0003-4391-0170"
+repository-code: "https://github.com/Universidad-de-La-Laguna/simull-ecollect"
+license: MIT
+version: "1.0.0"
+date-released: "2022-12-01"
+keywords:
+  - emotion recognition
+  - affective computing
+  - data collection
+  - tourism
+  - Qt
+  - QML
+# Descomentar cuando Zenodo asigne el DOI:
+# identifiers:
+#   - type: doi
+#     value: "10.5281/zenodo.XXXXXXX"
+references:
+  - type: thesis
+    thesis-type: "Tesis doctoral"
+    title: "Modelo de inteligencia de datos para el estudio de destinos turísticos inteligentes"
+    authors:
+      - family-names: Díaz González
+        given-names: Sergio
+        orcid: "https://orcid.org/0000-0003-0347-8344"
+    institution:
+      name: Universidad de La Laguna
+    year: 2023
+    url: "https://aplicaciones.ciencia.gob.es/teseo/#/tesis/O826478/detalle"

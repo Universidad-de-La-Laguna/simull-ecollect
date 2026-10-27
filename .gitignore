@@ -73,3 +73,8 @@ CMakeUserPresets.json
 *.dll
 *.exe
 
+
+# Campaign videos and images (third-party copyrighted material, see THIRD_PARTY.md)
+# ----------------------------------------------------------------------------
+/res/campains/islas_canarias/
+/res/campains/visit_tenerife/

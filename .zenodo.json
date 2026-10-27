@@ -1,0 +1,57 @@
+{
+    "title": "ecollect: Emotions Samples Collect - SIMULL",
+    "upload_type": "software",
+    "description": "<p>Aplicación de escritorio para Windows (Qt 6 / QML) desarrollada en la Universidad de La Laguna, por el grupo de investigación SIMULL, para recoger muestras de reacciones emocionales de participantes que ven vídeos de promoción turística.</p><p>Graba al participante con cámara y micrófono, registra las reacciones que marca en pantalla y sube los datos de la sesión a AWS S3.</p><p>Este depósito contiene únicamente el código fuente. No incluye datos de participantes. Los vídeos promocionales usados como estímulo pertenecen a sus titulares y no están cubiertos por la licencia del software.</p>",
+    "creators": [
+        {
+            "name": "Torres Jorge, Jesús Miguel",
+            "affiliation": "Universidad de La Laguna",
+            "orcid": "0000-0003-4391-0170"
+        }
+    ],
+    "contributors": [
+        {
+            "name": "Díaz González, Sergio",
+            "affiliation": "Universidad de La Laguna",
+            "orcid": "0000-0003-0347-8344",
+            "type": "Researcher"
+        },
+        {
+            "name": "Aguilar Chinea, Rosa María",
+            "affiliation": "Universidad de La Laguna",
+            "orcid": "0000-0002-6531-8584",
+            "type": "Supervisor"
+        },
+        {
+            "name": "Torres Jorge, Jesús Miguel",
+            "affiliation": "Universidad de La Laguna",
+            "orcid": "0000-0003-4391-0170",
+            "type": "Supervisor"
+        },
+        {
+            "name": "SIMULL",
+            "affiliation": "Universidad de La Laguna",
+            "type": "ResearchGroup"
+        }
+    ],
+    "license": "MIT",
+    "access_right": "open",
+    "version": "1.0.0",
+    "publication_date": "2022-12-01",
+    "language": "spa",
+    "keywords": [
+        "emotion recognition",
+        "affective computing",
+        "data collection",
+        "tourism",
+        "Qt",
+        "QML"
+    ],
+    "related_identifiers": [
+        {
+            "identifier": "https://aplicaciones.ciencia.gob.es/teseo/#/tesis/O826478/detalle",
+            "relation": "isSupplementTo",
+            "resource_type": "publication-thesis"
+        }
+    ]
+}
