@@ -49,7 +49,8 @@ El capítulo 1, que trata otra parte del trabajo, se publicó en este artículo:
 ## Cómo citar
 
 Si utilizas este software, cítalo usando los metadatos de [`CITATION.cff`](CITATION.cff) o el DOI de Zenodo.
-<!-- TODO: añadir el badge con el DOI de Zenodo cuando esté asignado. -->
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23716832.svg)](https://doi.org/10.5281/zenodo.23716832)
 
 ## Licencia
 

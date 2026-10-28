@@ -25,10 +25,14 @@ keywords:
   - tourism
   - Qt
   - QML
-# Descomentar cuando Zenodo asigne el DOI:
-# identifiers:
-#   - type: doi
-#     value: "10.5281/zenodo.XXXXXXX"
+doi: "10.5281/zenodo.23716832"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23716832"
+    description: "DOI de concepto (todas las versiones)"
+  - type: doi
+    value: "10.5281/zenodo.23716833"
+    description: "DOI de la versión 1.0.0"
 references:
   - type: thesis
     thesis-type: "Tesis doctoral"
